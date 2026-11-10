@@ -194,9 +194,9 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-crown text-amber-400"></i> সেরা লার্নারদের র‍্যাংকিং
+                            <i class="fa-solid fa-crown text-amber-400"></i> সেরা লার্নারদের র‍্যাংকিং (৩০০০+ পয়েন্ট)
                         </h3>
-                        <p class="text-xs text-gray-400">সর্বোচ্চ পয়েন্ট অর্জনকারী সেরা ৫ জন শিক্ষার্থী</p>
+                        <p class="text-xs text-gray-400">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী সেরা ৫ জন শিক্ষার্থী</p>
                     </div>
                     <button onclick="navigateTo('leaderboard')" class="text-xs text-sftGreen hover:underline font-semibold">সবাইকে দেখুন &rarr;</button>
                 </div>
@@ -290,7 +290,7 @@
         <section id="page-leaderboard" class="hidden space-y-6">
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <h2 class="text-3xl font-extrabold text-white">🏆 গ্লোবাল লিডারবোর্ড ও পয়েন্ট র‍্যাংক</h2>
-                <p class="text-gray-400 text-sm">কোর্স ও রেফারেলের মাধ্যমে অর্জিত পয়েন্টের তালিকা</p>
+                <p class="text-gray-400 text-sm">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী শিক্ষার্থীদের তালিকা</p>
             </div>
             <div class="glassmorphism rounded-2xl border border-gray-800 overflow-hidden shadow-2xl max-w-4xl mx-auto">
                 <div class="overflow-x-auto">
@@ -643,7 +643,6 @@
                     onValue(ref(db, 'settings/lottery'), (snap) => { if (snap.exists()) lotterySettings = snap.val(); });
                     onValue(ref(db, 'settings/winner'), (snap) => { luckyWinner = snap.val() || null; });
 
-                    // FIXED: Reliable User Data Snapshot Parsing & Table Population
                     onValue(ref(db, 'users'), (snapshot) => {
                         allUsersCache = [];
                         if (snapshot.exists()) {
@@ -785,17 +784,26 @@
                 statsContainer.innerHTML = `<div class="md:col-span-3 glassmorphism p-6 rounded-2xl border border-gray-800 text-center space-y-3"><p class="text-sm text-gray-300">লগইন করুন আপনার প্রোগ্রেস দেখার জন্য।</p><button onclick="openAuthModal('signup')" class="px-6 py-2.5 rounded-xl bg-sftGreen text-gray-950 font-bold">সাইনআপ করুন</button></div>`;
             }
 
-            let sortedUsers = [...allUsersCache].sort((a, b) => (b.points || 0) - (a.points || 0));
-            document.getElementById('home-leaderboard-list').innerHTML = sortedUsers.slice(0, 5).map((u, idx) => `
-                <div class="flex items-center justify-between p-3 rounded-xl bg-gray-900/60 border border-gray-800/80">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-6 text-center font-bold text-sm ${idx === 0 ? 'text-amber-400' : 'text-gray-500'}">#${idx + 1}</span>
-                        <img src="${u.avatar}" class="w-8 h-8 rounded-full bg-gray-800">
-                        <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">${u.completedDays ? u.completedDays.length : 0} দিন • ${u.referralsCount || 0} রেফার</span></div>
+            // FILTER: 3000+ Points for Home Leaderboard
+            let sortedUsers = [...allUsersCache]
+                .filter(u => (u.points || 0) >= 3000)
+                .sort((a, b) => (b.points || 0) - (a.points || 0));
+
+            const homeListEl = document.getElementById('home-leaderboard-list');
+            if (sortedUsers.length === 0) {
+                homeListEl.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কেউ নেই।</p>`;
+            } else {
+                homeListEl.innerHTML = sortedUsers.slice(0, 5).map((u, idx) => `
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-gray-900/60 border border-gray-800/80">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-6 text-center font-bold text-sm ${idx === 0 ? 'text-amber-400' : 'text-gray-500'}">#${idx + 1}</span>
+                            <img src="${u.avatar}" class="w-8 h-8 rounded-full bg-gray-800">
+                            <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">${u.completedDays ? u.completedDays.length : 0} দিন • ${u.referralsCount || 0} রেফার</span></div>
+                        </div>
+                        <span class="text-sm font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">${u.points || 0} XP</span>
                     </div>
-                    <span class="text-sm font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">${u.points || 0} XP</span>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
 
         function renderRoutinePage() {
@@ -1081,16 +1089,25 @@
             setTimeout(() => navigateTo('routine'), 1800);
         }
 
+        // FILTER: 3000+ Points for Global Leaderboard Page
         function renderLeaderboardPage() {
-            let sortedUsers = [...allUsersCache].sort((a, b) => (b.points || 0) - (a.points || 0));
-            document.getElementById('full-leaderboard-body').innerHTML = sortedUsers.map((u, idx) => `
-                <tr class="${currentUser && currentUser.id === u.id ? 'bg-sftGreen/10 border-l-4 border-sftGreen' : ''}">
-                    <td class="p-4 text-center font-bold text-amber-400">#${idx + 1}</td>
-                    <td class="p-4 flex items-center space-x-3"><img src="${u.avatar}" class="w-10 h-10 rounded-full bg-gray-800"><div><h4 class="font-bold text-white">${u.username}</h4></div></td>
-                    <td class="p-4 text-center text-gray-300">${u.referralsCount || 0} জন</td>
-                    <td class="p-4 text-right font-black text-amber-400">${u.points || 0} XP</td>
-                </tr>
-            `).join('');
+            let sortedUsers = [...allUsersCache]
+                .filter(u => (u.points || 0) >= 3000)
+                .sort((a, b) => (b.points || 0) - (a.points || 0));
+
+            const tbodyEl = document.getElementById('full-leaderboard-body');
+            if (sortedUsers.length === 0) {
+                tbodyEl.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কোনো শিক্ষার্থী এখনও নেই।</td></tr>`;
+            } else {
+                tbodyEl.innerHTML = sortedUsers.map((u, idx) => `
+                    <tr class="${currentUser && currentUser.id === u.id ? 'bg-sftGreen/10 border-l-4 border-sftGreen' : ''}">
+                        <td class="p-4 text-center font-bold text-amber-400">#${idx + 1}</td>
+                        <td class="p-4 flex items-center space-x-3"><img src="${u.avatar}" class="w-10 h-10 rounded-full bg-gray-800"><div><h4 class="font-bold text-white">${u.username}</h4></div></td>
+                        <td class="p-4 text-center text-gray-300">${u.referralsCount || 0} জন</td>
+                        <td class="p-4 text-right font-black text-amber-400">${u.points || 0} XP</td>
+                    </tr>
+                `).join('');
+            }
         }
 
         function renderLotteryPage() {
@@ -1199,19 +1216,22 @@
             }
         }
 
+        // FIXED & ENHANCED SIGNUP WITH RELIABLE REFERRAL SYSTEM
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const phone = document.getElementById('signup-phone').value.trim();
             const password = document.getElementById('signup-password').value.trim();
-            const refCode = document.getElementById('signup-ref-code').value;
+            const refCode = document.getElementById('signup-ref-code').value.trim();
             const { auth, db, createUserWithEmailAndPassword, ref, set, get, update } = window.firebaseApp;
 
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, password);
+                const newUserId = res.user.uid;
+
                 const newUser = {
-                    id: res.user.uid,
+                    id: newUserId,
                     username,
                     email,
                     phone,
@@ -1222,26 +1242,31 @@
                     isAdmin: email === "admin@sft.com",
                     warningMessage: ""
                 };
-                await set(ref(db, 'users/' + res.user.uid), newUser);
+                
+                // Save new user first
+                await set(ref(db, 'users/' + newUserId), newUser);
 
-                if (refCode && refCode !== res.user.uid) {
+                // Process referral bonus safely if valid refCode exists
+                if (refCode && refCode !== newUserId) {
                     const referrerRef = ref(db, 'users/' + refCode);
                     const referrerSnap = await get(referrerRef);
                     if (referrerSnap.exists()) {
                         const referrerData = referrerSnap.val();
-                        const newPts = (referrerData.points || 0) + 5900;
-                        const newRefs = (referrerData.referralsCount || 0) + 1;
+                        const currentPoints = Number(referrerData.points) || 0;
+                        const currentRefs = Number(referrerData.referralsCount) || 0;
+
                         await update(referrerRef, {
-                            points: newPts,
-                            referralsCount: newRefs
+                            points: currentPoints + 5900,
+                            referralsCount: currentRefs + 1
                         });
-                        showToast("রেফারেল সফল! আপনার বন্ধু +৫৯০০ পয়েন্ট বোনাস পেয়েছেন।", "success");
+                        console.log("Referral bonus added successfully to:", refCode);
                     }
                 }
 
                 closeAuthModal();
                 showToast("অ্যাকাউন্ট তৈরি সফল হয়েছে!", "success");
             } catch (err) {
+                console.error("Signup Error:", err);
                 showToast("সাইনআপ ব্যর্থ: " + err.message, "error");
             }
         }
@@ -1401,17 +1426,13 @@
             showToast("ইউজার তথ্য এবং ওয়ার্নিং সফলভাবে আপডেট হয়েছে!", "success");
         }
 
-        // FIXED: Instant Local Cache Removal alongside Firebase Deletion
         async function handleAdminDeleteUser(id) {
             if (confirm("নিশ্চিতভাবে এই ইউজার অ্যাকাউন্টটি ডিলিট করতে চান?")) {
                 const { db, ref, remove } = window.firebaseApp;
                 try {
                     await remove(ref(db, 'users/' + id));
-                    
-                    // Immediately filter out from local cache and re-render table
                     allUsersCache = allUsersCache.filter(u => u.id !== id);
                     renderAdminUsersTable();
-                    
                     showToast("ইউজার সফলভাবে মুছে ফেলা হয়েছে!", "info");
                 } catch (err) {
                     showToast("ডিলিট করতে সমস্যা হয়েছে: " + err.message, "error");
