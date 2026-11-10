@@ -784,7 +784,6 @@
                 statsContainer.innerHTML = `<div class="md:col-span-3 glassmorphism p-6 rounded-2xl border border-gray-800 text-center space-y-3"><p class="text-sm text-gray-300">লগইন করুন আপনার প্রোগ্রেস দেখার জন্য।</p><button onclick="openAuthModal('signup')" class="px-6 py-2.5 rounded-xl bg-sftGreen text-gray-950 font-bold">সাইনআপ করুন</button></div>`;
             }
 
-            // FILTER: 3000+ Points for Home Leaderboard
             let sortedUsers = [...allUsersCache]
                 .filter(u => (u.points || 0) >= 3000)
                 .sort((a, b) => (b.points || 0) - (a.points || 0));
@@ -1089,7 +1088,6 @@
             setTimeout(() => navigateTo('routine'), 1800);
         }
 
-        // FILTER: 3000+ Points for Global Leaderboard Page
         function renderLeaderboardPage() {
             let sortedUsers = [...allUsersCache]
                 .filter(u => (u.points || 0) >= 3000)
@@ -1216,7 +1214,7 @@
             }
         }
 
-        // FIXED & ENHANCED SIGNUP WITH RELIABLE REFERRAL SYSTEM
+        // FIXED SIGNUP FUNCTION: Instant Login, Success Message & Correct Referral Bonus
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
@@ -1243,10 +1241,10 @@
                     warningMessage: ""
                 };
                 
-                // Save new user first
+                // Save new user profile to database
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // Process referral bonus safely if valid refCode exists
+                // Process referral bonus safely if valid refCode exists in database
                 if (refCode && refCode !== newUserId) {
                     const referrerRef = ref(db, 'users/' + refCode);
                     const referrerSnap = await get(referrerRef);
@@ -1263,8 +1261,11 @@
                     }
                 }
 
+                // Immediately set currentUser so UI updates and user enters the site without waiting
+                currentUser = newUser;
                 closeAuthModal();
-                showToast("অ্যাকাউন্ট তৈরি সফল হয়েছে!", "success");
+                showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
+                navigateTo('routine');
             } catch (err) {
                 console.error("Signup Error:", err);
                 showToast("সাইনআপ ব্যর্থ: " + err.message, "error");
