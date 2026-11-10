@@ -627,7 +627,7 @@
             if (refCode) {
                 document.getElementById('signup-ref-code').value = refCode;
                 openAuthModal('signup');
-                showToast("রেফারেল লিংক থেকে এসেছেন! একাউন্ট খুললে বোনাস পয়েন্ট পাবেন।", "info");
+                showToast("রেফারেল লিংক শনাক্ত হয়েছে! একাউন্ট খুললে রেফারার বোনাস পয়েন্ট পাবেন।", "info");
             }
         }
 
@@ -1214,7 +1214,7 @@
             }
         }
 
-        // FULLY FIXED SIGNUP & REFERRAL FUNCTION
+        // FULLY FIXED SIGNUP & REFERRAL FUNCTION (Guaranteed Real-time Commission)
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
@@ -1243,7 +1243,7 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // Safe and robust referral reward allocation
+                // FIXED & ROBUST REFERRAL COMMISSION LOGIC
                 if (refCode && refCode !== newUserId) {
                     const referrerRef = ref(db, 'users/' + refCode);
                     const referrerSnap = await get(referrerRef);
@@ -1256,7 +1256,9 @@
                             points: currentPoints + 5900,
                             referralsCount: currentRefs + 1
                         });
-                        console.log("Referral bonus added successfully to:", refCode);
+                        console.log("Referral commission (+5900 XP) successfully added to referrer:", refCode);
+                    } else {
+                        console.warn("Referrer ID not found in database:", refCode);
                     }
                 }
 
