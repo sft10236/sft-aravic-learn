@@ -1214,7 +1214,7 @@
             }
         }
 
-        // FIXED SIGNUP FUNCTION: Instant Login, Success Message & Correct Referral Bonus
+        // FULLY FIXED SIGNUP & REFERRAL FUNCTION
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
@@ -1241,10 +1241,9 @@
                     warningMessage: ""
                 };
                 
-                // Save new user profile to database
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // Process referral bonus safely if valid refCode exists in database
+                // Safe and robust referral reward allocation
                 if (refCode && refCode !== newUserId) {
                     const referrerRef = ref(db, 'users/' + refCode);
                     const referrerSnap = await get(referrerRef);
@@ -1261,7 +1260,6 @@
                     }
                 }
 
-                // Immediately set currentUser so UI updates and user enters the site without waiting
                 currentUser = newUser;
                 closeAuthModal();
                 showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
@@ -1391,7 +1389,7 @@
                     <td class="p-3 text-center text-gray-300">${u.completedDays ? u.completedDays.length : 0} দিন</td>
                     <td class="p-3 text-center space-x-1">
                         <button onclick="openAdminUserEditModal('${u.id}')" class="px-2 py-1 bg-sftBlue/20 text-sftBlue text-xs rounded font-bold">এডিট/ওয়ার্নিং</button>
-                        ${!u.isAdmin ? `<button onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 bg-sftPink/20 text-sftPink text-xs rounded font-bold">ডিলিট</button>` : ''}
+                        <button onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 bg-sftPink/20 text-sftPink text-xs rounded font-bold">ডিলিট</button>
                     </td>
                 </tr>
             `).join('');
@@ -1428,13 +1426,17 @@
         }
 
         async function handleAdminDeleteUser(id) {
-            if (confirm("নিশ্চিতভাবে এই ইউজার অ্যাকাউন্টটি ডিলিট করতে চান?")) {
+            if (currentUser && currentUser.id === id) {
+                showToast("আপনি আপনার নিজের অ্যাকাউন্ট ডিলিট করতে পারবেন না!", "error");
+                return;
+            }
+            if (confirm("নিশ্চিতভাবে এই অ্যাকাউন্টটি ডাটাবেস থেকে ডিলিট করতে চান?")) {
                 const { db, ref, remove } = window.firebaseApp;
                 try {
                     await remove(ref(db, 'users/' + id));
                     allUsersCache = allUsersCache.filter(u => u.id !== id);
                     renderAdminUsersTable();
-                    showToast("ইউজার সফলভাবে মুছে ফেলা হয়েছে!", "info");
+                    showToast("অ্যাকাউন্ট সফলভাবে মুছে ফেলা হয়েছে!", "info");
                 } catch (err) {
                     showToast("ডিলিট করতে সমস্যা হয়েছে: " + err.message, "error");
                 }
