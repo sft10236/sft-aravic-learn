@@ -293,9 +293,9 @@
                 <div class="w-20 h-20 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-3xl mx-auto glow-pulse">
                     <i class="fa-solid fa-lock"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-white">লটারি সেকশন লক করা রয়েছে!</h3>
+                <h3 class="text-2xl font-bold text-white">অফার সেকশন লক করা রয়েছে!</h3>
                 <p class="text-sm text-gray-300">
-                    যেমনভাবে ২৯ দিন শেষ না করলে ৩০ দিনের ক্লাস আনলক হয় না, ঠিক তেমনিভাবে <strong>৩০ দিনের কোর্স ও সার্টিফিকেট সম্পূর্ণ আনলক না করা পর্যন্ত</strong> এই মেগা লটারি সেকশনটি লক থাকবে। ৩০ দিন শেষ করুন এবং লটারিতে প্রবেশাধিকার পান!
+                    যেমনভাবে ২৯ দিন শেষ না করলে ৩০ দিনের ক্লাস আনলক হয় না, ঠিক তেমনিভাবে <strong>৩০ দিনের কোর্স ও সার্টিফিকেট সম্পূর্ণ আনলক না করা পর্যন্ত</strong> এই মেগা অফার সেকশনটি লক থাকবে। ৩০ দিন শেষ করুন এবং অফার প্রবেশাধিকার পান!
                 </p>
                 <button onclick="navigateTo('routine')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-sftPink to-sftBlue text-white font-bold shadow-neonPink">
                     রুটিনে গিয়ে ক্লাস সম্পন্ন করুন &rarr;
@@ -304,9 +304,9 @@
 
             <div id="lottery-main-content" class="space-y-6">
                 <div class="text-center max-w-2xl mx-auto space-y-2">
-                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">🎁 স্মার্টফোন লটারি ও সময়সীমা</span>
-                    <h2 id="lottery-page-heading" class="text-3xl font-extrabold text-white">স্মার্টফোন মেগা লটারি তালিকা ও টাইমার</h2>
-                    <p class="text-gray-400 text-sm">নির্ধারিত সময়ের মধ্যে ৫৯০০+ পয়েন্ট অর্জনকারীরা এই লটারি লিস্টে থাকবেন।</p>
+                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">🎁 স্মার্টফোন অফার ও সময়সীমা</span>
+                    <h2 id="lottery-page-heading" class="text-3xl font-extrabold text-white">স্মার্টফোন মেগা অফার তালিকা ও টাইমার</h2>
+                    <p class="text-gray-400 text-sm">নির্ধারিত সময়ের মধ্যে ৫৯০০+ পয়েন্ট অর্জনকারীরা এই অফার লিস্টে থাকবেন।</p>
                 </div>
                 <div id="lottery-content-wrapper" class="max-w-4xl mx-auto space-y-6"></div>
             </div>
@@ -347,7 +347,7 @@
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-gray-800 pb-4 gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-sftPink"></i> এডমিন কন্ট্রোল প্যানেল</h2>
-                    <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, লেসন, মোটিভেশন ও লটারি সেটিংস</p>
+                    <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, লেসন, মোটিভেশন ও অফার সেটিংস</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-3 py-2 rounded-lg bg-sftPink text-white text-xs font-bold shadow-neonPink">ইউজারবৃন্দ</button>
@@ -393,20 +393,20 @@
             <!-- ADMIN LOTTERY & BANNER EDITOR SECTION -->
             <div id="admin-sec-lottery" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
                 <div>
-                    <h3 class="text-lg font-bold text-white mb-1">হোম ব্যানার ও লটারি লেখা এডিটর</h3>
-                    <p class="text-xs text-gray-400">হোমপেজের ব্যানার হেডিং, লটারি সেকশন এবং সময়সীমা পরিবর্তন করুন।</p>
+                    <h3 class="text-lg font-bold text-white mb-1">হোম ব্যানার ও অফার লেখা এডিটর</h3>
+                    <p class="text-xs text-gray-400">হোমপেজের ব্যানার হেডিং, অফার সেকশন এবং সময়সীমা পরিবর্তন করুন।</p>
                 </div>
                 <form onsubmit="handleSaveLotterySettings(event)" class="space-y-4 bg-gray-900 p-6 rounded-2xl border border-gray-800">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">বാനার মূল হেডিং (যেমন: ৩০ দিনে ৩০০ শব্দ ও ১৫০ সেন্টেন্স...)</label>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">offer মূল হেডিং (যেমন: ৩০ দিনে ৩০০ শব্দ ও ১৫০ সেন্টেন্স...)</label>
                         <textarea id="admin-banner-heading" rows="3" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">লটারি সেকশনের শিরোনাম (Heading)</label>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">অফার সেকশনের শিরোনাম (Heading)</label>
                         <input type="text" id="admin-lottery-heading" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">লটারি ব্যাজ বা অফার বিবরণ (Badge Text)</label>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">অফার ব্যাজ বিবরণ (Badge Text)</label>
                         <input type="text" id="admin-lottery-badge-text" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -418,7 +418,7 @@
                 </form>
 
                 <div class="p-6 rounded-2xl bg-gray-900 border border-amber-500/30 space-y-4">
-                    <h4 class="text-base font-bold text-amber-400"><i class="fa-solid fa-trophy"></i> লটারি বিজয়ী নির্বাচন</h4>
+                    <h4 class="text-base font-bold text-amber-400"><i class="fa-solid fa-trophy"></i> অফার বিজয়ী নির্বাচন</h4>
                     <div id="admin-lucky-draw-winner-box" class="p-4 rounded-xl bg-black/50 border border-amber-500 text-amber-300 font-bold text-sm">এখনও বিজয়ী ঘোষণা করা হয়নি!</div>
                     <div class="flex flex-wrap gap-3 items-center pt-2">
                         <button onclick="adminDrawRandomWinner()" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold rounded-xl shadow-goldGlow transition text-xs"><i class="fa-solid fa-dice"></i> স্বয়ংক্রিয় র্যান্ডম ড্র করুন</button>
@@ -512,11 +512,11 @@
 
     <!-- CORE APP SCRIPT -->
     <script>
-        const DEFAULT_MOTIVATIONAL_QUOTE = "ভাষা শিক্ষা প্রবাস জীবনের সবচেয়ে বড় শক্তি। নির্দিষ্ট সময়ের মধ্যে কোর্স শেষ করে লটারিতে জিতে নিন ১৫-২০ হাজার টাকার স্মার্টফোন!";
+        const DEFAULT_MOTIVATIONAL_QUOTE = "ভাষা শিক্ষা প্রবাস জীবনের সবচেয়ে বড় শক্তি। নির্দিষ্ট সময়ের মধ্যে কোর্স শেষ করে অফার জিতে নিন ১৫-২০ হাজার টাকার স্মার্টফোন!";
         const DEFAULT_LOTTERY_SETTINGS = {
             bannerText: "৩০ দিনে ৩০০ শব্দ ও ১৫০ সেন্টেন্স শিখে জিতে নিন <span class='text-amber-400'>একটি প্রিমিয়াম স্মার্টফোন!</span>",
-            heading: "স্মার্টফোন মেগা লটারি তালিকা ও টাইমার",
-            badgeText: "১৫,০০০ - ২০,০০০ টাকার স্মার্টফোন মেগা লটারি",
+            heading: "স্মার্টফোন মেগা অফার তালিকা ও টাইমার",
+            badgeText: "১৫,০০০ - ২০,০০০ টাকার স্মার্টফোন মেগা অফার",
             start: "2026-02-01T00:00",
             end: "2026-02-28T23:59",
             draw: "2026-03-01T20:00"
