@@ -568,7 +568,7 @@
             const wordBank = [
                 ["ইনতা (তুমি)", "আনা (আমি)", "ফি (আছে)", "মাফিশ (নাই)", "জাইন (ভালো)", "শুকরান (ধন্যবাদ)", "কাম (কত)", "হাদা (এটা)", "ওয়েন (কোথায়)", "রুহ (যাওয়া)"],
                 ["আকেল (খাবার)", "মোয়া (পানি)", "শাই (চা)", "সুফ (দেখা)", "জীব (দেওয়া)", "শুগোল (কাজ)", "সাদিক (বন্ধু)", "কাফিল (মালিক)", "ফালুস (টাকা)", "বুকরা (আগামীকাল)"],
-                ["مبتدئ (মুবতাদিয়া - নতুন)", "قديم (কদিম - পুরোনো)", "كبیر (কবির - বড়)", "صغیر (সগির - ছোট)", "حار (হার - গরম)", "بارد (বারিদ - ঠান্ডা)", "جميل (জামিল - সুন্দর)", "كويس (কোয়েس - ভালো)", "مترو (মেট্রো)", "سريع (সরিয়া - দ্রুত)"],
+                ["مبتدئ (মুবতাদিয়া - নতুন)", "قديم (কদিম - পুরোনো)", "كبیر (কবির - বড়)", "صغیر (সগির - ছোট)", "حار (হার - গরম)", "بارد (বারিদ - ঠান্ডা)", "جميل (জামিল - সুন্দর)", "كويس (কোয়েস - ভালো)", "مترو (মেট্রো)", "سريع (সরিয়া - দ্রুত)"],
                 ["سیارة (সাইয়ারা - গাড়ি)", "طريق (তারিক - রাস্তা)", "مطار (মাত্তার - বিমানবন্দর)", "تذكرة (তাজকিরা - টিকেট)", "جواز (জাওয়াজ - পাসপোর্ট)", "مفتاح (মিফতাহ - চাবি)", "باب (বাব - দরজা)", "غرفة (গুরফা - রুম)", "سرير (সারির - খাট)", "مكيف (মুকাইফ - এসি)"]
             ];
             
@@ -613,7 +613,6 @@
 
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast'), icon = document.getElementById('toast-icon'), msg = document.getElementById('toast-message');
-            if(!toast) return;
             msg.textContent = message;
             if (type === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check text-sftGreen"></i>'; toast.style.borderColor = '#00F5D4'; }
             else if (type === 'error') { icon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-sftPink"></i>'; toast.style.borderColor = '#FF2E93'; }
@@ -622,30 +621,18 @@
             setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
         }
 
-        // রেফারেল লিংক চেক ও নামসহ হ্যান্ডেলিং
         function checkReferralURL() {
             const params = new URLSearchParams(window.location.search);
-            const refParam = params.get('ref'); // এখানে ইউজার আইডি অথবা নাম থাকতে পারে
-            
-            if (refParam) {
-                localStorage.setItem('sft_ref_code', refParam);
-            }
-            
-            const savedRef = localStorage.getItem('sft_ref_code') || refParam;
-            if (savedRef) {
-                const refInput = document.getElementById('signup-ref-code');
-                if (refInput) refInput.value = savedRef;
-                
-                if (!auth.currentUser) {
-                    setTimeout(() => {
-                        openAuthModal('signup');
-                        showToast("রেফারেল লিংক শনাক্ত হয়েছে! অ্যাকাউন্ট খুলে বোনাস পয়েন্ট অর্জন করুন।", "success");
-                    }, 500);
-                }
+            const refCode = params.get('ref');
+            if (refCode) {
+                document.getElementById('signup-ref-code').value = refCode;
+                openAuthModal('signup');
+                showToast("রেফারেল লিংক শনাক্ত হয়েছে! একাউন্ট খুললে রেফারার বোনাস পয়েন্ট পাবেন।", "info");
             }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            checkReferralURL();
             const checkInterval = setInterval(() => {
                 if (window.firebaseApp) {
                     clearInterval(checkInterval);
@@ -709,8 +696,6 @@
                         } else {
                             currentUser = null;
                         }
-                        
-                        checkReferralURL();
                         navigateTo(activePage);
                     });
                 }
@@ -721,11 +706,9 @@
             activePage = pageId;
             if (dayNum) activeLessonDay = dayNum;
             ['home', 'routine', 'lesson', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'].forEach(p => {
-                const sec = document.getElementById(`page-${p}`);
-                if (sec) sec.classList.add('hidden');
+                document.getElementById(`page-${p}`).classList.add('hidden');
             });
-            const targetSec = document.getElementById(`page-${activePage}`);
-            if (targetSec) targetSec.classList.remove('hidden');
+            document.getElementById(`page-${activePage}`).classList.remove('hidden');
 
             if (activePage === 'home') renderHomePage();
             if (activePage === 'routine') renderRoutinePage();
@@ -742,10 +725,9 @@
 
         function updateHeaderNav() {
             const container = document.getElementById('nav-auth-controls');
-            const lotteryBadgeLabel = document.getElementById('nav-lottery-label');
-            if (lotteryBadgeLabel) lotteryBadgeLabel.textContent = lotterySettings.badgeText ? lotterySettings.badgeText.split(" ")[0] + " লটারি" : "মেগা লটারি";
+            document.getElementById('nav-lottery-label').textContent = lotterySettings.badgeText ? lotterySettings.badgeText.split(" ")[0] + " লটারি" : "মেগা লটারি";
 
-            if (currentUser && container) {
+            if (currentUser) {
                 container.innerHTML = `
                     <div class="flex items-center space-x-3">
                         ${currentUser.isAdmin ? `<button onclick="navigateTo('admin')" class="px-3 py-1.5 rounded-lg bg-sftPink/20 text-sftPink border border-sftPink/40 text-xs font-bold"><i class="fa-solid fa-user-shield"></i> এডমিন</button>` : ''}
@@ -757,7 +739,7 @@
                         <button onclick="handleLogout()" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-sftPink transition"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>
                 `;
-            } else if (container) {
+            } else {
                 container.innerHTML = `
                     <button onclick="openAuthModal('login')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold border border-gray-700">লগইন</button>
                     <button onclick="openAuthModal('signup')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sftPink to-sftBlue text-white text-xs font-bold shadow-neonPink">সাইন আপ</button>
@@ -776,18 +758,13 @@
         setInterval(updateLotteryTimers, 1000);
 
         function renderHomePage() {
-            const quoteDisp = document.getElementById('motivational-quote-display');
-            if (quoteDisp) quoteDisp.textContent = `"${motivationalQuote}"`;
-            
-            const homeBadge = document.getElementById('home-lottery-badge');
-            if (homeBadge) homeBadge.innerHTML = `<i class="fa-solid fa-gift"></i> <span>${lotterySettings.badgeText}</span>`;
-            
-            const homeTitle = document.getElementById('home-main-title');
-            if (homeTitle) homeTitle.innerHTML = lotterySettings.bannerText;
+            document.getElementById('motivational-quote-display').textContent = `"${motivationalQuote}"`;
+            document.getElementById('home-lottery-badge').innerHTML = `<i class="fa-solid fa-gift"></i> <span>${lotterySettings.badgeText}</span>`;
+            document.getElementById('home-main-title').innerHTML = lotterySettings.bannerText;
             updateLotteryTimers();
 
             const statsContainer = document.getElementById('user-stats-container');
-            if (currentUser && statsContainer) {
+            if (currentUser) {
                 const totalXP = currentUser.points || 0, completedCount = currentUser.completedDays ? currentUser.completedDays.length : 0;
                 statsContainer.innerHTML = `
                     <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
@@ -803,7 +780,7 @@
                         <div><span class="text-xs text-gray-400 font-semibold block">সফল রেফারেল</span><span class="text-2xl font-black text-white">${currentUser.referralsCount || 0} <span class="text-xs text-sftBlue">জন</span></span></div>
                     </div>
                 `;
-            } else if (statsContainer) {
+            } else {
                 statsContainer.innerHTML = `<div class="md:col-span-3 glassmorphism p-6 rounded-2xl border border-gray-800 text-center space-y-3"><p class="text-sm text-gray-300">লগইন করুন আপনার প্রোগ্রেস দেখার জন্য।</p><button onclick="openAuthModal('signup')" class="px-6 py-2.5 rounded-xl bg-sftGreen text-gray-950 font-bold">সাইনআপ করুন</button></div>`;
             }
 
@@ -812,28 +789,24 @@
                 .sort((a, b) => (b.points || 0) - (a.points || 0));
 
             const homeListEl = document.getElementById('home-leaderboard-list');
-            if (homeListEl) {
-                if (sortedUsers.length === 0) {
-                    homeListEl.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কেউ নেই।</p>`;
-                } else {
-                    homeListEl.innerHTML = sortedUsers.slice(0, 5).map((u, idx) => `
-                        <div class="flex items-center justify-between p-3 rounded-xl bg-gray-900/60 border border-gray-800/80">
-                            <div class="flex items-center space-x-3">
-                                <span class="w-6 text-center font-bold text-sm ${idx === 0 ? 'text-amber-400' : 'text-gray-500'}">#${idx + 1}</span>
-                                <img src="${u.avatar}" class="w-8 h-8 rounded-full bg-gray-800">
-                                <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">${u.completedDays ? u.completedDays.length : 0} দিন • ${u.referralsCount || 0} রেফার</span></div>
-                            </div>
-                            <span class="text-sm font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">${u.points || 0} XP</span>
+            if (sortedUsers.length === 0) {
+                homeListEl.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কেউ নেই।</p>`;
+            } else {
+                homeListEl.innerHTML = sortedUsers.slice(0, 5).map((u, idx) => `
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-gray-900/60 border border-gray-800/80">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-6 text-center font-bold text-sm ${idx === 0 ? 'text-amber-400' : 'text-gray-500'}">#${idx + 1}</span>
+                            <img src="${u.avatar}" class="w-8 h-8 rounded-full bg-gray-800">
+                            <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">${u.completedDays ? u.completedDays.length : 0} দিন • ${u.referralsCount || 0} রেফার</span></div>
                         </div>
-                    `).join('');
-                }
+                        <span class="text-sm font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">${u.points || 0} XP</span>
+                    </div>
+                `).join('');
             }
         }
 
         function renderRoutinePage() {
-            const grid = document.getElementById('routine-grid');
-            if(!grid) return;
-            const completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
+            const grid = document.getElementById('routine-grid'), completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
             let html = '';
             for (let day = 1; day <= 30; day++) {
                 const isCompleted = completedDays.includes(day), isUnlocked = day === 1 || completedDays.includes(day - 1), isCurrent = isUnlocked && !isCompleted;
@@ -866,8 +839,6 @@
         function renderRoutineCertificateSection() {
             const wrapper = document.getElementById('routine-certificate-card-wrapper');
             const statusBadge = document.getElementById('routine-cert-status-badge');
-            if(!wrapper || !statusBadge) return;
-            
             if (!currentUser) {
                 statusBadge.className = "text-xs px-3 py-1 rounded-full font-bold bg-gray-800 text-gray-400";
                 statusBadge.textContent = "লগইন প্রয়োজন";
@@ -954,35 +925,25 @@
                 return;
             }
             const lesson = appLessons[day] || { day, title: `দিন ${day}`, words: [], sentences: [] };
-            const dayTag = document.getElementById('lesson-day-tag');
-            const titleEl = document.getElementById('lesson-title');
-            const xpEl = document.getElementById('lesson-current-xp');
-            
-            if(dayTag) dayTag.textContent = `দিন ${day}`;
-            if(titleEl) titleEl.textContent = lesson.title;
-            if(xpEl) xpEl.textContent = `${currentUser ? currentUser.points || 0 : 0} XP`;
+            document.getElementById('lesson-day-tag').textContent = `দিন ${day}`;
+            document.getElementById('lesson-title').textContent = lesson.title;
+            document.getElementById('lesson-current-xp').textContent = `${currentUser ? currentUser.points || 0 : 0} XP`;
 
             gameQuizState = { currentWordIdx: 0, wordScore: 0, currentSentIdx: 0, sentScore: 0 };
 
-            const wordsCont = document.getElementById('words-container');
-            if(wordsCont) {
-                wordsCont.innerHTML = lesson.words.map((item, idx) => `
-                    <div class="glassmorphism p-4 rounded-xl border border-gray-800 flex items-center justify-between">
-                        <div class="flex items-center space-x-3"><span class="w-7 h-7 rounded-lg bg-sftBlue/10 text-sftBlue font-bold text-xs flex items-center justify-center">${idx + 1}</span><h4 class="text-lg font-bold text-white">${item.w}</h4></div>
-                        <span class="text-sm font-semibold text-sftGreen">${item.m}</span>
-                    </div>
-                `).join('');
-            }
+            document.getElementById('words-container').innerHTML = lesson.words.map((item, idx) => `
+                <div class="glassmorphism p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                    <div class="flex items-center space-x-3"><span class="w-7 h-7 rounded-lg bg-sftBlue/10 text-sftBlue font-bold text-xs flex items-center justify-center">${idx + 1}</span><h4 class="text-lg font-bold text-white">${item.w}</h4></div>
+                    <span class="text-sm font-semibold text-sftGreen">${item.m}</span>
+                </div>
+            `).join('');
 
-            const sentCont = document.getElementById('sentences-container');
-            if(sentCont) {
-                sentCont.innerHTML = lesson.sentences.map((item, idx) => `
-                    <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
-                        <div class="flex items-center space-x-3"><span class="w-8 h-8 rounded-xl bg-sftPink/20 text-sftPink font-bold text-sm flex items-center justify-center">${idx + 1}</span><h4 class="text-xl font-bold text-white">${item.s}</h4></div>
-                        <div class="glassmorphism px-4 py-2 rounded-xl text-sftGreen font-bold text-sm">"${item.m}"</div>
-                    </div>
-                `).join('');
-            }
+            document.getElementById('sentences-container').innerHTML = lesson.sentences.map((item, idx) => `
+                <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div class="flex items-center space-x-3"><span class="w-8 h-8 rounded-xl bg-sftPink/20 text-sftPink font-bold text-sm flex items-center justify-center">${idx + 1}</span><h4 class="text-xl font-bold text-white">${item.s}</h4></div>
+                    <div class="glassmorphism px-4 py-2 rounded-xl text-sftGreen font-bold text-sm">"${item.m}"</div>
+                </div>
+            `).join('');
 
             switchLessonTab('words');
         }
@@ -990,15 +951,11 @@
         function switchLessonTab(tab) {
             currentLessonTab = tab;
             ['words', 'word-game', 'sentences', 'sentence-game'].forEach(t => {
-                const tabEl = document.getElementById(`tab-${t}`);
-                const btnEl = document.getElementById(`tab-btn-${t}`);
-                if(tabEl) tabEl.classList.add('hidden');
-                if(btnEl) btnEl.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-gray-800 text-gray-400 border border-gray-700";
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`tab-btn-${t}`).className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-gray-800 text-gray-400 border border-gray-700";
             });
-            const activeTabEl = document.getElementById(`tab-${tab}`);
-            const activeBtnEl = document.getElementById(`tab-btn-${tab}`);
-            if(activeTabEl) activeTabEl.classList.remove('hidden');
-            if(activeBtnEl) activeBtnEl.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-sftGreen/20 text-sftGreen border border-sftGreen/40 shadow-neonGreen";
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tab}`).className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-sftGreen/20 text-sftGreen border border-sftGreen/40 shadow-neonGreen";
 
             if (tab === 'word-game') initWordGame();
             if (tab === 'sentence-game') initSentenceGame();
@@ -1006,11 +963,8 @@
 
         function initWordGame() {
             const completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
-            const quizCard = document.getElementById('word-quiz-card');
-            if(!quizCard) return;
-
             if (completedDays.includes(activeLessonDay)) {
-                quizCard.innerHTML = `
+                document.getElementById('word-quiz-card').innerHTML = `
                     <div class="py-8 space-y-3">
                         <i class="fa-solid fa-circle-check text-5xl text-sftGreen mb-2"></i>
                         <h3 class="text-xl font-bold text-white">এই লেসনটি আপনি ইতিমধ্যে সম্পন্ন করেছেন!</h3>
@@ -1023,13 +977,11 @@
 
             const lesson = appLessons[activeLessonDay];
             const current = lesson.words[gameQuizState.currentWordIdx];
-            const progressEl = document.getElementById('word-quiz-progress');
-            if(progressEl) progressEl.textContent = `প্রশ্ন ${gameQuizState.currentWordIdx + 1} / ${lesson.words.length}`;
-            
+            document.getElementById('word-quiz-progress').textContent = `প্রশ্ন ${gameQuizState.currentWordIdx + 1} / ${lesson.words.length}`;
             const wrongOptions = lesson.words.map(w => w.m).filter(m => m !== current.m).sort(() => 0.5 - Math.random()).slice(0, 3);
             const options = [...wrongOptions, current.m].sort(() => 0.5 - Math.random());
 
-            quizCard.innerHTML = `
+            document.getElementById('word-quiz-card').innerHTML = `
                 <h3 class="text-3xl font-black text-white py-2">${current.w}</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                     ${options.map(opt => `<button onclick="handleWordAnswer(this, '${opt}', '${current.m}')" class="p-4 rounded-xl bg-gray-900 border border-gray-700 text-white font-bold text-sm">${opt}</button>`).join('')}
@@ -1063,11 +1015,8 @@
 
         function initSentenceGame() {
             const completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
-            const sentCard = document.getElementById('sentence-quiz-card');
-            if(!sentCard) return;
-
             if (completedDays.includes(activeLessonDay)) {
-                sentCard.innerHTML = `
+                document.getElementById('sentence-quiz-card').innerHTML = `
                     <div class="py-8 space-y-3">
                         <i class="fa-solid fa-circle-check text-5xl text-sftPink mb-2"></i>
                         <h3 class="text-xl font-bold text-white">দিনের লেসন আগেই সম্পূর্ণ হয়েছে!</h3>
@@ -1080,13 +1029,11 @@
 
             const lesson = appLessons[activeLessonDay];
             const current = lesson.sentences[gameQuizState.currentSentIdx];
-            const sentProg = document.getElementById('sentence-quiz-progress');
-            if(sentProg) sentProg.textContent = `প্রশ্ন ${gameQuizState.currentSentIdx + 1} / ${lesson.sentences.length}`;
-            
+            document.getElementById('sentence-quiz-progress').textContent = `প্রশ্ন ${gameQuizState.currentSentIdx + 1} / ${lesson.sentences.length}`;
             const wrongOpts = lesson.sentences.map(s => s.m).filter(m => m !== current.m).sort(() => 0.5 - Math.random()).slice(0, 3);
             const options = [...wrongOpts, current.m].sort(() => 0.5 - Math.random());
 
-            sentCard.innerHTML = `
+            document.getElementById('sentence-quiz-card').innerHTML = `
                 <h3 class="text-2xl font-black text-white py-2">${current.s}</h3>
                 <div class="space-y-3 pt-2">
                     ${options.map(opt => `<button onclick="handleSentenceAnswer(this, '${opt}', '${current.m}')" class="w-full p-4 rounded-xl bg-gray-900 border border-gray-700 text-white font-bold text-sm text-left">${opt}</button>`).join('')}
@@ -1123,8 +1070,7 @@
             const { db, ref, update } = window.firebaseApp;
             currentUser.points = (currentUser.points || 0) + pts;
             await update(ref(db, 'users/' + currentUser.id), { points: currentUser.points });
-            const xpSpan = document.getElementById('lesson-current-xp');
-            if(xpSpan) xpSpan.textContent = `${currentUser.points} XP`;
+            document.getElementById('lesson-current-xp').textContent = `${currentUser.points} XP`;
         }
 
         async function markDayComplete(day) {
@@ -1148,7 +1094,6 @@
                 .sort((a, b) => (b.points || 0) - (a.points || 0));
 
             const tbodyEl = document.getElementById('full-leaderboard-body');
-            if (!tbodyEl) return;
             if (sortedUsers.length === 0) {
                 tbodyEl.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কোনো শিক্ষার্থী এখনও নেই।</td></tr>`;
             } else {
@@ -1164,9 +1109,7 @@
         }
 
         function renderLotteryPage() {
-            const headingEl = document.getElementById('lottery-page-heading');
-            if(headingEl) headingEl.textContent = lotterySettings.heading;
-            
+            document.getElementById('lottery-page-heading').textContent = lotterySettings.heading;
             let lotteryEntries = [];
             allUsersCache.forEach(u => {
                 const pts = u.points || 0;
@@ -1176,9 +1119,7 @@
                 }
             });
 
-            const wrapper = document.getElementById('lottery-content-wrapper');
-            if(!wrapper) return;
-            wrapper.innerHTML = `
+            document.getElementById('lottery-content-wrapper').innerHTML = `
                 <div class="glassmorphism p-6 rounded-2xl border border-amber-500/40 text-center space-y-3 bg-gradient-to-r from-amber-950/40 via-gray-900 to-amber-950/40">
                     <h3 class="text-xl font-bold text-amber-400"><i class="fa-solid fa-clock"></i> ${lotterySettings.badgeText}</h3>
                 </div>
@@ -1208,31 +1149,16 @@
 
         function renderCertificatePage() { renderRoutineCertificateSection(); }
 
-        function openAuthModal(mode = 'login') { 
-            const modal = document.getElementById('auth-modal');
-            if(modal) modal.classList.remove('hidden'); 
-            switchAuthMode(mode); 
-        }
-        
-        function closeAuthModal() { 
-            const modal = document.getElementById('auth-modal');
-            if(modal) modal.classList.add('hidden'); 
-        }
-        
+        function openAuthModal(mode = 'login') { document.getElementById('auth-modal').classList.remove('hidden'); switchAuthMode(mode); }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
         function switchAuthMode(mode) {
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const modalTitle = document.getElementById('auth-modal-title');
-            
-            if(loginForm) loginForm.classList.toggle('hidden', mode === 'signup');
-            if(signupForm) signupForm.classList.toggle('hidden', mode !== 'signup');
-            if(modalTitle) modalTitle.textContent = mode === 'signup' ? 'নতুন অ্যাকাউন্ট খুলুন' : 'লগইন করুন';
+            document.getElementById('login-form').classList.toggle('hidden', mode === 'signup');
+            document.getElementById('signup-form').classList.toggle('hidden', mode !== 'signup');
+            document.getElementById('auth-modal-title').textContent = mode === 'signup' ? 'নতুন অ্যাকাউন্ট খুলুন' : 'লগইন করুন';
         }
 
         async function handleForgotPassword() {
-            const identifierEl = document.getElementById('login-identifier');
-            if(!identifierEl) return;
-            const identifier = identifierEl.value.trim();
+            const identifier = document.getElementById('login-identifier').value.trim();
             let email = identifier;
             if (!identifier.includes('@')) {
                 const found = allUsersCache.find(u => u.username.toLowerCase() === identifier.toLowerCase() || u.phone === identifier);
@@ -1272,7 +1198,6 @@
                 await signInWithEmailAndPassword(auth, loginEmail, password);
                 closeAuthModal();
                 showToast("সফলভাবে লগইন হয়েছে!", "success");
-                navigateTo('routine'); // সফল লগইনের পর রুটিন পেজে নিয়ে যাওয়া
             } catch (err) {
                 console.error("Firebase Login Error Code:", err.code);
                 let errorMsg = "লগইন ব্যর্থ হয়েছে।";
@@ -1289,19 +1214,14 @@
             }
         }
 
-        // সাইন আপ সম্পন্ন হওয়ার পর ফর্ম ভ্যানিশ (ক্লোজ) হয়ে হোম/রুটিন পেজে চলে আসার লজিক
+        // FULLY FIXED SIGNUP & REFERRAL FUNCTION (Guaranteed Real-time Commission)
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const phone = document.getElementById('signup-phone').value.trim();
             const password = document.getElementById('signup-password').value.trim();
-            
-            let refCode = document.getElementById('signup-ref-code').value.trim();
-            if (!refCode) {
-                refCode = localStorage.getItem('sft_ref_code') || '';
-            }
-
+            const refCode = document.getElementById('signup-ref-code').value.trim();
             const { auth, db, createUserWithEmailAndPassword, ref, set, get, update } = window.firebaseApp;
 
             try {
@@ -1323,33 +1243,11 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // রেফারেল আইডি অথবা ইউজারনেম ম্যাচ করে পয়েন্ট ও রেফার সংখ্যা যুক্ত করা
+                // FIXED & ROBUST REFERRAL COMMISSION LOGIC
                 if (refCode && refCode !== newUserId) {
-                    let referrerRef = null;
-                    let referrerSnap = null;
-
-                    // প্রথমে ইউজার আইডি হিসেবে চেক করা
-                    const directRef = ref(db, 'users/' + refCode);
-                    const directSnap = await get(directRef);
-
-                    if (directSnap.exists()) {
-                        referrerRef = directRef;
-                        referrerSnap = directSnap;
-                    } else {
-                        // আইডি না পেলে ইউজারনেম দিয়ে খোঁজা
-                        const allSnap = await get(ref(db, 'users'));
-                        if (allSnap.exists()) {
-                            allSnap.forEach(child => {
-                                const uData = child.val();
-                                if (uData && uData.username && uData.username.toLowerCase() === refCode.toLowerCase()) {
-                                    referrerRef = ref(db, 'users/' + child.key);
-                                    referrerSnap = child;
-                                }
-                            });
-                        }
-                    }
-
-                    if (referrerSnap && referrerSnap.exists()) {
+                    const referrerRef = ref(db, 'users/' + refCode);
+                    const referrerSnap = await get(referrerRef);
+                    if (referrerSnap.exists()) {
                         const referrerData = referrerSnap.val();
                         const currentPoints = Number(referrerData.points) || 0;
                         const currentRefs = Number(referrerData.referralsCount) || 0;
@@ -1358,20 +1256,15 @@
                             points: currentPoints + 5900,
                             referralsCount: currentRefs + 1
                         });
-                        localStorage.removeItem('sft_ref_code');
-                        console.log("Referral bonus added successfully!");
+                        console.log("Referral commission (+5900 XP) successfully added to referrer:", refCode);
+                    } else {
+                        console.warn("Referrer ID not found in database:", refCode);
                     }
                 }
 
                 currentUser = newUser;
-                
-                // ১. সাইন আপ ফর্ম ভ্যানিশ (ক্লোজ) করা
                 closeAuthModal();
-                
-                // ২. সফল মেসেজ দেখানো
-                showToast("অভিনন্দন! সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!", "success");
-                
-                // ৩. হোম পেজ বা রুটিন পেজে নিয়ে যাওয়া
+                showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
                 navigateTo('routine');
             } catch (err) {
                 console.error("Signup Error:", err);
@@ -1389,32 +1282,20 @@
 
         function renderProfilePage() {
             if (!currentUser) return;
-            const uInput = document.getElementById('profile-username');
-            const eInput = document.getElementById('profile-email');
-            const pInput = document.getElementById('profile-phone');
-            const avatarPre = document.getElementById('profile-avatar-preview');
-            const avatarInp = document.getElementById('profile-avatar-input');
+            document.getElementById('profile-username').value = currentUser.username || '';
+            document.getElementById('profile-email').value = currentUser.email || '';
+            document.getElementById('profile-phone').value = currentUser.phone || '';
+            document.getElementById('profile-avatar-preview').src = currentUser.avatar || '';
+            document.getElementById('profile-avatar-input').value = currentUser.avatar || '';
 
-            if(uInput) uInput.value = currentUser.username || '';
-            if(eInput) eInput.value = currentUser.email || '';
-            if(pInput) pInput.value = currentUser.phone || '';
-            if(avatarPre) avatarPre.src = currentUser.avatar || '';
-            if(avatarInp) avatarInp.value = currentUser.avatar || '';
-
-            // রেফারেল লিংকের সাথে ইউজারের নাম বা আইডি উভয়ভাবেই কাজ করার জন্য লিংক জেনারেট করা
-            const refLink = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(currentUser.username)}`;
-            const refInput = document.getElementById('referral-link-input');
-            const refCountDisp = document.getElementById('referral-count-display');
-            const refXpDisp = document.getElementById('referral-xp-display');
-
-            if(refInput) refInput.value = refLink;
-            if(refCountDisp) refCountDisp.textContent = currentUser.referralsCount || 0;
-            if(refXpDisp) refXpDisp.textContent = `${(currentUser.referralsCount || 0) * 5900} XP`;
+            const refLink = `${window.location.origin}${window.location.pathname}?ref=${currentUser.id}`;
+            document.getElementById('referral-link-input').value = refLink;
+            document.getElementById('referral-count-display').textContent = currentUser.referralsCount || 0;
+            document.getElementById('referral-xp-display').textContent = `${(currentUser.referralsCount || 0) * 5900} XP`;
         }
 
         function copyReferralLink() {
             const input = document.getElementById('referral-link-input');
-            if(!input) return;
             input.select();
             navigator.clipboard.writeText(input.value);
             showToast("রেফারেল লিংক কপি করা হয়েছে!", "success");
@@ -1422,10 +1303,7 @@
 
         function randomizeAvatar() {
             const seed = Math.random().toString(36).substring(7), newAvatar = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}`;
-            const prev = document.getElementById('profile-avatar-preview');
-            const inp = document.getElementById('profile-avatar-input');
-            if(prev) prev.src = newAvatar; 
-            if(inp) inp.value = newAvatar;
+            document.getElementById('profile-avatar-preview').src = newAvatar; document.getElementById('profile-avatar-input').value = newAvatar;
         }
 
         async function handleProfileUpdate(e) {
@@ -1448,8 +1326,7 @@
                     avatar: newAvatar
                 });
 
-                const pwdEl = document.getElementById('profile-password');
-                const newPwd = pwdEl ? pwdEl.value.trim() : '';
+                const newPwd = document.getElementById('profile-password').value.trim();
                 if (newPwd && auth.currentUser) {
                     await updatePassword(auth.currentUser, newPwd);
                 }
@@ -1464,39 +1341,26 @@
         function renderAdminPage() {
             if (!currentUser || !currentUser.isAdmin) { navigateTo('home'); return; }
             renderAdminUsersTable();
-            const motInput = document.getElementById('admin-motivation-input');
-            if(motInput) motInput.value = motivationalQuote;
+            document.getElementById('admin-motivation-input').value = motivationalQuote;
             setupAdminLessonSelect();
 
-            const bannerH = document.getElementById('admin-banner-heading');
-            const lotH = document.getElementById('admin-lottery-heading');
-            const lotB = document.getElementById('admin-lottery-badge-text');
-            const lotS = document.getElementById('admin-lottery-start');
-            const lotE = document.getElementById('admin-lottery-end');
-            const lotD = document.getElementById('admin-lottery-draw');
-
-            if(bannerH) bannerH.value = lotterySettings.bannerText || DEFAULT_LOTTERY_SETTINGS.bannerText;
-            if(lotH) lotH.value = lotterySettings.heading || DEFAULT_LOTTERY_SETTINGS.heading;
-            if(lotB) lotB.value = lotterySettings.badgeText || DEFAULT_LOTTERY_SETTINGS.badgeText;
-            if(lotS) lotS.value = lotterySettings.start || '';
-            if(lotE) lotE.value = lotterySettings.end || '';
-            if(lotD) lotD.value = lotterySettings.draw || '';
+            document.getElementById('admin-banner-heading').value = lotterySettings.bannerText || DEFAULT_LOTTERY_SETTINGS.bannerText;
+            document.getElementById('admin-lottery-heading').value = lotterySettings.heading || DEFAULT_LOTTERY_SETTINGS.heading;
+            document.getElementById('admin-lottery-badge-text').value = lotterySettings.badgeText || DEFAULT_LOTTERY_SETTINGS.badgeText;
+            document.getElementById('admin-lottery-start').value = lotterySettings.start || '';
+            document.getElementById('admin-lottery-end').value = lotterySettings.end || '';
+            document.getElementById('admin-lottery-draw').value = lotterySettings.draw || '';
 
             const selectEl = document.getElementById('admin-manual-winner-select');
-            if(selectEl) {
-                selectEl.innerHTML = allUsersCache.length === 0 ? '<option value="">ইউজার নেই</option>' : allUsersCache.map(u => `<option value="${u.id}">${u.username} (${u.points || 0} XP)</option>`).join('');
-            }
+            selectEl.innerHTML = allUsersCache.length === 0 ? '<option value="">ইউজার নেই</option>' : allUsersCache.map(u => `<option value="${u.id}">${u.username} (${u.points || 0} XP)</option>`).join('');
 
-            const winBox = document.getElementById('admin-lucky-draw-winner-box');
-            if (luckyWinner && winBox) winBox.innerHTML = `🎉 লটারি বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)`;
+            if (luckyWinner) document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 লটারি বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)`;
         }
 
         function switchAdminTab(sec) {
             ['users', 'motivation', 'lessons', 'lottery'].forEach(s => {
-                const secEl = document.getElementById(`admin-sec-${s}`);
-                const tabEl = document.getElementById(`admin-tab-${s}`);
-                if(secEl) secEl.classList.toggle('hidden', s !== sec);
-                if(tabEl) tabEl.className = `px-3 py-2 rounded-lg text-xs font-bold ${s === sec ? 'bg-sftPink text-white shadow-neonPink' : 'bg-gray-800 text-gray-300'}`;
+                document.getElementById(`admin-sec-${s}`).classList.toggle('hidden', s !== sec);
+                document.getElementById(`admin-tab-${s}`).className = `px-3 py-2 rounded-lg text-xs font-bold ${s === sec ? 'bg-sftPink text-white shadow-neonPink' : 'bg-gray-800 text-gray-300'}`;
             });
         }
 
@@ -1516,25 +1380,21 @@
         }
 
         function renderAdminUsersTable() {
-            const countEl = document.getElementById('admin-user-count');
-            const tbodyEl = document.getElementById('admin-users-table-body');
-            if(countEl) countEl.textContent = `ইউজার সংখ্যা: ${allUsersCache.length}`;
-            if(tbodyEl) {
-                tbodyEl.innerHTML = allUsersCache.map(u => `
-                    <tr class="hover:bg-gray-900/40">
-                        <td class="p-3"><img src="${u.avatar}" class="w-8 h-8 rounded-full"></td>
-                        <td class="p-3 font-bold text-white">${u.username} ${u.isAdmin ? '(Admin)' : ''}</td>
-                        <td class="p-3 text-gray-300">${u.email}</td>
-                        <td class="p-3 text-gray-300">${u.phone}</td>
-                        <td class="p-3 text-center text-amber-400 font-bold">${u.points || 0} XP</td>
-                        <td class="p-3 text-center text-gray-300">${u.completedDays ? u.completedDays.length : 0} দিন</td>
-                        <td class="p-3 text-center space-x-1">
-                            <button onclick="openAdminUserEditModal('${u.id}')" class="px-2 py-1 bg-sftBlue/20 text-sftBlue text-xs rounded font-bold">এডিট/ওয়ার্নিং</button>
-                            <button onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 bg-sftPink/20 text-sftPink text-xs rounded font-bold">ডিলিট</button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
+            document.getElementById('admin-user-count').textContent = `ইউজার সংখ্যা: ${allUsersCache.length}`;
+            document.getElementById('admin-users-table-body').innerHTML = allUsersCache.map(u => `
+                <tr class="hover:bg-gray-900/40">
+                    <td class="p-3"><img src="${u.avatar}" class="w-8 h-8 rounded-full"></td>
+                    <td class="p-3 font-bold text-white">${u.username} ${u.isAdmin ? '(Admin)' : ''}</td>
+                    <td class="p-3 text-gray-300">${u.email}</td>
+                    <td class="p-3 text-gray-300">${u.phone}</td>
+                    <td class="p-3 text-center text-amber-400 font-bold">${u.points || 0} XP</td>
+                    <td class="p-3 text-center text-gray-300">${u.completedDays ? u.completedDays.length : 0} দিন</td>
+                    <td class="p-3 text-center space-x-1">
+                        <button onclick="openAdminUserEditModal('${u.id}')" class="px-2 py-1 bg-sftBlue/20 text-sftBlue text-xs rounded font-bold">এডিট/ওয়ার্নিং</button>
+                        <button onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 bg-sftPink/20 text-sftPink text-xs rounded font-bold">ডিলিট</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         function openAdminUserEditModal(id) {
@@ -1546,14 +1406,10 @@
             document.getElementById('admin-edit-phone').value = u.phone;
             document.getElementById('admin-edit-points').value = u.points || 0;
             document.getElementById('admin-edit-warning').value = u.warningMessage || '';
-            const modal = document.getElementById('admin-user-modal');
-            if(modal) modal.classList.remove('hidden');
+            document.getElementById('admin-user-modal').classList.remove('hidden');
         }
 
-        function closeAdminUserModal() { 
-            const modal = document.getElementById('admin-user-modal');
-            if(modal) modal.classList.add('hidden'); 
-        }
+        function closeAdminUserModal() { document.getElementById('admin-user-modal').classList.add('hidden'); }
 
         async function handleAdminSaveUser(e) {
             e.preventDefault();
@@ -1592,25 +1448,20 @@
         async function handleUpdateMotivationalQuote(e) {
             e.preventDefault();
             const { db, ref, set } = window.firebaseApp;
-            const motInput = document.getElementById('admin-motivation-input');
-            if(!motInput) return;
-            motivationalQuote = motInput.value.trim();
+            motivationalQuote = document.getElementById('admin-motivation-input').value.trim();
             await set(ref(db, 'settings/motivation'), motivationalQuote);
             showToast("মোটিভেশনাল টেক্সট আপডেট হয়েছে!", "success");
         }
 
         function setupAdminLessonSelect() {
             const select = document.getElementById('admin-day-select');
-            if(!select) return;
             select.innerHTML = Array.from({length: 30}, (_, i) => `<option value="${i+1}">দিন ${i+1} সম্পাদনা</option>`).join('');
             loadAdminLessonEdit(1);
         }
 
         function loadAdminLessonEdit(day) {
             const lesson = appLessons[day] || { day, title: `দিন ${day}`, words: [], sentences: [] };
-            const editArea = document.getElementById('admin-lesson-edit-area');
-            if(!editArea) return;
-            editArea.innerHTML = `
+            document.getElementById('admin-lesson-edit-area').innerHTML = `
                 <form onsubmit="saveAdminLesson(event, ${day})" class="space-y-4">
                     <div><label class="block text-xs font-semibold text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-lesson-title" value="${lesson.title}" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm" required></div>
                     <div><h4 class="text-xs font-bold text-sftGreen mb-2">১০টি শব্দভাণ্ডার</h4><div class="grid grid-cols-1 md:grid-cols-2 gap-2">${lesson.words.map((w, i) => `<div class="flex gap-1"><input type="text" value="${w.w}" class="admin-word-w w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"><input type="text" value="${w.m}" class="admin-word-m w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"></div>`).join('')}</div></div>
@@ -1623,9 +1474,7 @@
         async function saveAdminLesson(e, day) {
             e.preventDefault();
             const { db, ref, set } = window.firebaseApp;
-            const titleEl = document.getElementById('admin-lesson-title');
-            if(!titleEl) return;
-            const title = titleEl.value;
+            const title = document.getElementById('admin-lesson-title').value;
             const words = Array.from(document.querySelectorAll('.admin-word-w')).map((el, i) => ({ w: el.value, m: document.querySelectorAll('.admin-word-m')[i].value }));
             const sentences = Array.from(document.querySelectorAll('.admin-sent-s')).map((el, i) => ({ s: el.value, m: document.querySelectorAll('.admin-sent-m')[i].value }));
             appLessons[day] = { day, title, words, sentences };
@@ -1645,22 +1494,18 @@
             const winner = lotteryEntries[Math.floor(Math.random() * lotteryEntries.length)];
             luckyWinner = winner;
             await set(ref(db, 'settings/winner'), luckyWinner);
-            const winBox = document.getElementById('admin-lucky-draw-winner-box');
-            if(winBox) winBox.innerHTML = `🎉 লটারি বিজয়ী: ${winner.username} (${winner.points} XP)`;
+            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 লটারি বিজয়ী: ${winner.username} (${winner.points} XP)`;
             showToast("র্যান্ডম ড্র এর মাধ্যমে বিজয়ী নির্বাচন করা হয়েছে!", "success");
         }
 
         async function adminSetManualWinner() {
-            const selectEl = document.getElementById('admin-manual-winner-select');
-            if(!selectEl) return;
-            const userId = selectEl.value;
+            const userId = document.getElementById('admin-manual-winner-select').value;
             const user = allUsersCache.find(u => u.id === userId);
             if (!user) { showToast("ইউজার পাওয়া যায়নি!", "error"); return; }
             const { db, ref, set } = window.firebaseApp;
             luckyWinner = user;
             await set(ref(db, 'settings/winner'), luckyWinner);
-            const winBox = document.getElementById('admin-lucky-draw-winner-box');
-            if(winBox) winBox.innerHTML = `🎉 লটারি বিজয়ী: ${user.username} (${user.points} XP)`;
+            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 লটারি বিজয়ী: ${user.username} (${user.points} XP)`;
             showToast(`${user.username}-কে লটারি বিজয়ী হিসেবে সিলেক্ট করা হয়েছে!`, "success");
         }
     </script>
