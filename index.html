@@ -613,6 +613,7 @@
 
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast'), icon = document.getElementById('toast-icon'), msg = document.getElementById('toast-message');
+            if(!toast) return;
             msg.textContent = message;
             if (type === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check text-sftGreen"></i>'; toast.style.borderColor = '#00F5D4'; }
             else if (type === 'error') { icon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-sftPink"></i>'; toast.style.borderColor = '#FF2E93'; }
@@ -621,21 +622,20 @@
             setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
         }
 
-        // রিকোয়েস্ট চেক ও রেফারেল হ্যান্ডেলিং ফিক্স
+        // রেফারেল লিংক চেক ও নামসহ হ্যান্ডেলিং
         function checkReferralURL() {
             const params = new URLSearchParams(window.location.search);
-            const refCode = params.get('ref');
+            const refParam = params.get('ref'); // এখানে ইউজার আইডি অথবা নাম থাকতে পারে
             
-            if (refCode) {
-                localStorage.setItem('sft_ref_code', refCode);
+            if (refParam) {
+                localStorage.setItem('sft_ref_code', refParam);
             }
             
-            const savedRef = localStorage.getItem('sft_ref_code') || refCode;
+            const savedRef = localStorage.getItem('sft_ref_code') || refParam;
             if (savedRef) {
                 const refInput = document.getElementById('signup-ref-code');
                 if (refInput) refInput.value = savedRef;
                 
-                // ইউজার লগইন করা না থাকলে সরাসরি সাইন আপ মোডাল ওপেন হবে
                 if (!auth.currentUser) {
                     setTimeout(() => {
                         openAuthModal('signup');
@@ -710,7 +710,6 @@
                             currentUser = null;
                         }
                         
-                        // রেফারেল ইউআরএল চেক ফাংশন কল
                         checkReferralURL();
                         navigateTo(activePage);
                     });
@@ -746,7 +745,7 @@
             const lotteryBadgeLabel = document.getElementById('nav-lottery-label');
             if (lotteryBadgeLabel) lotteryBadgeLabel.textContent = lotterySettings.badgeText ? lotterySettings.badgeText.split(" ")[0] + " লটারি" : "মেগা লটারি";
 
-            if (currentUser) {
+            if (currentUser && container) {
                 container.innerHTML = `
                     <div class="flex items-center space-x-3">
                         ${currentUser.isAdmin ? `<button onclick="navigateTo('admin')" class="px-3 py-1.5 rounded-lg bg-sftPink/20 text-sftPink border border-sftPink/40 text-xs font-bold"><i class="fa-solid fa-user-shield"></i> এডমিন</button>` : ''}
@@ -758,7 +757,7 @@
                         <button onclick="handleLogout()" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-sftPink transition"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>
                 `;
-            } else {
+            } else if (container) {
                 container.innerHTML = `
                     <button onclick="openAuthModal('login')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold border border-gray-700">লগইন</button>
                     <button onclick="openAuthModal('signup')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sftPink to-sftBlue text-white text-xs font-bold shadow-neonPink">সাইন আপ</button>
@@ -955,9 +954,13 @@
                 return;
             }
             const lesson = appLessons[day] || { day, title: `দিন ${day}`, words: [], sentences: [] };
-            document.getElementById('lesson-day-tag').textContent = `দিন ${day}`;
-            document.getElementById('lesson-title').textContent = lesson.title;
-            document.getElementById('lesson-current-xp').textContent = `${currentUser ? currentUser.points || 0 : 0} XP`;
+            const dayTag = document.getElementById('lesson-day-tag');
+            const titleEl = document.getElementById('lesson-title');
+            const xpEl = document.getElementById('lesson-current-xp');
+            
+            if(dayTag) dayTag.textContent = `দিন ${day}`;
+            if(titleEl) titleEl.textContent = lesson.title;
+            if(xpEl) xpEl.textContent = `${currentUser ? currentUser.points || 0 : 0} XP`;
 
             gameQuizState = { currentWordIdx: 0, wordScore: 0, currentSentIdx: 0, sentScore: 0 };
 
@@ -1269,6 +1272,7 @@
                 await signInWithEmailAndPassword(auth, loginEmail, password);
                 closeAuthModal();
                 showToast("সফলভাবে লগইন হয়েছে!", "success");
+                navigateTo('routine'); // সফল লগইনের পর রুটিন পেজে নিয়ে যাওয়া
             } catch (err) {
                 console.error("Firebase Login Error Code:", err.code);
                 let errorMsg = "লগইন ব্যর্থ হয়েছে।";
@@ -1285,6 +1289,7 @@
             }
         }
 
+        // সাইন আপ সম্পন্ন হওয়ার পর ফর্ম ভ্যানিশ (ক্লোজ) হয়ে হোম/রুটিন পেজে চলে আসার লজিক
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
@@ -1318,10 +1323,33 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
+                // রেফারেল আইডি অথবা ইউজারনেম ম্যাচ করে পয়েন্ট ও রেফার সংখ্যা যুক্ত করা
                 if (refCode && refCode !== newUserId) {
-                    const referrerRef = ref(db, 'users/' + refCode);
-                    const referrerSnap = await get(referrerRef);
-                    if (referrerSnap.exists()) {
+                    let referrerRef = null;
+                    let referrerSnap = null;
+
+                    // প্রথমে ইউজার আইডি হিসেবে চেক করা
+                    const directRef = ref(db, 'users/' + refCode);
+                    const directSnap = await get(directRef);
+
+                    if (directSnap.exists()) {
+                        referrerRef = directRef;
+                        referrerSnap = directSnap;
+                    } else {
+                        // আইডি না পেলে ইউজারনেম দিয়ে খোঁজা
+                        const allSnap = await get(ref(db, 'users'));
+                        if (allSnap.exists()) {
+                            allSnap.forEach(child => {
+                                const uData = child.val();
+                                if (uData && uData.username && uData.username.toLowerCase() === refCode.toLowerCase()) {
+                                    referrerRef = ref(db, 'users/' + child.key);
+                                    referrerSnap = child;
+                                }
+                            });
+                        }
+                    }
+
+                    if (referrerSnap && referrerSnap.exists()) {
                         const referrerData = referrerSnap.val();
                         const currentPoints = Number(referrerData.points) || 0;
                         const currentRefs = Number(referrerData.referralsCount) || 0;
@@ -1331,12 +1359,19 @@
                             referralsCount: currentRefs + 1
                         });
                         localStorage.removeItem('sft_ref_code');
+                        console.log("Referral bonus added successfully!");
                     }
                 }
 
                 currentUser = newUser;
+                
+                // ১. সাইন আপ ফর্ম ভ্যানিশ (ক্লোজ) করা
                 closeAuthModal();
-                showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
+                
+                // ২. সফল মেসেজ দেখানো
+                showToast("অভিনন্দন! সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!", "success");
+                
+                // ৩. হোম পেজ বা রুটিন পেজে নিয়ে যাওয়া
                 navigateTo('routine');
             } catch (err) {
                 console.error("Signup Error:", err);
@@ -1366,7 +1401,8 @@
             if(avatarPre) avatarPre.src = currentUser.avatar || '';
             if(avatarInp) avatarInp.value = currentUser.avatar || '';
 
-            const refLink = `${window.location.origin}${window.location.pathname}?ref=${currentUser.id}`;
+            // রেফারেল লিংকের সাথে ইউজারের নাম বা আইডি উভয়ভাবেই কাজ করার জন্য লিংক জেনারেট করা
+            const refLink = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(currentUser.username)}`;
             const refInput = document.getElementById('referral-link-input');
             const refCountDisp = document.getElementById('referral-count-display');
             const refXpDisp = document.getElementById('referral-xp-display');
