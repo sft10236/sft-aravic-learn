@@ -625,8 +625,13 @@
             const params = new URLSearchParams(window.location.search);
             const refCode = params.get('ref');
             if (refCode) {
-                document.getElementById('signup-ref-code').value = refCode;
-                openAuthModal('signup');
+                // ব্রাউজারে সেভ করে রাখা হলো যাতে পেজ রিফ্রেশ হলেও কোড হারায় না
+                localStorage.setItem('sft_ref_code', refCode);
+            }
+            
+            const savedRef = localStorage.getItem('sft_ref_code');
+            if (savedRef) {
+                document.getElementById('signup-ref-code').value = savedRef;
                 showToast("রেফারেল লিংক শনাক্ত হয়েছে! একাউন্ট খুললে রেফারার বোনাস পয়েন্ট পাবেন।", "info");
             }
         }
@@ -1214,14 +1219,20 @@
             }
         }
 
-        // FULLY FIXED SIGNUP & REFERRAL FUNCTION (Guaranteed Real-time Commission)
+        // FIXED SIGNUP & REFERRAL COMMISSION LOGIC (With LocalStorage Backup)
         async function handleSignup(e) {
             e.preventDefault();
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const phone = document.getElementById('signup-phone').value.trim();
             const password = document.getElementById('signup-password').value.trim();
-            const refCode = document.getElementById('signup-ref-code').value.trim();
+            
+            // লুকানো ইনপুট অথবা ব্রাউজার স্টোরেজ থেকে রেফারেল কোড নিশ্চিত করা
+            let refCode = document.getElementById('signup-ref-code').value.trim();
+            if (!refCode) {
+                refCode = localStorage.getItem('sft_ref_code') || '';
+            }
+
             const { auth, db, createUserWithEmailAndPassword, ref, set, get, update } = window.firebaseApp;
 
             try {
@@ -1243,7 +1254,7 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // FIXED & ROBUST REFERRAL COMMISSION LOGIC
+                // সফলভাবে রেফারেল পয়েন্ট ও কাউন্ট যোগ করার অংশ
                 if (refCode && refCode !== newUserId) {
                     const referrerRef = ref(db, 'users/' + refCode);
                     const referrerSnap = await get(referrerRef);
@@ -1257,6 +1268,9 @@
                             referralsCount: currentRefs + 1
                         });
                         console.log("Referral commission (+5900 XP) successfully added to referrer:", refCode);
+                        
+                        // একবার ব্যবহার হওয়ার পর লোকাল স্টোরেজ ক্লিয়ার করে দেওয়া ভালো
+                        localStorage.removeItem('sft_ref_code');
                     } else {
                         console.warn("Referrer ID not found in database:", refCode);
                     }
