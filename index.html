@@ -313,9 +313,9 @@
         <section id="page-lottery" class="hidden space-y-6">
             <div id="lottery-main-content" class="space-y-6">
                 <div class="text-center max-w-2xl mx-auto space-y-2">
-                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">🎁 স্মার্টফোন অফার ও সময়সীমা</span>
+                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">🎁 অফার তালিকা ও সময়সীমা</span>
                     <h2 id="lottery-page-heading" class="text-3xl font-extrabold text-white">স্মার্টফোন মেগা অফার তালিকা ও টাইমার</h2>
-                    <p class="text-gray-400 text-sm">কোর্স শেষ বা রেফারেলের মাধ্যমে ৫৯০০+ পয়েন্ট অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে অফার টিকিট বা এন্ট্রি পাবেন।</p>
+                    <p class="text-gray-400 text-sm">কোর্স শেষ বা রেফারেলের মাধ্যমে ৫৯০০+ পয়েন্ট অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে অফার এন্ট্রি পাবেন।</p>
                 </div>
                 <div id="lottery-content-wrapper" class="max-w-4xl mx-auto space-y-6"></div>
             </div>
@@ -373,19 +373,21 @@
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-gray-800 pb-4 gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-sftPink"></i> এডমিন কন্ট্রোল প্যানেল</h2>
-                    <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, লেসন, মোটিভেশন ও অফার সেটিংস</p>
+                    <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন, মোটিভেশন ও অফার সেটিংস</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-3 py-2 rounded-lg bg-sftPink text-white text-xs font-bold shadow-neonPink">ইউজারবৃন্দ</button>
+                    <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-3 py-2 rounded-lg bg-sftPink text-white text-xs font-bold shadow-neonPink">ইউজারবৃন্দ ও এক্সপি</button>
+                    <button onclick="switchAdminTab('referrals')" id="admin-tab-referrals" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">রেফারেল হিস্ট্রি</button>
                     <button onclick="switchAdminTab('motivation')" id="admin-tab-motivation" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">মোটিভেশন</button>
                     <button onclick="switchAdminTab('lessons')" id="admin-tab-lessons" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">লেসন এডিটর</button>
-                    <button onclick="switchAdminTab('lottery')" id="admin-tab-lottery" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">লটারি এডিটর</button>
+                    <button onclick="switchAdminTab('lottery')" id="admin-tab-lottery" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">অফার এডিটর</button>
                 </div>
             </div>
 
+            <!-- ইউজার লিস্ট ও এক্সপি ম্যানেজমেন্ট ট্যাব -->
             <div id="admin-sec-users" class="glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-white">ইউজার তালিকা ও সম্পূর্ণ তথ্য (এডমিন কন্ট্রোল)</h3>
+                    <h3 class="text-lg font-bold text-white">ইউজার তালিকা, নাম, ইমেইল ও এক্সপি (XP) কন্ট্রোল</h3>
                     <span class="text-xs text-sftGreen font-bold bg-sftGreen/10 px-3 py-1 rounded-full border border-sftGreen/30" id="admin-user-count">ইউজার সংখ্যা: 0</span>
                 </div>
                 <div class="overflow-x-auto">
@@ -395,12 +397,35 @@
                                 <th class="p-3">ছবি</th>
                                 <th class="p-3">নাম</th>
                                 <th class="p-3">ইমেইল</th>
-                                <th class="p-3 text-center">পয়েন্ট (XP)</th>
-                                <th class="p-3 text-center">সম্পন্ন দিন</th>
-                                <th class="p-3 text-center">অ্যাকশন (এডিট/ডিলিট/ওয়ার্নিং)</th>
+                                <th class="p-3 text-center">বর্তমান পয়েন্ট (XP)</th>
+                                <th class="p-3 text-center">অফার এন্ট্রি</th>
+                                <th class="p-3 text-center">অ্যাকশন (এডিট/পয়েন্ট যোগ/ডিলিট)</th>
                             </tr>
                         </thead>
                         <tbody id="admin-users-table-body" class="divide-y divide-gray-800"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- নতুন রেফারেল হিস্ট্রি ট্যাব -->
+            <div id="admin-sec-referrals" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">রেফারেল ট্র্যাকিং ও হিস্ট্রি</h3>
+                        <p class="text-xs text-gray-400">কার মাধ্যমে কে সাইন-আপ করেছে তার বিস্তারিত তালিকা</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-gray-900 text-gray-400 text-xs uppercase border-b border-gray-800">
+                                <th class="p-3">রেফারকারী (যার লিংকে এসেছে)</th>
+                                <th class="p-3">যে ইউজার নতুন একাউন্ট খুলেছে</th>
+                                <th class="p-3">রেজিস্ট্রেশনের সময়</th>
+                                <th class="p-3 text-center">বোনাস স্ট্যাটাস</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-referrals-table-body" class="divide-y divide-gray-800"></tbody>
                     </table>
                 </div>
             </div>
@@ -443,7 +468,7 @@
                         <div><label class="block text-xs font-semibold text-gray-400 mb-1">শুরুর তারিখ</label><input type="datetime-local" id="admin-lottery-start" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required></div>
                         <div><label class="block text-xs font-semibold text-gray-400 mb-1">শেষের তারিখ</label><input type="datetime-local" id="admin-lottery-end" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required></div>
                     </div>
-                    <div><label class="block text-xs font-semibold text-gray-400 mb-1">লাকি ড্র ঘোষণার তারিখ</label><input type="datetime-local" id="admin-lottery-draw" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-400 mb-1">অফার ড্র ঘোষণার তারিখ</label><input type="datetime-local" id="admin-lottery-draw" class="w-full p-3 bg-gray-950 border border-gray-700 rounded-xl text-white text-sm" required></div>
                     <div class="pt-2"><button type="submit" class="px-6 py-3 bg-sftGreen text-gray-950 font-bold rounded-xl shadow-neonGreen">সেটিংস সেভ করুন</button></div>
                 </form>
 
@@ -480,7 +505,6 @@
                 <h3 id="auth-modal-title" class="text-2xl font-bold text-white">লগইন করুন</h3>
             </div>
             
-            <!-- লগইন ফর্ম -->
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label>
@@ -500,7 +524,6 @@
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">অ্যাকাউন্ট নেই? </span><button type="button" onclick="switchAuthMode('signup')" class="text-xs text-sftGreen font-bold hover:underline">সাইন আপ করুন</button></div>
             </form>
             
-            <!-- সাইন আপ ফর্ম -->
             <div id="signup-form" class="space-y-4 hidden">
                 <input type="hidden" id="signup-ref-code">
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">আপনার নাম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="আপনার নাম লিখুন"></div>
@@ -521,16 +544,16 @@
     <div id="admin-user-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden p-4">
         <div class="relative w-full max-w-md glassmorphism rounded-3xl p-6 border border-gray-700 shadow-2xl space-y-4">
             <button onclick="closeAdminUserModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-xl font-bold text-white mb-1">ইউজার ম্যানেজমেন্ট ও ওয়ার্নিং</h3>
+            <h3 class="text-xl font-bold text-white mb-1">ইউজার এক্সপি ও তথ্য এডিট করুন</h3>
             <form id="admin-user-edit-form" onsubmit="handleAdminSaveUser(event)" class="space-y-3 pt-2">
                 <input type="hidden" id="admin-edit-userid">
                 <div><label class="text-xs text-gray-400">নাম</label><input type="text" id="admin-edit-username" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
                 <div><label class="text-xs text-gray-400">ইমেইল</label><input type="email" id="admin-edit-email" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
-                <div><label class="text-xs text-gray-400">পয়েন্ট (XP)</label><input type="number" id="admin-edit-points" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-amber-400 font-bold text-sm"></div>
+                <div><label class="text-xs text-amber-400 font-bold">পয়েন্ট (XP)</label><input type="number" id="admin-edit-points" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-amber-400 font-bold text-sm"></div>
                 <div><label class="text-xs text-sftPink font-bold">ইউজারকে ওয়ার্নিং বা নোটিশ পাঠান</label><textarea id="admin-edit-warning" rows="2" class="w-full p-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-xs" placeholder="এখানে ওয়ার্নিং মেসেজ লিখুন..."></textarea></div>
                 <div class="pt-2 flex justify-end space-x-2">
                     <button type="button" onclick="closeAdminUserModal()" class="px-4 py-2 bg-gray-800 text-xs rounded-xl">বাতিল</button>
-                    <button type="submit" class="px-5 py-2 bg-sftGreen text-gray-950 font-bold text-xs rounded-xl">সেভ ও সেন্ড</button>
+                    <button type="submit" class="px-5 py-2 bg-sftGreen text-gray-950 font-bold text-xs rounded-xl">সেভ করুন</button>
                 </div>
             </form>
         </div>
@@ -576,7 +599,7 @@
             const wordBank = [
                 ["ইনতা (তুমি)", "আনা (আমি)", "ফি (আছে)", "মাফিশ (নাই)", "জাইন (ভালো)", "শুকরান (ধন্যবাদ)", "কাম (কত)", "হাদা (এটা)", "ওয়েন (কোথায়)", "রুহ (যাওয়া)"],
                 ["আকেল (খাবার)", "মোয়া (পানি)", "শাই (চা)", "সুফ (দেখা)", "জীব (দেওয়া)", "শুগোল (কাজ)", "সাদিক (বন্ধু)", "কাফিল (মালিক)", "ফালুস (টাকা)", "বুকরা (আগামীকাল)"],
-                ["مبتدئ (মুবতাদিয়া - নতুন)", "قديم (কদিম - পুরোনো)", "كبیر (কবির - বড়)", "صغیر (সগির - ছোট)", "حار (হার - গরম)", "بارد (বারিদ - ঠান্ডা)", "جميل (জামিল - সুন্দর)", "كويس (কোয়েস - ভালো)", "مترو (মেট্রো)", "سريع (সরিয়া - দ্রুত)"],
+                ["مبتدئ (মুবতাদিয়া - নতুন)", "قديم (কদিম - পুরোনো)", "كبیر (কবির - বড়)", "صغیر (সগির - ছোট)", "حار (হার - গরম)", "بارد (বারিদ - ঠান্ডা)", "جميل (জামিল - সুন্দর)", "كويس (কোয়েس - ভালো)", "مترو (মেট্রো)", "سريع (সরিয়া - দ্রুত)"],
                 ["سیارة (সাইয়ারা - গাড়ি)", "طريق (তারিক - রাস্তা)", "مطار (মাত্তার - বিমানবন্দর)", "تذكرة (তাজকিরা - টিকেট)", "جواز (জাওয়াজ - পাসপোর্ট)", "مفتاح (মিফতাহ - চাবি)", "باب (বাব - দরজা)", "غرفة (গুরফা - রুম)", "سرير (সারির - খাট)", "مكيف (মুকাইফ - এসি)"]
             ];
             
@@ -595,21 +618,15 @@
                     const parts = item.split(" (");
                     return { w: parts[0], m: parts[1] ? parts[1].replace(")", "") : "" };
                 });
-
                 const formattedSentences = sentenceBank.map(s => ({ s: s[0], m: s[1] }));
-
-                lessons[day] = { 
-                    day, 
-                    title: `দিন ${day}: আঞ্চলিক আরবি কথোপকথন ও শব্দভাণ্ডার`, 
-                    words: formattedWords, 
-                    sentences: formattedSentences 
-                };
+                lessons[day] = { day, title: `দিন ${day}: আঞ্চলিক আরবি কথোপকথন ও শব্দভাণ্ডার`, words: formattedWords, sentences: formattedSentences };
             }
             return lessons;
         }
 
         let currentUser = null;
         let allUsersCache = [];
+        let allReferralsCache = [];
         let activePage = 'home';
         let activeLessonDay = 1;
         let currentLessonTab = 'words';
@@ -651,6 +668,18 @@
                     onValue(ref(db, 'settings/lottery'), (snap) => { if (snap.exists()) lotterySettings = snap.val(); });
                     onValue(ref(db, 'settings/winner'), (snap) => { luckyWinner = snap.val() || null; });
 
+                    // রেফারেল হিস্ট্রি রিয়েলটাইম লোড
+                    onValue(ref(db, 'referrals_history'), (snapshot) => {
+                        allReferralsCache = [];
+                        if (snapshot.exists()) {
+                            snapshot.forEach((childSnap) => {
+                                allReferralsCache.push({ id: childSnap.key, ...childSnap.val() });
+                            });
+                        }
+                        if (activePage === 'admin') renderAdminReferralsTable();
+                    });
+
+                    // ইউজার ডাটা রিয়েলটাইম লোড
                     onValue(ref(db, 'users'), (snapshot) => {
                         allUsersCache = [];
                         if (snapshot.exists()) {
@@ -678,6 +707,7 @@
                         if (activePage === 'leaderboard') renderLeaderboardPage();
                         if (activePage === 'home') renderHomePage();
                         if (activePage === 'admin') renderAdminUsersTable();
+                        if (activePage === 'lottery') renderLotteryPage();
                     });
 
                     onAuthStateChanged(auth, async (user) => {
@@ -732,7 +762,7 @@
 
         function updateHeaderNav() {
             const container = document.getElementById('nav-auth-controls');
-            document.getElementById('nav-lottery-label').textContent = lotterySettings.badgeText ? lotterySettings.badgeText.split(" ")[0] + " লটারি" : "মেগা লটারি";
+            document.getElementById('nav-lottery-label').textContent = lotterySettings.badgeText ? lotterySettings.badgeText.split(" ")[0] + " অফার" : "মেগা অফার";
 
             if (currentUser) {
                 container.innerHTML = `
@@ -758,7 +788,7 @@
             if (!lotterySettings.end) return;
             const distance = new Date(lotterySettings.end).getTime() - new Date().getTime();
             const badge = document.getElementById('home-timer-badge');
-            if (distance < 0) { if (badge) badge.innerHTML = "🔴 লটারির সময় শেষ!"; return; }
+            if (distance < 0) { if (badge) badge.innerHTML = "🔴 অফারের সময় শেষ!"; return; }
             const d = Math.floor(distance / (1000 * 60 * 60 * 24)), h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), s = Math.floor((distance % (1000 * 60)) / 1000);
             if (badge) badge.innerHTML = `⏳ সময় বাকি: ${d} দিন ${h} ঘণ্টা ${m} মিনিট ${s} সেকেন্ড`;
         }
@@ -1118,6 +1148,8 @@
         function renderLotteryPage() {
             document.getElementById('lottery-page-heading').textContent = lotterySettings.heading;
             let lotteryEntries = [];
+            
+            // প্রতিটি ৫৯০০ পয়েন্টের জন্য অফার লিস্টে ১টি করে টিকিট হিসাব করা
             allUsersCache.forEach(u => {
                 const pts = u.points || 0;
                 const entries = Math.floor(pts / 5900);
@@ -1130,12 +1162,12 @@
                 <div class="glassmorphism p-6 rounded-2xl border border-amber-500/40 text-center space-y-3 bg-gradient-to-r from-amber-950/40 via-gray-900 to-amber-950/40">
                     <h3 class="text-xl font-bold text-amber-400"><i class="fa-solid fa-clock"></i> ${lotterySettings.badgeText}</h3>
                 </div>
-                ${luckyWinner ? `<div class="glassmorphism p-6 rounded-2xl border-2 border-amber-500 shadow-goldGlow text-center space-y-2"><h3 class="text-2xl font-black text-amber-300">🎉 স্মার্টফোন বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)</h3></div>` : ''}
+                ${luckyWinner ? `<div class="glassmorphism p-6 rounded-2xl border-2 border-amber-500 shadow-goldGlow text-center space-y-2"><h3 class="text-2xl font-black text-amber-300">🎉 অফার বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)</h3></div>` : ''}
                 <div class="glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
                     <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-ticket text-amber-400"></i> স্মার্টফোন অফার যোগ্য তালিকা (মোট এন্ট্রি: ${lotteryEntries.length} টি)
+                        <i class="fa-solid fa-ticket text-amber-400"></i> অফার যোগ্য তালিকা (মোট এন্ট্রি: ${lotteryEntries.length} টি)
                     </h3>
-                    <p class="text-xs text-gray-400">প্রতি ৫৯০০ পয়েন্টের জন্য অফার লিস্টে ১টি করে এক্সট্রা টিকিট/এন্ট্রি যোগ হয়।</p>
+                    <p class="text-xs text-gray-400">প্রতি ৫৯০০ পয়েন্ট অর্জন করলে অফার লিস্টে স্বয়ংক্রিয়ভাবে ১টি করে এন্ট্রি যুক্ত হয়।</p>
                     ${lotteryEntries.length === 0 ? '<p class="text-sm text-gray-400 text-center py-4">এখনও কেউ ৫৯০০+ পয়েন্ট অর্জন করেননি।</p>' : 
                       lotteryEntries.map((e, idx) => `
                         <div class="flex justify-between items-center p-3 rounded-xl bg-gray-900 border border-gray-800 text-sm">
@@ -1144,7 +1176,7 @@
                                 <img src="${e.user.avatar}" class="w-8 h-8 rounded-full">
                                 <div>
                                     <span class="font-bold text-white">${e.user.username}</span>
-                                    <span class="text-[10px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/30 ml-2">এন্ট্রি ${e.ticketNum}/${e.totalTickets}</span>
+                                    <span class="text-[10px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/30 ml-2">অফার এন্ট্রি ${e.ticketNum}/${e.totalTickets}</span>
                                 </div>
                             </div>
                             <span class="text-amber-400 font-bold">${e.user.points} XP</span>
@@ -1179,7 +1211,6 @@
             }
         }
 
-        // লগইন ফাংশন (ভুল পাসওয়ার্ড মেসেজ ও লোডিং প্রোগ্রেস সহ)
         async function handleLogin(e) {
             e.preventDefault();
             const loginEmail = document.getElementById('login-identifier').value.trim();
@@ -1190,7 +1221,6 @@
                 return;
             }
 
-            // লোডিং প্রোগ্রেস চালু করা
             const submitBtn = document.getElementById('login-submit-btn');
             const btnText = document.getElementById('login-btn-text');
             const spinner = document.getElementById('login-spinner');
@@ -1205,38 +1235,25 @@
                 await signInWithEmailAndPassword(auth, loginEmail, password);
                 closeAuthModal();
                 showToast("সফলভাবে লগইন হয়েছে!", "success");
-                
-                // ইনপুট ক্লিয়ার
                 document.getElementById('login-identifier').value = '';
                 document.getElementById('login-password').value = '';
             } catch (err) {
-                console.error("Firebase Login Error Code:", err.code);
                 let errorMsg = "লগইন ব্যর্থ হয়েছে।";
-
-                if (
-                    err.code === 'auth/wrong-password' || 
-                    err.code === 'auth/invalid-credential' || 
-                    err.code === 'auth/invalid-login-credentials'
-                ) {
-                    errorMsg = "ভুল পাসওয়ার্ড! দয়া করে সঠিক পাসওয়ার্ড দিয়ে চেষ্টা করুন।";
+                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials') {
+                    errorMsg = "ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।";
                 } else if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-email') {
-                    errorMsg = "এই ইমেইলটি সঠিক নয় অথবা খুঁজে পাওয়া যায়নি।";
-                } else if (err.code === 'auth/too-many-requests') {
-                    errorMsg = "অতিরিক্ত ভুল চেষ্টার কারণে অ্যাকাউন্ট সাময়িকভাবে লক করা হয়েছে।";
+                    errorMsg = "এই ইমেইলটি পাওয়া যায়নি।";
                 } else {
                     errorMsg = "ত্রুটি: " + err.message;
                 }
-
                 showToast(errorMsg, "error");
             } finally {
-                // লোডিং বন্ধ করা
                 submitBtn.disabled = false;
                 btnText.textContent = "লগইন করুন";
                 spinner.classList.add('hidden');
             }
         }
 
-        // সাইন আপ ফাংশন
         async function handleSignup(e) {
             if (e) e.preventDefault();
             
@@ -1246,7 +1263,7 @@
             const refCode = document.getElementById('signup-ref-code').value.trim();
 
             if (!username || !email || !password) {
-                showToast("দয়া করে সব ফিল্ড সঠিকভাবে পূরণ করুন!", "error");
+                showToast("দয়া করে সব ফিল্ড পূরণ করুন!", "error");
                 return;
             }
             if (password.length < 6) {
@@ -1262,11 +1279,34 @@
             btnText.textContent = "অ্যাকাউন্ট তৈরি হচ্ছে...";
             spinner.classList.remove('hidden');
 
-            const { auth, db, createUserWithEmailAndPassword, ref, set, get, update } = window.firebaseApp;
+            const { auth, db, createUserWithEmailAndPassword, ref, set, get, update, push } = window.firebaseApp;
 
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, password);
                 const newUserId = res.user.uid;
+
+                let referrerUsername = "সরাসরি (লিংক ছাড়া)";
+                let referrerId = "";
+
+                // যদি রেফারেল কোড থাকে
+                if (refCode && refCode !== newUserId) {
+                    const referrerRef = ref(db, 'users/' + refCode);
+                    const referrerSnap = await get(referrerRef);
+                    if (referrerSnap.exists()) {
+                        const referrerData = referrerSnap.val();
+                        referrerId = refCode;
+                        referrerUsername = referrerData.username || "অজানা ইউজার";
+
+                        const currentPoints = Number(referrerData.points) || 0;
+                        const currentRefs = Number(referrerData.referralsCount) || 0;
+
+                        // রেফারারকে স্বয়ংক্রিয়ভাবে ৫৯০০ পয়েন্ট এবং কাউন্ট বাড়ানো
+                        await update(referrerRef, {
+                            points: currentPoints + 5900,
+                            referralsCount: currentRefs + 1
+                        });
+                    }
+                }
 
                 const newUser = {
                     id: newUserId,
@@ -1282,24 +1322,18 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                if (refCode && refCode !== newUserId) {
-                    const referrerRef = ref(db, 'users/' + refCode);
-                    const referrerSnap = await get(referrerRef);
-                    if (referrerSnap.exists()) {
-                        const referrerData = referrerSnap.val();
-                        const currentPoints = Number(referrerData.points) || 0;
-                        const currentRefs = Number(referrerData.referralsCount) || 0;
-
-                        await update(referrerRef, {
-                            points: currentPoints + 5900,
-                            referralsCount: currentRefs + 1
-                        });
-                    }
-                }
+                // রেফারেল হিস্ট্রি ডাটাবেসে সেভ করা যাতে এডমিন দেখতে পায়
+                await push(ref(db, 'referrals_history'), {
+                    referrerId: referrerId,
+                    referrerName: referrerUsername,
+                    newUserId: newUserId,
+                    newUserName: username,
+                    newUserEmail: email,
+                    timestamp: new Date().toISOString()
+                });
 
                 currentUser = newUser;
                 showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
-                
                 closeAuthModal();
                 
                 document.getElementById('signup-username').value = '';
@@ -1308,10 +1342,7 @@
 
                 navigateTo('routine');
             } catch (err) {
-                console.error("Signup Error:", err);
-                let errMsg = err.message;
-                if (err.code === 'auth/email-already-in-use') errMsg = "এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে।";
-                showToast("সাইনআপ ব্যর্থ: " + errMsg, "error");
+                showToast("সাইনআপ ব্যর্থ: " + err.message, "error");
             } finally {
                 submitBtn.disabled = false;
                 btnText.textContent = "অ্যাকাউন্ট তৈরি করুন";
@@ -1374,7 +1405,7 @@
                     await updatePassword(auth.currentUser, newPwd);
                 }
 
-                showToast("প্রোফাইল সফলভাবে আপডেট হয়েছে!", "success");
+                showToast("প্রোফাইল আপডেট হয়েছে!", "success");
                 navigateTo('profile');
             } catch (err) {
                 showToast("আপডেট ব্যর্থ: " + err.message, "error");
@@ -1384,6 +1415,7 @@
         function renderAdminPage() {
             if (!currentUser || !currentUser.isAdmin) { navigateTo('home'); return; }
             renderAdminUsersTable();
+            renderAdminReferralsTable();
             document.getElementById('admin-motivation-input').value = motivationalQuote;
             setupAdminLessonSelect();
 
@@ -1397,13 +1429,15 @@
             const selectEl = document.getElementById('admin-manual-winner-select');
             selectEl.innerHTML = allUsersCache.length === 0 ? '<option value="">ইউজার নেই</option>' : allUsersCache.map(u => `<option value="${u.id}">${u.username} (${u.points || 0} XP)</option>`).join('');
 
-            if (luckyWinner) document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 লটারি বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)`;
+            if (luckyWinner) document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 অফার বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)`;
         }
 
         function switchAdminTab(sec) {
-            ['users', 'motivation', 'lessons', 'lottery'].forEach(s => {
-                document.getElementById(`admin-sec-${s}`).classList.toggle('hidden', s !== sec);
-                document.getElementById(`admin-tab-${s}`).className = `px-3 py-2 rounded-lg text-xs font-bold ${s === sec ? 'bg-sftPink text-white shadow-neonPink' : 'bg-gray-800 text-gray-300'}`;
+            ['users', 'referrals', 'motivation', 'lessons', 'lottery'].forEach(s => {
+                const secEl = document.getElementById(`admin-sec-${s}`);
+                const tabEl = document.getElementById(`admin-tab-${s}`);
+                if (secEl) secEl.classList.toggle('hidden', s !== sec);
+                if (tabEl) tabEl.className = `px-3 py-2 rounded-lg text-xs font-bold ${s === sec ? 'bg-sftPink text-white shadow-neonPink' : 'bg-gray-800 text-gray-300'}`;
             });
         }
 
@@ -1419,22 +1453,44 @@
                 draw: document.getElementById('admin-lottery-draw').value
             };
             await set(ref(db, 'settings/lottery'), lotterySettings);
-            showToast("হোম ব্যানার ও লটারি সেটিংস সফলভাবে আপডেট হয়েছে!", "success");
+            showToast("অফার সেটিংস সফলভাবে আপডেট হয়েছে!", "success");
         }
 
         function renderAdminUsersTable() {
             document.getElementById('admin-user-count').textContent = `ইউজার সংখ্যা: ${allUsersCache.length}`;
-            document.getElementById('admin-users-table-body').innerHTML = allUsersCache.map(u => `
+            document.getElementById('admin-users-table-body').innerHTML = allUsersCache.map(u => {
+                const points = Number(u.points) || 0;
+                const entries = Math.floor(points / 5900);
+                return `
+                    <tr class="hover:bg-gray-900/40">
+                        <td class="p-3"><img src="${u.avatar}" class="w-8 h-8 rounded-full"></td>
+                        <td class="p-3 font-bold text-white">${u.username} ${u.isAdmin ? '(Admin)' : ''}</td>
+                        <td class="p-3 text-gray-300">${u.email}</td>
+                        <td class="p-3 text-center text-amber-400 font-bold">${points} XP</td>
+                        <td class="p-3 text-center"><span class="bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-500/30">${entries} টি</span></td>
+                        <td class="p-3 text-center space-x-1">
+                            <button onclick="openAdminUserEditModal('${u.id}')" class="px-3 py-1.5 bg-sftBlue/20 text-sftBlue text-xs rounded-xl font-bold hover:bg-sftBlue/30">এডিট/পয়েন্ট</button>
+                            <button onclick="handleAdminDeleteUser('${u.id}')" class="px-3 py-1.5 bg-sftPink/20 text-sftPink text-xs rounded-xl font-bold hover:bg-sftPink/30">ডিলিট</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // নতুন রেফারেল হিস্ট্রি টেবিল রেন্ডার ফাংশন
+        function renderAdminReferralsTable() {
+            const tbody = document.getElementById('admin-referrals-table-body');
+            if (!tbody) return;
+            if (allReferralsCache.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">এখনও কোনো রেফারেল বা নতুন জয়েনিং রেকর্ড নেই।</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = allReferralsCache.map(r => `
                 <tr class="hover:bg-gray-900/40">
-                    <td class="p-3"><img src="${u.avatar}" class="w-8 h-8 rounded-full"></td>
-                    <td class="p-3 font-bold text-white">${u.username} ${u.isAdmin ? '(Admin)' : ''}</td>
-                    <td class="p-3 text-gray-300">${u.email}</td>
-                    <td class="p-3 text-center text-amber-400 font-bold">${u.points || 0} XP</td>
-                    <td class="p-3 text-center text-gray-300">${u.completedDays ? u.completedDays.length : 0} দিন</td>
-                    <td class="p-3 text-center space-x-1">
-                        <button onclick="openAdminUserEditModal('${u.id}')" class="px-2 py-1 bg-sftBlue/20 text-sftBlue text-xs rounded font-bold">এডিট/ওয়ার্নিং</button>
-                        <button onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 bg-sftPink/20 text-sftPink text-xs rounded font-bold">ডিলিট</button>
-                    </td>
+                    <td class="p-3 font-bold text-amber-400">${r.referrerName || 'সরাসরি (লিংক ছাড়া)'}</td>
+                    <td class="p-3 text-white font-semibold">${r.newUserName || 'নাম নেই'} <span class="text-xs text-gray-400 block">${r.newUserEmail || ''}</span></td>
+                    <td class="p-3 text-gray-300 text-xs">${new Date(r.timestamp).toLocaleString('bn-BD')}</td>
+                    <td class="p-3 text-center"><span class="bg-sftGreen/10 text-sftGreen px-2.5 py-1 rounded-full text-xs font-bold border border-sftGreen/30">+৫৯০০ XP বোনাসযুক্ত</span></td>
                 </tr>
             `).join('');
         }
@@ -1464,15 +1520,15 @@
             };
             await update(ref(db, 'users/' + id), updatedData);
             closeAdminUserModal();
-            showToast("ইউজার তথ্য এবং ওয়ার্নিং সফলভাবে আপডেট হয়েছে!", "success");
+            showToast("ইউজারের এক্সপি ও তথ্য সফলভাবে আপডেট হয়েছে!", "success");
         }
 
         async function handleAdminDeleteUser(id) {
             if (currentUser && currentUser.id === id) {
-                showToast("আপনি আপনার নিজের অ্যাকাউন্ট ডিলিট করতে পারবেন না!", "error");
+                showToast("আপনি নিজের অ্যাকাউন্ট ডিলিট করতে পারবেন না!", "error");
                 return;
             }
-            if (confirm("নিশ্চিতভাবে এই অ্যাকাউন্টটি ডাটাবেস থেকে ডিলিট করতে চান?")) {
+            if (confirm("নিশ্চিতভাবে এই অ্যাকাউন্টটি ডিলিট করতে চান?")) {
                 const { db, ref, remove } = window.firebaseApp;
                 try {
                     await remove(ref(db, 'users/' + id));
@@ -1535,11 +1591,11 @@
                 const entries = Math.floor(pts / 5900);
                 for (let i = 1; i <= entries; i++) lotteryEntries.push(u);
             });
-            if (lotteryEntries.length === 0) { showToast("যোগ্য কোনো এন্ট্রি নেই!", "error"); return; }
+            if (lotteryEntries.length === 0) { showToast("যোগ্য কোনো অফার এন্ট্রি নেই!", "error"); return; }
             const winner = lotteryEntries[Math.floor(Math.random() * lotteryEntries.length)];
             luckyWinner = winner;
             await set(ref(db, 'settings/winner'), luckyWinner);
-            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 লটারি বিজয়ী: ${winner.username} (${winner.points} XP)`;
+            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 অফার বিজয়ী: ${winner.username} (${winner.points} XP)`;
             showToast("র্যান্ডম ড্র এর মাধ্যমে বিজয়ী নির্বাচন করা হয়েছে!", "success");
         }
 
@@ -1550,8 +1606,8 @@
             const { db, ref, set } = window.firebaseApp;
             luckyWinner = user;
             await set(ref(db, 'settings/winner'), luckyWinner);
-            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 লটারি বিজয়ী: ${user.username} (${user.points} XP)`;
-            showToast(`${user.username}-কে লটারি বিজয়ী হিসেবে সিলেক্ট করা হয়েছে!`, "success");
+            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 অফার বিজয়ী: ${user.username} (${user.points} XP)`;
+            showToast(`${user.username}-কে অফার বিজয়ী হিসেবে সিলেক্ট করা হয়েছে!`, "success");
         }
     </script>
 </body>
