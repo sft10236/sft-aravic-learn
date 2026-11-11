@@ -360,9 +360,8 @@
                             <button type="button" onclick="randomizeAvatar()" class="px-3 py-2 bg-gray-800 text-xs text-sftGreen rounded-lg border border-gray-700">র্যান্ডম</button>
                         </div>
                     </div>
-                    <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইউজারনেম</label><input type="text" id="profile-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-sftGreen focus:outline-none"></div>
+                    <div><label class="block text-xs font-semibold text-gray-400 mb-1">নাম</label><input type="text" id="profile-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-sftGreen focus:outline-none"></div>
                     <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label><input type="email" id="profile-email" disabled class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-gray-400 cursor-not-allowed"></div>
-                    <div><label class="block text-xs font-semibold text-gray-400 mb-1">মোবাইল নাম্বার</label><input type="tel" id="profile-phone" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-sftGreen focus:outline-none"></div>
                     <div><label class="block text-xs font-semibold text-gray-400 mb-1">নতুন পাসওয়ার্ড (ঐচ্ছিক)</label><input type="password" id="profile-password" placeholder="******" class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-sftGreen focus:outline-none"></div>
                     <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftGreen to-sftBlue text-gray-950 font-bold hover:shadow-neonGreen transition">তথ্য আপডেট করুন</button>
                 </form>
@@ -394,9 +393,8 @@
                         <thead>
                             <tr class="bg-gray-900 text-gray-400 text-xs uppercase border-b border-gray-800">
                                 <th class="p-3">ছবি</th>
-                                <th class="p-3">ইউজারনেম</th>
+                                <th class="p-3">নাম</th>
                                 <th class="p-3">ইমেইল</th>
-                                <th class="p-3">মোবাইল</th>
                                 <th class="p-3 text-center">পয়েন্ট (XP)</th>
                                 <th class="p-3 text-center">সম্পন্ন দিন</th>
                                 <th class="p-3 text-center">অ্যাকশন (এডিট/ডিলিট/ওয়ার্নিং)</th>
@@ -481,10 +479,12 @@
                 <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gray-900 border border-gray-700 mb-1"><span class="text-2xl font-black font-mono"><span class="text-sftPink">S</span><span class="text-sftGreen">F</span><span class="text-sftBlue">T</span></span></div>
                 <h3 id="auth-modal-title" class="text-2xl font-bold text-white">লগইন করুন</h3>
             </div>
+            
+            <!-- লগইন ফর্ম -->
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল, ইউজারনেম অথবা মোবাইল</label>
-                    <input type="text" id="login-identifier" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="ইমেইল / ইউজারনেম / ফোন">
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label>
+                    <input type="email" id="login-identifier" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com">
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
@@ -493,18 +493,27 @@
                     </div>
                     <input type="password" id="login-password" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm">
                 </div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftPink via-purple-600 to-sftBlue text-white font-bold shadow-neonPink">লগইন করুন</button>
+                <button type="submit" id="login-submit-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftPink via-purple-600 to-sftBlue text-white font-bold shadow-neonPink flex items-center justify-center space-x-2">
+                    <span id="login-btn-text">লগইন করুন</span>
+                    <i id="login-spinner" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+                </button>
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">অ্যাকাউন্ট নেই? </span><button type="button" onclick="switchAuthMode('signup')" class="text-xs text-sftGreen font-bold hover:underline">সাইন আপ করুন</button></div>
             </form>
-            <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4 hidden">
+            
+            <!-- সাইন আপ ফর্ম -->
+            <div id="signup-form" class="space-y-4 hidden">
                 <input type="hidden" id="signup-ref-code">
-                <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইউজারনেম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"></div>
-                <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল</label><input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"></div>
-                <div><label class="block text-xs font-semibold text-gray-400 mb-1">মোবাইল নাম্বার</label><input type="tel" id="signup-phone" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"></div>
+                <div><label class="block text-xs font-semibold text-gray-400 mb-1">আপনার নাম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="আপনার নাম লিখুন"></div>
+                <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label><input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com"></div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">পাসওয়ার্ড (কমপক্ষে ৬ ডিজিট)</label><input type="password" id="signup-password" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"></div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftGreen to-sftBlue text-gray-950 font-bold shadow-neonGreen">অ্যাকাউন্ট তৈরি করুন</button>
+                
+                <button type="button" id="signup-submit-btn" onclick="handleSignup(event)" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftGreen to-sftBlue text-gray-950 font-bold shadow-neonGreen cursor-pointer flex items-center justify-center space-x-2">
+                    <span id="signup-btn-text">অ্যাকাউন্ট তৈরি করুন</span>
+                    <i id="signup-spinner" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+                </button>
+                
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">ইতিমধ্যে অ্যাকাউন্ট আছে? </span><button type="button" onclick="switchAuthMode('login')" class="text-xs text-sftPink font-bold hover:underline">লগইন করুন</button></div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -515,9 +524,8 @@
             <h3 class="text-xl font-bold text-white mb-1">ইউজার ম্যানেজমেন্ট ও ওয়ার্নিং</h3>
             <form id="admin-user-edit-form" onsubmit="handleAdminSaveUser(event)" class="space-y-3 pt-2">
                 <input type="hidden" id="admin-edit-userid">
-                <div><label class="text-xs text-gray-400">ইউজারনেম</label><input type="text" id="admin-edit-username" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
+                <div><label class="text-xs text-gray-400">নাম</label><input type="text" id="admin-edit-username" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
                 <div><label class="text-xs text-gray-400">ইমেইল</label><input type="email" id="admin-edit-email" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
-                <div><label class="text-xs text-gray-400">ফোন</label><input type="text" id="admin-edit-phone" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
                 <div><label class="text-xs text-gray-400">পয়েন্ট (XP)</label><input type="number" id="admin-edit-points" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-amber-400 font-bold text-sm"></div>
                 <div><label class="text-xs text-sftPink font-bold">ইউজারকে ওয়ার্নিং বা নোটিশ পাঠান</label><textarea id="admin-edit-warning" rows="2" class="w-full p-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-xs" placeholder="এখানে ওয়ার্নিং মেসেজ লিখুন..."></textarea></div>
                 <div class="pt-2 flex justify-end space-x-2">
@@ -683,7 +691,6 @@
                                     id: user.uid,
                                     username: user.email.split('@')[0],
                                     email: user.email,
-                                    phone: 'N/A',
                                     avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${user.email}`,
                                     points: 0,
                                     completedDays: [],
@@ -1158,14 +1165,9 @@
         }
 
         async function handleForgotPassword() {
-            const identifier = document.getElementById('login-identifier').value.trim();
-            let email = identifier;
-            if (!identifier.includes('@')) {
-                const found = allUsersCache.find(u => u.username.toLowerCase() === identifier.toLowerCase() || u.phone === identifier);
-                if (found) email = found.email;
-            }
-            if (!email) {
-                showToast("পাসওয়ার্ড রিসেট করতে ইমেইল ফিল্ডে আপনার ইমেইল অথবা ইউজারনেম দিন!", "error");
+            const email = document.getElementById('login-identifier').value.trim();
+            if (!email || !email.includes('@')) {
+                showToast("পাসওয়ার্ড রিসেট করতে ইমেইল ফিল্ডে আপনার সঠিক জিমেইল দিন!", "error");
                 return;
             }
             const { auth, sendPasswordResetEmail } = window.firebaseApp;
@@ -1177,51 +1179,89 @@
             }
         }
 
+        // লগইন ফাংশন (ভুল পাসওয়ার্ড মেসেজ ও লোডিং প্রোগ্রেস সহ)
         async function handleLogin(e) {
             e.preventDefault();
-            const identifier = document.getElementById('login-identifier').value.trim();
+            const loginEmail = document.getElementById('login-identifier').value.trim();
             const password = document.getElementById('login-password').value.trim();
-            const { auth, signInWithEmailAndPassword } = window.firebaseApp;
 
-            let loginEmail = identifier;
-            if (!identifier.includes('@')) {
-                const found = allUsersCache.find(u => u.username.toLowerCase() === identifier.toLowerCase() || u.phone === identifier);
-                if (found) {
-                    loginEmail = found.email;
-                } else {
-                    showToast("এই ইউজারনেম বা মোবাইল নাম্বার দিয়ে কোনো অ্যাকাউন্ট রেজিস্টার করা নেই!", "error");
-                    return;
-                }
+            if (!loginEmail || !password) {
+                showToast("ইমেইল এবং পাসওয়ার্ড দিন!", "error");
+                return;
             }
+
+            // লোডিং প্রোগ্রেস চালু করা
+            const submitBtn = document.getElementById('login-submit-btn');
+            const btnText = document.getElementById('login-btn-text');
+            const spinner = document.getElementById('login-spinner');
+            
+            submitBtn.disabled = true;
+            btnText.textContent = "লগইন হচ্ছে...";
+            spinner.classList.remove('hidden');
+
+            const { auth, signInWithEmailAndPassword } = window.firebaseApp;
 
             try {
                 await signInWithEmailAndPassword(auth, loginEmail, password);
                 closeAuthModal();
                 showToast("সফলভাবে লগইন হয়েছে!", "success");
+                
+                // ইনপুট ক্লিয়ার
+                document.getElementById('login-identifier').value = '';
+                document.getElementById('login-password').value = '';
             } catch (err) {
                 console.error("Firebase Login Error Code:", err.code);
                 let errorMsg = "লগইন ব্যর্থ হয়েছে।";
-                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials') {
-                    errorMsg = "ভুল পাসওয়ার্ড! দয়া করে সঠিক পাসওয়ার্ড দিয়ে আবার চেষ্টা করুন।";
+
+                if (
+                    err.code === 'auth/wrong-password' || 
+                    err.code === 'auth/invalid-credential' || 
+                    err.code === 'auth/invalid-login-credentials'
+                ) {
+                    errorMsg = "ভুল পাসওয়ার্ড! দয়া করে সঠিক পাসওয়ার্ড দিয়ে চেষ্টা করুন।";
                 } else if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-email') {
-                    errorMsg = "এই ইমেইল বা ইউজার সঠিক নয়, খুঁজে পাওয়া যায়নি।";
+                    errorMsg = "এই ইমেইলটি সঠিক নয় অথবা খুঁজে পাওয়া যায়নি।";
                 } else if (err.code === 'auth/too-many-requests') {
                     errorMsg = "অতিরিক্ত ভুল চেষ্টার কারণে অ্যাকাউন্ট সাময়িকভাবে লক করা হয়েছে।";
                 } else {
                     errorMsg = "ত্রুটি: " + err.message;
                 }
+
                 showToast(errorMsg, "error");
+            } finally {
+                // লোডিং বন্ধ করা
+                submitBtn.disabled = false;
+                btnText.textContent = "লগইন করুন";
+                spinner.classList.add('hidden');
             }
         }
 
-        // FULLY FIXED SIGNUP & REFERRAL FUNCTION (Guaranteed Real-time Commission)
+        // সাইন আপ ফাংশন
         async function handleSignup(e) {
-            e.preventDefault();
+            if (e) e.preventDefault();
+            
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
-            const phone = document.getElementById('signup-phone').value.trim();
             const password = document.getElementById('signup-password').value.trim();
             const refCode = document.getElementById('signup-ref-code').value.trim();
+
+            if (!username || !email || !password) {
+                showToast("দয়া করে সব ফিল্ড সঠিকভাবে পূরণ করুন!", "error");
+                return;
+            }
+            if (password.length < 6) {
+                showToast("পাসওয়ার্ড কমপক্ষে ৬ ডিজিটের হতে হবে!", "error");
+                return;
+            }
+
+            const submitBtn = document.getElementById('signup-submit-btn');
+            const btnText = document.getElementById('signup-btn-text');
+            const spinner = document.getElementById('signup-spinner');
+            
+            submitBtn.disabled = true;
+            btnText.textContent = "অ্যাকাউন্ট তৈরি হচ্ছে...";
+            spinner.classList.remove('hidden');
+
             const { auth, db, createUserWithEmailAndPassword, ref, set, get, update } = window.firebaseApp;
 
             try {
@@ -1232,7 +1272,6 @@
                     id: newUserId,
                     username,
                     email,
-                    phone,
                     avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${username}`,
                     points: 0,
                     completedDays: [],
@@ -1243,7 +1282,6 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // FIXED & ROBUST REFERRAL COMMISSION LOGIC
                 if (refCode && refCode !== newUserId) {
                     const referrerRef = ref(db, 'users/' + refCode);
                     const referrerSnap = await get(referrerRef);
@@ -1256,19 +1294,28 @@
                             points: currentPoints + 5900,
                             referralsCount: currentRefs + 1
                         });
-                        console.log("Referral commission (+5900 XP) successfully added to referrer:", refCode);
-                    } else {
-                        console.warn("Referrer ID not found in database:", refCode);
                     }
                 }
 
                 currentUser = newUser;
-                closeAuthModal();
                 showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
+                
+                closeAuthModal();
+                
+                document.getElementById('signup-username').value = '';
+                document.getElementById('signup-email').value = '';
+                document.getElementById('signup-password').value = '';
+
                 navigateTo('routine');
             } catch (err) {
                 console.error("Signup Error:", err);
-                showToast("সাইনআপ ব্যর্থ: " + err.message, "error");
+                let errMsg = err.message;
+                if (err.code === 'auth/email-already-in-use') errMsg = "এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে।";
+                showToast("সাইনআপ ব্যর্থ: " + errMsg, "error");
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = "অ্যাকাউন্ট তৈরি করুন";
+                spinner.classList.add('hidden');
             }
         }
 
@@ -1284,7 +1331,6 @@
             if (!currentUser) return;
             document.getElementById('profile-username').value = currentUser.username || '';
             document.getElementById('profile-email').value = currentUser.email || '';
-            document.getElementById('profile-phone').value = currentUser.phone || '';
             document.getElementById('profile-avatar-preview').src = currentUser.avatar || '';
             document.getElementById('profile-avatar-input').value = currentUser.avatar || '';
 
@@ -1312,17 +1358,14 @@
             const { db, ref, update, auth, updatePassword } = window.firebaseApp;
 
             const newUsername = document.getElementById('profile-username').value.trim();
-            const newPhone = document.getElementById('profile-phone').value.trim();
             const newAvatar = document.getElementById('profile-avatar-input').value.trim() || currentUser.avatar;
 
             try {
                 currentUser.username = newUsername;
-                currentUser.phone = newPhone;
                 currentUser.avatar = newAvatar;
 
                 await update(ref(db, 'users/' + currentUser.id), {
                     username: newUsername,
-                    phone: newPhone,
                     avatar: newAvatar
                 });
 
@@ -1386,7 +1429,6 @@
                     <td class="p-3"><img src="${u.avatar}" class="w-8 h-8 rounded-full"></td>
                     <td class="p-3 font-bold text-white">${u.username} ${u.isAdmin ? '(Admin)' : ''}</td>
                     <td class="p-3 text-gray-300">${u.email}</td>
-                    <td class="p-3 text-gray-300">${u.phone}</td>
                     <td class="p-3 text-center text-amber-400 font-bold">${u.points || 0} XP</td>
                     <td class="p-3 text-center text-gray-300">${u.completedDays ? u.completedDays.length : 0} দিন</td>
                     <td class="p-3 text-center space-x-1">
@@ -1403,7 +1445,6 @@
             document.getElementById('admin-edit-userid').value = u.id;
             document.getElementById('admin-edit-username').value = u.username;
             document.getElementById('admin-edit-email').value = u.email;
-            document.getElementById('admin-edit-phone').value = u.phone;
             document.getElementById('admin-edit-points').value = u.points || 0;
             document.getElementById('admin-edit-warning').value = u.warningMessage || '';
             document.getElementById('admin-user-modal').classList.remove('hidden');
@@ -1418,7 +1459,6 @@
             const updatedData = {
                 username: document.getElementById('admin-edit-username').value,
                 email: document.getElementById('admin-edit-email').value,
-                phone: document.getElementById('admin-edit-phone').value,
                 points: parseInt(document.getElementById('admin-edit-points').value) || 0,
                 warningMessage: document.getElementById('admin-edit-warning').value.trim()
             };
@@ -1455,20 +1495,25 @@
 
         function setupAdminLessonSelect() {
             const select = document.getElementById('admin-day-select');
-            select.innerHTML = Array.from({length: 30}, (_, i) => `<option value="${i+1}">দিন ${i+1} সম্পাদনা</option>`).join('');
-            loadAdminLessonEdit(1);
+            if(select) {
+                select.innerHTML = Array.from({length: 30}, (_, i) => `<option value="${i+1}">দিন ${i+1} সম্পাদনা</option>`).join('');
+                loadAdminLessonEdit(1);
+            }
         }
 
         function loadAdminLessonEdit(day) {
             const lesson = appLessons[day] || { day, title: `দিন ${day}`, words: [], sentences: [] };
-            document.getElementById('admin-lesson-edit-area').innerHTML = `
-                <form onsubmit="saveAdminLesson(event, ${day})" class="space-y-4">
-                    <div><label class="block text-xs font-semibold text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-lesson-title" value="${lesson.title}" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm" required></div>
-                    <div><h4 class="text-xs font-bold text-sftGreen mb-2">১০টি শব্দভাণ্ডার</h4><div class="grid grid-cols-1 md:grid-cols-2 gap-2">${lesson.words.map((w, i) => `<div class="flex gap-1"><input type="text" value="${w.w}" class="admin-word-w w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"><input type="text" value="${w.m}" class="admin-word-m w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"></div>`).join('')}</div></div>
-                    <div><h4 class="text-xs font-bold text-sftPink mb-2">৫টি বাক্য শিক্ষা</h4><div class="space-y-2">${lesson.sentences.map((s, i) => `<div class="flex gap-1"><input type="text" value="${s.s}" class="admin-sent-s w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"><input type="text" value="${s.m}" class="admin-sent-m w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"></div>`).join('')}</div></div>
-                    <button type="submit" class="px-6 py-2.5 bg-sftGreen text-black font-bold rounded-xl text-xs">লেসন সেভ করুন</button>
-                </form>
-            `;
+            const editArea = document.getElementById('admin-lesson-edit-area');
+            if(editArea) {
+                editArea.innerHTML = `
+                    <form onsubmit="saveAdminLesson(event, ${day})" class="space-y-4">
+                        <div><label class="block text-xs font-semibold text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-lesson-title" value="${lesson.title}" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm" required></div>
+                        <div><h4 class="text-xs font-bold text-sftGreen mb-2">১০টি শব্দভাণ্ডার</h4><div class="grid grid-cols-1 md:grid-cols-2 gap-2">${lesson.words.map((w, i) => `<div class="flex gap-1"><input type="text" value="${w.w}" class="admin-word-w w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"><input type="text" value="${w.m}" class="admin-word-m w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"></div>`).join('')}</div></div>
+                        <div><h4 class="text-xs font-bold text-sftPink mb-2">৫টি বাক্য শিক্ষা</h4><div class="space-y-2">${lesson.sentences.map((s, i) => `<div class="flex gap-1"><input type="text" value="${s.s}" class="admin-sent-s w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"><input type="text" value="${s.m}" class="admin-sent-m w-1/2 p-2 bg-gray-950 border border-gray-700 rounded text-xs text-white"></div>`).join('')}</div></div>
+                        <button type="submit" class="px-6 py-2.5 bg-sftGreen text-black font-bold rounded-xl text-xs">লেসন সেভ করুন</button>
+                    </form>
+                `;
+            }
         }
 
         async function saveAdminLesson(e, day) {
