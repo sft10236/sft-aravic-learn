@@ -41,7 +41,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, updateEmail, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, update, child, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, get, update, child, remove, onValue, push, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBoR30B83sy_mINHYb2otjQerX-obg76x8",
@@ -58,7 +58,7 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        window.firebaseApp = { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, updateEmail, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail, ref, set, get, update, child, remove, onValue };
+        window.firebaseApp = { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, updateEmail, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail, ref, set, get, update, child, remove, onValue, push, query, orderByChild, equalTo };
     </script>
 
     <style>
@@ -131,7 +131,7 @@
     </header>
 
     <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8">
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 space-y-12">
 
         <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-out max-w-md bg-gray-900 border border-gray-700 text-white p-4 rounded-xl shadow-2xl flex items-center space-x-3 pointer-events-none">
             <div id="toast-icon" class="text-xl"></div>
@@ -139,7 +139,7 @@
         </div>
 
         <!-- PAGE: HOME -->
-        <section id="page-home" class="space-y-8 animate-fadeIn">
+        <section id="page-home" class="space-y-12 animate-fadeIn">
             <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 border border-amber-500/40 p-6 md:p-10 shadow-2xl">
                 <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-sftPink/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -left-10 -top-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -160,12 +160,12 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                         <div class="bg-black/40 p-4 rounded-xl border border-gray-800">
-                            <span class="text-xs text-gray-400 block">শব্দভাণ্ডার (৩০০ শব্দ)</span>
-                            <span class="text-xl font-bold text-sftGreen">৩,০০০ পয়েন্ট</span>
+                            <span class="text-xs text-gray-400 block">সাইন-আপ বোনাস</span>
+                            <span class="text-xl font-bold text-sftGreen">৩,০০০ পয়েন্ট ফ্রি!</span>
                         </div>
                         <div class="bg-black/40 p-4 rounded-xl border border-gray-800">
-                            <span class="text-xs text-gray-400 block">বাক্য শিক্ষা (১৫০ সেন্টেন্স)</span>
-                            <span class="text-xl font-bold text-sftPink">৩,০০০ পয়েন্ট</span>
+                            <span class="text-xs text-gray-400 block">রেফারেল বোনাস কমিশন</span>
+                            <span class="text-xl font-bold text-sftPink">৩,০০০ পয়েন্ট প্রতি রেফার</span>
                         </div>
                         <div class="bg-black/40 p-4 rounded-xl border border-gray-800">
                             <span class="text-xs text-gray-400 block">অফার যোগ্যতা</span>
@@ -201,6 +201,53 @@
                     <button onclick="navigateTo('leaderboard')" class="text-xs text-sftGreen hover:underline font-semibold">সবাইকে দেখুন &rarr;</button>
                 </div>
                 <div id="home-leaderboard-list" class="space-y-3"></div>
+            </div>
+
+            <!-- স্ট্যাটিক গাইডলাইন সেকশন (ফুটারের ঠিক উপরে) -->
+            <div class="glassmorphism rounded-3xl p-6 md:p-10 border border-gray-800 shadow-2xl space-y-8 bg-gradient-to-b from-gray-900/60 via-gray-950 to-gray-900/60">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="px-3 py-1 rounded-full bg-sftGreen/10 text-sftGreen text-xs font-bold border border-sftGreen/30 uppercase tracking-widest">ব্যবহার নির্দেশিকা</span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-white">ওয়েবসাইটটি যেভাবে ব্যবহার করবেন</h3>
+                    <p class="text-xs text-gray-400">খুব সহজেই কীভাবে অ্যাকাউন্ট তৈরি, লেসন সম্পন্ন এবং অফারে অংশ নেবেন তার নির্দেশিকা</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- ১ নম্বর গাইড -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-6 rounded-2xl space-y-3 relative overflow-hidden group hover:border-sftPink/50 transition">
+                        <div class="absolute top-0 right-0 p-4 text-3xl font-black text-gray-800 select-none pointer-events-none">#০১</div>
+                        <h4 class="text-lg font-bold text-sftPink flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> রেজিস্ট্রেশন ও লগইন প্রক্রিয়া</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            প্রথমে আপনার নাম, একটি ভ্যালিড জিমেইল এবং কমপক্ষে ৬ ডিজিটের পাসওয়ার্ড দিয়ে অ্যাকাউন্ট রেজিস্টার করুন। রেজিস্টার করার সাথে সাথেই বোনাস হিসেবে আপনার অ্যাকাউন্টে **৩০০০ পয়েন্ট** জমা হয়ে যাবে! আপনি চাইলে বন্ধু বা অন্য কারো রেফারেল কোড ব্যবহার করতে পারেন—এতে আপনিও যেমন অতিরিক্ত পয়েন্ট পাবেন, তেমনি রেফারকারীও **৩০০০ পয়েন্ট কমিশন** পাবে। তবে রেফার কোড ছাড়াও আপনি স্বাধীনভাবে অ্যাকাউন্ট খুলতে পারবেন।
+                        </p>
+                    </div>
+
+                    <!-- ২ নম্বর গাইড -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-6 rounded-2xl space-y-3 relative overflow-hidden group hover:border-sftGreen/50 transition">
+                        <div class="absolute top-0 right-0 p-4 text-3xl font-black text-gray-800 select-none pointer-events-none">#০২</div>
+                        <h4 class="text-lg font-bold text-sftGreen flex items-center gap-2"><i class="fa-solid fa-book-open"></i> লেসন ও কুইজ পড়ার নিয়ম</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            প্রতিটি লেসনে ১০টি করে আঞ্চলিক আরবি শব্দ এবং ৫টি করে সেন্টেন্স (বাক্য) দেওয়া থাকে। শব্দগুলোর কুইজে সঠিক উত্তর দিলে প্রতিটির জন্য ১০ পয়েন্ট করে মোট ১০০ পয়েন্ট অর্জন করতে পারবেন। এছাড়া বাক্যগুলোর কুইজে সঠিক উত্তর দিলে প্রতিটির জন্য ২০ পয়েন্ট করে অর্জিত হবে। নিয়মিত এভাবে লেসনগুলো শেষ করে আপনার পয়েন্ট বাড়িয়ে নিন।
+                        </p>
+                    </div>
+
+                    <!-- ৩ নম্বর গাইড -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-6 rounded-2xl space-y-3 relative overflow-hidden group hover:border-amber-400/50 transition">
+                        <div class="absolute top-0 right-0 p-4 text-3xl font-black text-gray-800 select-none pointer-events-none">#০৩</div>
+                        <h4 class="text-lg font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-award"></i> সার্টিফিকেট অর্জন</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            এভাবে ৩০টি লেসন সম্পূর্ণ শেষ করার পর আপনার জন্য অফিশিয়াল সার্টিফিকেট অপশনটি আনলক হবে। সার্টিফিকেটে কত পয়েন্ট অর্জন করেছেন এবং কোন প্ল্যাটফর্ম থেকে কোর্সটি সম্পন্ন করেছেন তা স্পষ্টভাবে উল্লেখ থাকবে। আপনার অর্জিত পয়েন্ট এবং লেভেল দেখেই মূলত আপনার পারফরম্যান্স গ্রেড নির্ধারিত হবে। ৩০ দিন শেষ হওয়ার পরেই আপনি সার্টিফিকেটটি ডাউনলোড করতে পারবেন।
+                        </p>
+                    </div>
+
+                    <!-- ৪ নম্বর গাইড -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-6 rounded-2xl space-y-3 relative overflow-hidden group hover:border-sftBlue/50 transition">
+                        <div class="absolute top-0 right-0 p-4 text-3xl font-black text-gray-800 select-none pointer-events-none">#০৪</div>
+                        <h4 class="text-lg font-bold text-sftBlue flex items-center gap-2"><i class="fa-solid fa-trophy"></i> লিডারবোর্ড ও মেগা অফার</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            লিডারবোর্ডে অংশগ্রহণ করতে হলে কমপক্ষে **৫৯০০+ পয়েন্ট** থাকতে হবে। যদি কারো পয়েন্ট ডাবল বা তার বেশি হয়, তবে লিডারবোর্ডে তার একাধিক এন্ট্রি বা নাম থাকতে পারে। পরবর্তীতে এই তালিকা থেকে লাকি ড্রয়ের মাধ্যমে বিজয়ী নির্বাচন করা হবে, যেখানে বিজয়ী জিতে নিতে পারেন আকর্ষণীয় **প্রিমিয়াম স্মার্টফোন**! এছাড়া ভবিষ্যতে আরও আকর্ষণীয় পুরস্কার যুক্ত করা হবে যা হোমপেজেই দেখতে পাবেন। এটি সাধারণ কোনো প্ল্যাটফর্ম নয়, বরং প্রবাসীদের জন্য অত্যন্ত চমৎকার ও গোছালো একটি আধুনিক শেখার প্ল্যাটফর্ম।
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -299,7 +346,7 @@
                             <tr class="bg-gray-900/90 text-gray-400 text-xs uppercase tracking-wider border-b border-gray-800">
                                 <th class="p-4 text-center">র‍্যাংক</th>
                                 <th class="p-4">শিক্ষার্থী</th>
-                                <th class="p-4 text-center">রেফার সংখ্যা</th>
+                                <th class="p-4 text-center">রেফারেল আইডি</th>
                                 <th class="p-4 text-right">মোট পয়েন্ট (XP)</th>
                             </tr>
                         </thead>
@@ -335,18 +382,14 @@
             <!-- REFERRAL BOX -->
             <div class="glassmorphism rounded-2xl p-6 border border-amber-500/40 bg-gradient-to-r from-amber-950/30 via-gray-900 to-amber-950/30 space-y-3">
                 <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-share-nodes"></i> আপনার রেফারেল প্রোগ্রাম
+                    <i class="fa-solid fa-id-card"></i> আপনার রেফারেল আইডি ও প্রোগ্রাম
                 </h3>
                 <p class="text-xs text-gray-300">
-                    আপনার রেফারেল লিংক ব্যবহার করে কেউ একাউন্ট খুললে আপনি সাথে সাথে পাবেন <strong class="text-sftGreen">+৫৯০০ পয়েন্ট</strong>! এর ফলে অফার তালিকায় আপনার ১টি এক্সট্রা এন্ট্রি যুক্ত হবে।
+                    অন্য কাউকে আপনার এই <strong class="text-sftGreen" id="profile-my-ref-id-display">--</strong> রেফারেল আইডি দিয়ে একাউন্ট খুলতে বলুন। তিনি একাউন্ট খুললেই আপনি সাথে সাথে পাবেন <strong class="text-sftGreen">+৩০০০ পয়েন্ট কমিশন</strong>!
                 </p>
                 <div class="flex items-center space-x-2 pt-1">
-                    <input type="text" id="referral-link-input" readonly class="w-full px-3 py-2 bg-gray-950 border border-gray-700 rounded-xl text-amber-300 text-xs font-mono">
-                    <button onclick="copyReferralLink()" class="px-4 py-2 bg-amber-500 text-gray-950 font-bold rounded-xl text-xs whitespace-nowrap hover:bg-amber-400">লিংক কপি করুন</button>
-                </div>
-                <div class="text-[11px] text-gray-400 flex justify-between pt-1">
-                    <span>আপনার মোট সফল রেফারেল: <strong id="referral-count-display" class="text-sftGreen font-bold">0</strong> জন</span>
-                    <span>রেফারেল থেকে অর্জিত পয়েন্ট: <strong id="referral-xp-display" class="text-amber-400 font-bold">0 XP</strong></span>
+                    <input type="text" id="referral-id-input" readonly class="w-full px-3 py-2 bg-gray-950 border border-gray-700 rounded-xl text-amber-300 text-xs font-mono font-bold text-center">
+                    <button onclick="copyReferralID()" class="px-4 py-2 bg-amber-500 text-gray-950 font-bold rounded-xl text-xs whitespace-nowrap hover:bg-amber-400">আইডি কপি করুন</button>
                 </div>
             </div>
 
@@ -387,19 +430,18 @@
             <!-- ইউজার লিস্ট ও এক্সপি ম্যানেজমেন্ট ট্যাব -->
             <div id="admin-sec-users" class="glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-white">ইউজার তালিকা, নাম, ইমেইল ও এক্সপি (XP) কন্ট্রোল</h3>
+                    <h3 class="text-lg font-bold text-white">ইউজার তালিকা, নাম, ইমেইল, এক্সপি ও রেফারেল আইডি</h3>
                     <span class="text-xs text-sftGreen font-bold bg-sftGreen/10 px-3 py-1 rounded-full border border-sftGreen/30" id="admin-user-count">ইউজার সংখ্যা: 0</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
                             <tr class="bg-gray-900 text-gray-400 text-xs uppercase border-b border-gray-800">
-                                <th class="p-3">ছবি</th>
-                                <th class="p-3">নাম</th>
+                                <th class="p-3">ছবি ও নাম</th>
                                 <th class="p-3">ইমেইল</th>
+                                <th class="p-3 text-center">রেফারেল আইডি</th>
                                 <th class="p-3 text-center">বর্তমান পয়েন্ট (XP)</th>
-                                <th class="p-3 text-center">অফার এন্ট্রি</th>
-                                <th class="p-3 text-center">অ্যাকশন (এডিট/পয়েন্ট যোগ/ডিলিট)</th>
+                                <th class="p-3 text-center">অ্যাকশন</th>
                             </tr>
                         </thead>
                         <tbody id="admin-users-table-body" class="divide-y divide-gray-800"></tbody>
@@ -407,19 +449,19 @@
                 </div>
             </div>
 
-            <!-- নতুন রেফারেল হিস্ট্রি ট্যাব -->
+            <!-- রেফারেল হিস্ট্রি ট্যাব -->
             <div id="admin-sec-referrals" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
                         <h3 class="text-lg font-bold text-white">রেফারেল ট্র্যাকিং ও হিস্ট্রি</h3>
-                        <p class="text-xs text-gray-400">কার মাধ্যমে কে সাইন-আপ করেছে তার বিস্তারিত তালিকা</p>
+                        <p class="text-xs text-gray-400">কার রেফারেল আইডি ব্যবহার করে কে সাইন-আপ করেছে তার তালিকা</p>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
                             <tr class="bg-gray-900 text-gray-400 text-xs uppercase border-b border-gray-800">
-                                <th class="p-3">রেফারকারী (যার লিংকে এসেছে)</th>
+                                <th class="p-3">রেফারকারী (যার আইডি ব্যবহার হয়েছে)</th>
                                 <th class="p-3">যে ইউজার নতুন একাউন্ট খুলেছে</th>
                                 <th class="p-3">রেজিস্ট্রেশনের সময়</th>
                                 <th class="p-3 text-center">বোনাস স্ট্যাটাস</th>
@@ -524,23 +566,26 @@
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">অ্যাকাউন্ট নেই? </span><button type="button" onclick="switchAuthMode('signup')" class="text-xs text-sftGreen font-bold hover:underline">সাইন আপ করুন</button></div>
             </form>
             
-            <div id="signup-form" class="space-y-4 hidden">
-                <input type="hidden" id="signup-ref-code">
+            <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4 hidden">
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">আপনার নাম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="আপনার নাম লিখুন"></div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label><input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com"></div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">পাসওয়ার্ড (কমপক্ষে ৬ ডিজিট)</label><input type="password" id="signup-password" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"></div>
+                <div>
+                    <label class="block text-xs font-semibold text-amber-400 mb-1">রেফারেল আইডি (ঐচ্ছিক)</label>
+                    <input type="text" id="signup-ref-id" class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-amber-300 text-sm uppercase font-mono" placeholder="যেমন: SFT1234 (না থাকলে ফাঁকা রাখুন)">
+                </div>
                 
-                <button type="button" id="signup-submit-btn" onclick="handleSignup(event)" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftGreen to-sftBlue text-gray-950 font-bold shadow-neonGreen cursor-pointer flex items-center justify-center space-x-2">
+                <button type="submit" id="signup-submit-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftGreen to-sftBlue text-gray-950 font-bold shadow-neonGreen flex items-center justify-center space-x-2">
                     <span id="signup-btn-text">অ্যাকাউন্ট তৈরি করুন</span>
                     <i id="signup-spinner" class="fa-solid fa-circle-notch fa-spin hidden"></i>
                 </button>
                 
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">ইতিমধ্যে অ্যাকাউন্ট আছে? </span><button type="button" onclick="switchAuthMode('login')" class="text-xs text-sftPink font-bold hover:underline">লগইন করুন</button></div>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- ADMIN USER EDIT & WARNING MODAL -->
+    <!-- ADMIN USER EDIT MODAL -->
     <div id="admin-user-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden p-4">
         <div class="relative w-full max-w-md glassmorphism rounded-3xl p-6 border border-gray-700 shadow-2xl space-y-4">
             <button onclick="closeAdminUserModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
@@ -599,7 +644,7 @@
             const wordBank = [
                 ["ইনতা (তুমি)", "আনা (আমি)", "ফি (আছে)", "মাফিশ (নাই)", "জাইন (ভালো)", "শুকরান (ধন্যবাদ)", "কাম (কত)", "হাদা (এটা)", "ওয়েন (কোথায়)", "রুহ (যাওয়া)"],
                 ["আকেল (খাবার)", "মোয়া (পানি)", "শাই (চা)", "সুফ (দেখা)", "জীব (দেওয়া)", "শুগোল (কাজ)", "সাদিক (বন্ধু)", "কাফিল (মালিক)", "ফালুস (টাকা)", "বুকরা (আগামীকাল)"],
-                ["مبتدئ (মুবতাদিয়া - নতুন)", "قديم (কদিম - পুরোনো)", "كبیر (কবির - বড়)", "صغیر (সগির - ছোট)", "حار (হার - গরম)", "بارد (বারিদ - ঠান্ডা)", "جميل (জামিল - সুন্দর)", "كويس (কোয়েس - ভালো)", "مترو (মেট্রো)", "سريع (সরিয়া - দ্রুত)"],
+                ["مبتدئ (মুবতাদিয়া - নতুন)", "قديم (কদিম - পুরোনো)", "كبیر (কবির - বড়)", "صغیر (সগির - ছোট)", "حار (হার - গরম)", "بارد (বারিদ - ঠান্ডা)", "جميل (জামিল - সুন্দর)", "كويس (কোয়েস - ভালো)", "مترو (মেট্রো)", "سريع (সরিয়া - দ্রুত)"],
                 ["سیارة (সাইয়ারা - গাড়ি)", "طريق (তারিক - রাস্তা)", "مطار (মাত্তার - বিমানবন্দর)", "تذكرة (তাজকিরা - টিকেট)", "جواز (জাওয়াজ - পাসপোর্ট)", "مفتاح (মিফতাহ - চাবি)", "باب (বাব - দরজা)", "غرفة (গুরফা - রুম)", "سرير (সারির - খাট)", "مكيف (মুকাইফ - এসি)"]
             ];
             
@@ -646,18 +691,11 @@
             setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
         }
 
-        function checkReferralURL() {
-            const params = new URLSearchParams(window.location.search);
-            const refCode = params.get('ref');
-            if (refCode) {
-                document.getElementById('signup-ref-code').value = refCode;
-                openAuthModal('signup');
-                showToast("রেফারেল লিংক শনাক্ত হয়েছে! একাউন্ট খুললে রেফারার বোনাস পয়েন্ট পাবেন।", "info");
-            }
+        function generateReferralID(uid) {
+            return "SFT" + uid.substring(0, 5).toUpperCase();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            checkReferralURL();
             const checkInterval = setInterval(() => {
                 if (window.firebaseApp) {
                     clearInterval(checkInterval);
@@ -668,7 +706,6 @@
                     onValue(ref(db, 'settings/lottery'), (snap) => { if (snap.exists()) lotterySettings = snap.val(); });
                     onValue(ref(db, 'settings/winner'), (snap) => { luckyWinner = snap.val() || null; });
 
-                    // রেফারেল হিস্ট্রি রিয়েলটাইম লোড
                     onValue(ref(db, 'referrals_history'), (snapshot) => {
                         allReferralsCache = [];
                         if (snapshot.exists()) {
@@ -676,10 +713,12 @@
                                 allReferralsCache.push({ id: childSnap.key, ...childSnap.val() });
                             });
                         }
-                        if (activePage === 'admin') renderAdminReferralsTable();
+                        if (activePage === 'admin') {
+                            renderAdminReferralsTable();
+                            renderAdminUsersTable();
+                        }
                     });
 
-                    // ইউজার ডাটা রিয়েলটাইম লোড
                     onValue(ref(db, 'users'), (snapshot) => {
                         allUsersCache = [];
                         if (snapshot.exists()) {
@@ -688,6 +727,7 @@
                                 if (userData) {
                                     allUsersCache.push({
                                         id: childSnap.key,
+                                        referralID: userData.referralID || generateReferralID(childSnap.key),
                                         ...userData
                                     });
                                 }
@@ -706,7 +746,10 @@
                         
                         if (activePage === 'leaderboard') renderLeaderboardPage();
                         if (activePage === 'home') renderHomePage();
-                        if (activePage === 'admin') renderAdminUsersTable();
+                        if (activePage === 'admin') {
+                            renderAdminUsersTable();
+                            renderAdminReferralsTable();
+                        }
                         if (activePage === 'lottery') renderLotteryPage();
                     });
 
@@ -714,15 +757,20 @@
                         if (user) {
                             const userRef = ref(db, 'users/' + user.uid);
                             const snapshot = await get(userRef);
+                            const generatedID = generateReferralID(user.uid);
                             if (snapshot.exists()) {
-                                currentUser = snapshot.val();
+                                currentUser = { id: user.uid, referralID: generatedID, ...snapshot.val() };
+                                if (!snapshot.val().referralID) {
+                                    await update(userRef, { referralID: generatedID });
+                                }
                             } else {
                                 currentUser = {
                                     id: user.uid,
+                                    referralID: generatedID,
                                     username: user.email.split('@')[0],
                                     email: user.email,
                                     avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${user.email}`,
-                                    points: 0,
+                                    points: 3000,
                                     completedDays: [],
                                     referralsCount: 0,
                                     isAdmin: user.email === "admin@sft.com",
@@ -813,8 +861,8 @@
                         <div><span class="text-xs text-gray-400 font-semibold block">সম্পন্ন লেসন</span><span class="text-2xl font-black text-white">${completedCount} <span class="text-xs text-sftGreen">/ ৩০ দিন</span></span></div>
                     </div>
                     <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-xl bg-sftBlue/20 flex items-center justify-center text-sftBlue text-2xl"><i class="fa-solid fa-share-nodes"></i></div>
-                        <div><span class="text-xs text-gray-400 font-semibold block">সফল রেফারেল</span><span class="text-2xl font-black text-white">${currentUser.referralsCount || 0} <span class="text-xs text-sftBlue">জন</span></span></div>
+                        <div class="w-12 h-12 rounded-xl bg-sftBlue/20 flex items-center justify-center text-sftBlue text-2xl"><i class="fa-solid fa-id-card"></i></div>
+                        <div><span class="text-xs text-gray-400 font-semibold block">আপনার রেফারেল আইডি</span><span class="text-xl font-black text-amber-300 font-mono">${currentUser.referralID || '---'}</span></div>
                     </div>
                 `;
             } else {
@@ -834,7 +882,7 @@
                         <div class="flex items-center space-x-3">
                             <span class="w-6 text-center font-bold text-sm ${idx === 0 ? 'text-amber-400' : 'text-gray-500'}">#${idx + 1}</span>
                             <img src="${u.avatar}" class="w-8 h-8 rounded-full bg-gray-800">
-                            <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">${u.completedDays ? u.completedDays.length : 0} দিন • ${u.referralsCount || 0} রেফার</span></div>
+                            <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">ID: ${u.referralID || '---'} • ${u.completedDays ? u.completedDays.length : 0} দিন</span></div>
                         </div>
                         <span class="text-sm font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">${u.points || 0} XP</span>
                     </div>
@@ -1138,7 +1186,7 @@
                     <tr class="${currentUser && currentUser.id === u.id ? 'bg-sftGreen/10 border-l-4 border-sftGreen' : ''}">
                         <td class="p-4 text-center font-bold text-amber-400">#${idx + 1}</td>
                         <td class="p-4 flex items-center space-x-3"><img src="${u.avatar}" class="w-10 h-10 rounded-full bg-gray-800"><div><h4 class="font-bold text-white">${u.username}</h4></div></td>
-                        <td class="p-4 text-center text-gray-300">${u.referralsCount || 0} জন</td>
+                        <td class="p-4 text-center text-amber-300 font-mono font-bold">${u.referralID || '---'}</td>
                         <td class="p-4 text-right font-black text-amber-400">${u.points || 0} XP</td>
                     </tr>
                 `).join('');
@@ -1149,7 +1197,6 @@
             document.getElementById('lottery-page-heading').textContent = lotterySettings.heading;
             let lotteryEntries = [];
             
-            // প্রতিটি ৫৯০০ পয়েন্টের জন্য অফার লিস্টে ১টি করে টিকিট হিসাব করা
             allUsersCache.forEach(u => {
                 const pts = u.points || 0;
                 const entries = Math.floor(pts / 5900);
@@ -1237,6 +1284,7 @@
                 showToast("সফলভাবে লগইন হয়েছে!", "success");
                 document.getElementById('login-identifier').value = '';
                 document.getElementById('login-password').value = '';
+                navigateTo('routine');
             } catch (err) {
                 let errorMsg = "লগইন ব্যর্থ হয়েছে।";
                 if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials') {
@@ -1255,12 +1303,12 @@
         }
 
         async function handleSignup(e) {
-            if (e) e.preventDefault();
+            e.preventDefault();
             
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const password = document.getElementById('signup-password').value.trim();
-            const refCode = document.getElementById('signup-ref-code').value.trim();
+            const inputRefID = document.getElementById('signup-ref-id').value.trim().toUpperCase();
 
             if (!username || !email || !password) {
                 showToast("দয়া করে সব ফিল্ড পূরণ করুন!", "error");
@@ -1279,41 +1327,60 @@
             btnText.textContent = "অ্যাকাউন্ট তৈরি হচ্ছে...";
             spinner.classList.remove('hidden');
 
-            const { auth, db, createUserWithEmailAndPassword, ref, set, get, update, push } = window.firebaseApp;
+            const { auth, db, createUserWithEmailAndPassword, ref, set, get, update, push, query, orderByChild, equalTo } = window.firebaseApp;
 
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, password);
                 const newUserId = res.user.uid;
+                const newRefID = generateReferralID(newUserId);
 
-                let referrerUsername = "সরাসরি (লিংক ছাড়া)";
+                let initialPoints = 3000;
                 let referrerId = "";
+                let referrerUsername = "";
 
-                // যদি রেফারেল কোড থাকে
-                if (refCode && refCode !== newUserId) {
-                    const referrerRef = ref(db, 'users/' + refCode);
-                    const referrerSnap = await get(referrerRef);
-                    if (referrerSnap.exists()) {
-                        const referrerData = referrerSnap.val();
-                        referrerId = refCode;
-                        referrerUsername = referrerData.username || "অজানা ইউজার";
+                if (inputRefID) {
+                    const usersRef = ref(db, 'users');
+                    const refQuery = query(usersRef, orderByChild('referralID'), equalTo(inputRefID));
+                    const snapshot = await get(refQuery);
 
-                        const currentPoints = Number(referrerData.points) || 0;
-                        const currentRefs = Number(referrerData.referralsCount) || 0;
-
-                        // রেফারারকে স্বয়ংক্রিয়ভাবে ৫৯০০ পয়েন্ট এবং কাউন্ট বাড়ানো
-                        await update(referrerRef, {
-                            points: currentPoints + 5900,
-                            referralsCount: currentRefs + 1
+                    if (snapshot.exists()) {
+                        let matchedRefData = null;
+                        let matchedRefKey = null;
+                        snapshot.forEach((childSnap) => {
+                            matchedRefKey = childSnap.key;
+                            matchedRefData = childSnap.val();
                         });
+
+                        if (matchedRefKey === newUserId) {
+                            showToast("নিজের রেফারেল আইডি নিজে ব্যবহার করা যায় না!", "error");
+                        } else if (matchedRefData) {
+                            referrerId = matchedRefKey;
+                            referrerUsername = matchedRefData.username || "ইউজার";
+
+                            const refCurrentPoints = Number(matchedRefData.points) || 0;
+                            const refCurrentCount = Number(matchedRefData.referralsCount) || 0;
+                            await update(ref(db, 'users/' + referrerId), {
+                                points: refCurrentPoints + 3000,
+                                referralsCount: refCurrentCount + 1
+                            });
+
+                            initialPoints = 6000;
+                            showToast("রেফারেল আইডি সফল! আপনার অ্যাকাউন্টে সাইন-আপ বোনাস ও রেফারেল বোনাসসহ মোট ৬০০০ পয়েন্ট এবং রেফারকারীর অ্যাকাউন্টে +৩০০০ পয়েন্ট যোগ হয়েছে।", "success");
+                        }
+                    } else {
+                        showToast("ভুল রেফারেল আইডি! তবে সাইন-আপ বোনাস হিসেবে আপনার অ্যাকাউন্টে ৩০০০ পয়েন্ট যুক্ত হয়েছে।", "error");
                     }
+                } else {
+                    showToast("সাইন-আপ সফল! বোনাস হিসেবে আপনার অ্যাকাউন্টে ৩০০০ পয়েন্ট যুক্ত হয়েছে।", "success");
                 }
 
                 const newUser = {
                     id: newUserId,
+                    referralID: newRefID,
                     username,
                     email,
                     avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${username}`,
-                    points: 0,
+                    points: initialPoints,
                     completedDays: [],
                     referralsCount: 0,
                     isAdmin: email === "admin@sft.com",
@@ -1322,27 +1389,40 @@
                 
                 await set(ref(db, 'users/' + newUserId), newUser);
 
-                // রেফারেল হিস্ট্রি ডাটাবেসে সেভ করা যাতে এডমিন দেখতে পায়
-                await push(ref(db, 'referrals_history'), {
-                    referrerId: referrerId,
-                    referrerName: referrerUsername,
-                    newUserId: newUserId,
-                    newUserName: username,
-                    newUserEmail: email,
-                    timestamp: new Date().toISOString()
-                });
+                if (referrerId) {
+                    await push(ref(db, 'referrals_history'), {
+                        referrerId: referrerId,
+                        referrerName: referrerUsername,
+                        newUserId: newUserId,
+                        newUserName: username,
+                        newUserEmail: email,
+                        timestamp: new Date().toISOString()
+                    });
+                }
 
                 currentUser = newUser;
-                showToast("অভিনন্দন! অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
-                closeAuthModal();
                 
+                document.getElementById('signup-form').classList.add('hidden');
                 document.getElementById('signup-username').value = '';
                 document.getElementById('signup-email').value = '';
                 document.getElementById('signup-password').value = '';
+                document.getElementById('signup-ref-id').value = '';
 
+                closeAuthModal();
                 navigateTo('routine');
+
             } catch (err) {
-                showToast("সাইনআপ ব্যর্থ: " + err.message, "error");
+                let errorMsg = "সাইনআপ ব্যর্থ হয়েছে।";
+                if (err.code === 'auth/email-already-in-use') {
+                    errorMsg = "এই ইমেইলটি দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে। লগইন করুন।";
+                } else if (err.code === 'auth/invalid-email') {
+                    errorMsg = "সঠিক ইমেইল ঠিকানা দিন।";
+                } else if (err.code === 'auth/weak-password') {
+                    errorMsg = "পাসওয়ার্ড খুব দুর্বল। অন্তত ৬ অক্ষরের দিন।";
+                } else {
+                    errorMsg = "ত্রুটি: " + err.message;
+                }
+                showToast(errorMsg, "error");
             } finally {
                 submitBtn.disabled = false;
                 btnText.textContent = "অ্যাকাউন্ট তৈরি করুন";
@@ -1365,17 +1445,16 @@
             document.getElementById('profile-avatar-preview').src = currentUser.avatar || '';
             document.getElementById('profile-avatar-input').value = currentUser.avatar || '';
 
-            const refLink = `${window.location.origin}${window.location.pathname}?ref=${currentUser.id}`;
-            document.getElementById('referral-link-input').value = refLink;
-            document.getElementById('referral-count-display').textContent = currentUser.referralsCount || 0;
-            document.getElementById('referral-xp-display').textContent = `${(currentUser.referralsCount || 0) * 5900} XP`;
+            const myRefID = currentUser.referralID || generateReferralID(currentUser.id);
+            document.getElementById('profile-my-ref-id-display').textContent = myRefID;
+            document.getElementById('referral-id-input').value = myRefID;
         }
 
-        function copyReferralLink() {
-            const input = document.getElementById('referral-link-input');
+        function copyReferralID() {
+            const input = document.getElementById('referral-id-input');
             input.select();
             navigator.clipboard.writeText(input.value);
-            showToast("রেফারেল লিংক কপি করা হয়েছে!", "success");
+            showToast("রেফারেল আইডি কপি করা হয়েছে!", "success");
         }
 
         function randomizeAvatar() {
@@ -1460,16 +1539,22 @@
             document.getElementById('admin-user-count').textContent = `ইউজার সংখ্যা: ${allUsersCache.length}`;
             document.getElementById('admin-users-table-body').innerHTML = allUsersCache.map(u => {
                 const points = Number(u.points) || 0;
-                const entries = Math.floor(points / 5900);
+                const refID = u.referralID || generateReferralID(u.id);
+
                 return `
-                    <tr class="hover:bg-gray-900/40">
-                        <td class="p-3"><img src="${u.avatar}" class="w-8 h-8 rounded-full"></td>
-                        <td class="p-3 font-bold text-white">${u.username} ${u.isAdmin ? '(Admin)' : ''}</td>
-                        <td class="p-3 text-gray-300">${u.email}</td>
+                    <tr class="hover:bg-gray-900/40 align-top">
+                        <td class="p-3 flex items-center space-x-2">
+                            <img src="${u.avatar}" class="w-8 h-8 rounded-full">
+                            <div>
+                                <span class="font-bold text-white block">${u.username}</span>
+                                ${u.isAdmin ? '<span class="text-[10px] text-sftPink font-bold">Admin</span>' : ''}
+                            </div>
+                        </td>
+                        <td class="p-3 text-gray-300 text-xs">${u.email}</td>
+                        <td class="p-3 text-center text-amber-300 font-mono font-bold text-xs">${refID}</td>
                         <td class="p-3 text-center text-amber-400 font-bold">${points} XP</td>
-                        <td class="p-3 text-center"><span class="bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-500/30">${entries} টি</span></td>
                         <td class="p-3 text-center space-x-1">
-                            <button onclick="openAdminUserEditModal('${u.id}')" class="px-3 py-1.5 bg-sftBlue/20 text-sftBlue text-xs rounded-xl font-bold hover:bg-sftBlue/30">এডিট/পয়েন্ট</button>
+                            <button onclick="openAdminUserEditModal('${u.id}')" class="px-3 py-1.5 bg-sftBlue/20 text-sftBlue text-xs rounded-xl font-bold hover:bg-sftBlue/30">এডিট</button>
                             <button onclick="handleAdminDeleteUser('${u.id}')" class="px-3 py-1.5 bg-sftPink/20 text-sftPink text-xs rounded-xl font-bold hover:bg-sftPink/30">ডিলিট</button>
                         </td>
                     </tr>
@@ -1477,20 +1562,19 @@
             }).join('');
         }
 
-        // নতুন রেফারেল হিস্ট্রি টেবিল রেন্ডার ফাংশন
         function renderAdminReferralsTable() {
             const tbody = document.getElementById('admin-referrals-table-body');
             if (!tbody) return;
             if (allReferralsCache.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">এখনও কোনো রেফারেল বা নতুন জয়েনিং রেকর্ড নেই।</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">এখনও কোনো রেফারেল আইডি ব্যবহারের রেকর্ড নেই।</td></tr>`;
                 return;
             }
             tbody.innerHTML = allReferralsCache.map(r => `
                 <tr class="hover:bg-gray-900/40">
-                    <td class="p-3 font-bold text-amber-400">${r.referrerName || 'সরাসরি (লিংক ছাড়া)'}</td>
+                    <td class="p-3 font-bold text-amber-400">${r.referrerName || '---'}</td>
                     <td class="p-3 text-white font-semibold">${r.newUserName || 'নাম নেই'} <span class="text-xs text-gray-400 block">${r.newUserEmail || ''}</span></td>
                     <td class="p-3 text-gray-300 text-xs">${new Date(r.timestamp).toLocaleString('bn-BD')}</td>
-                    <td class="p-3 text-center"><span class="bg-sftGreen/10 text-sftGreen px-2.5 py-1 rounded-full text-xs font-bold border border-sftGreen/30">+৫৯০০ XP বোনাসযুক্ত</span></td>
+                    <td class="p-3 text-center"><span class="bg-sftGreen/10 text-sftGreen px-2.5 py-1 rounded-full text-xs font-bold border border-sftGreen/30">+৩০০০ XP বোনাসযুক্ত</span></td>
                 </tr>
             `).join('');
         }
