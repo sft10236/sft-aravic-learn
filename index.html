@@ -118,12 +118,13 @@
                 </div>
             </div>
 
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+            <nav class="hidden md:flex items-center space-x-5 text-sm font-medium">
                 <button onclick="navigateTo('home')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-house"></i> <span>হোম</span></button>
                 <button onclick="navigateTo('routine')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-calendar-days"></i> <span>৩০ দিনের রুটিন</span></button>
                 <button onclick="navigateTo('leaderboard')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-trophy"></i> <span>লিডারবোর্ড</span></button>
                 <button onclick="navigateTo('lottery')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-gift text-amber-400"></i> <span id="nav-lottery-label">মেগা অফার</span></button>
                 <button onclick="navigateTo('certificate')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-certificate"></i> <span>সার্টিফিকেট</span></button>
+                <button onclick="navigateTo('terms')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-file-contract text-sftPink"></i> <span>শর্তাবলি</span></button>
             </nav>
 
             <div id="nav-auth-controls" class="flex items-center space-x-3"></div>
@@ -203,7 +204,7 @@
                 <div id="home-leaderboard-list" class="space-y-3"></div>
             </div>
 
-            <!-- HOME PAGE FOOTER INFO SECTION (4 GORGEOUS ARTICLES) -->
+            <!-- HOME PAGE FOOTER INFO SECTION -->
             <div class="pt-8 space-y-6 border-t border-gray-800">
                 <div class="text-center max-w-2xl mx-auto space-y-2">
                     <span class="px-3 py-1 rounded-full bg-sftGreen/20 text-sftGreen text-xs font-bold border border-sftGreen/30">📖 প্ল্যাটফর্ম গাইডলাইন ও নিয়মাবলি</span>
@@ -212,45 +213,69 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                    <!-- Article 1: Sign-up & Login -->
                     <div class="glassmorphism p-6 rounded-2xl border border-gray-800 space-y-3 relative overflow-hidden group hover:border-sftPink transition">
-                        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-sftPink/10 rounded-full blur-2xl"></div>
                         <div class="w-12 h-12 rounded-xl bg-sftPink/20 text-sftPink flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-user-plus"></i></div>
                         <h4 id="info-art-1-title" class="text-lg font-bold text-white">১. সাইন-আপ ও লগইন নির্দেশিকা</h4>
                         <p id="info-art-1-desc" class="text-xs text-gray-300 leading-relaxed">
-                            ওয়েবসাইটে নতুন অ্যাকাউন্ট খুলতে 'সাইন আপ' বাটনে ক্লিক করুন। আপনার নাম, জিমেইল ও পাসওয়ার্ড দিয়ে একাউন্ট তৈরি করলেই সাথে পাবেন ৩০০০ পয়েন্ট ফ্রি! আপনার বন্ধু বা প্রবাসীর রেফারেল আইডি ব্যবহার করলে অতিরিক্ত ৩০০০ পয়েন্ট সহ মোট ৬০০০ পয়েন্ট বোনাস পাবেন। পরবর্তীতে জিমেইল ও পাসওয়ার্ড দিয়ে সহজেই 'লগইন' করে আপনার কোর্স চালিয়ে যেতে পারবেন।
+                            ওয়েবসাইটে নতুন অ্যাকাউন্ট খুলতে 'সাইন আপ' বাটনে ক্লিক করুন। আপনার নাম, জিমেইল ও পাসওয়ার্ড দিয়ে একাউন্ট তৈরি করলেই সাথে পাবেন ৩০০০ পয়েন্ট ফ্রি!
                         </p>
                     </div>
 
-                    <!-- Article 2: Lessons & Points -->
                     <div class="glassmorphism p-6 rounded-2xl border border-gray-800 space-y-3 relative overflow-hidden group hover:border-sftGreen transition">
-                        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-sftGreen/10 rounded-full blur-2xl"></div>
                         <div class="w-12 h-12 rounded-xl bg-sftGreen/20 text-sftGreen flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-book-open"></i></div>
                         <h4 id="info-art-2-title" class="text-lg font-bold text-white">২. লেসন পড়ার নিয়ম ও পয়েন্ট অর্জন</h4>
                         <p id="info-art-2-desc" class="text-xs text-gray-300 leading-relaxed">
-                            প্রতিটি লেসনে রয়েছে ১০টি করে আঞ্চলিক আরবি শব্দ এবং ৫টি গুরুত্বপূর্ণ বাক্য। শব্দগুলো পড়ার পর ১০টি শব্দ কুইজে অংশগ্রহণ করতে হবে (প্রতিটি সঠিক উত্তরে ১০ পয়েন্ট করে মোট ১০০ পয়েন্ট)। এরপর ৫টি বাক্য কুইজে সঠিক উত্তর দিলে প্রতিটিতে ২০ পয়েন্ট করে মোট ১০০ পয়েন্ট অর্জিত হবে। কুইজ একবারই দেওয়া যায়, তবে শব্দ ও বাক্যগুলো যত খুশি ততবার রিভিউ বা পড়তে পারবেন।
+                            প্রতিটি লেসনে রয়েছে ১০টি করে আঞ্চলিক আরবি শব্দ এবং ৫টি গুরুত্বপূর্ণ বাক্য। শব্দগুলো পড়ার পর কুইজে সঠিক উত্তর দিলে পয়েন্ট অর্জিত হয়।
                         </p>
                     </div>
 
-                    <!-- Article 3: Certificate Unlock -->
                     <div class="glassmorphism p-6 rounded-2xl border border-gray-800 space-y-3 relative overflow-hidden group hover:border-amber-400 transition">
-                        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
                         <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-certificate"></i></div>
                         <h4 id="info-art-3-title" class="text-lg font-bold text-white">৩. ৩০ দিন কোর্স ও সার্টিফিকেট আনলক</h4>
                         <p id="info-art-3-desc" class="text-xs text-gray-300 leading-relaxed">
-                            ১ম দিন বাদে বাকি লেসনগুলো সিকোয়েন্সিয়ালি লক থাকবে। একটি লেসন শেষ করলে স্বয়ংক্রিয়ভাবে পরবর্তী দিন আনলক হবে। এভাবে ৩০ দিনের সবগুলো লেসন সফলভাবে সম্পন্ন করলে আপনার অফিসিয়াল কোর্স সমাপনী সার্টিফিকেটটি স্বয়ংক্রিয়ভাবে আনলক হয়ে যাবে। সার্টিফিকেট কার্ডটি আপনি এক ক্লিকেই পিএনজি (PNG) ফরম্যাটে ডাউনলোড করে প্রিন্ট বা শেয়ার করতে পারবেন।
+                            ১ম দিন বাদে বাকি লেসনগুলো সিকোয়েন্সিয়ালি লক থাকবে। ৩০ দিনের সবগুলো লেসন সফলভাবে সম্পন্ন করলে আপনার অফিসিয়াল সার্টিফিকেট আনলক হয়ে যাবে।
                         </p>
                     </div>
 
-                    <!-- Article 4: Leaderboard & Lucky Draw -->
                     <div class="glassmorphism p-6 rounded-2xl border border-gray-800 space-y-3 relative overflow-hidden group hover:border-sftBlue transition">
-                        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-sftBlue/10 rounded-full blur-2xl"></div>
                         <div class="w-12 h-12 rounded-xl bg-sftBlue/20 text-sftBlue flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-trophy"></i></div>
                         <h4 id="info-art-4-title" class="text-lg font-bold text-white">৪. লিডারবোর্ড ও স্মার্টফোন মেগা ড্র</h4>
                         <p id="info-art-4-desc" class="text-xs text-gray-300 leading-relaxed">
-                            কোর্স সম্পন্ন ও রেফারেলের মাধ্যমে যেসব শিক্ষার্থী ৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জন করবেন, তারা স্বয়ংক্রিয়ভাবে গ্লোবাল লিডারবোর্ড এবং মেগা ড্র এন্ট্রি তালিকায় স্থান পাবেন। প্রতি ৫,৯০০ পয়েন্টের জন্য ১টি করে লাকি ড্র এন্ট্রি কাউন্ট হবে। ড্র এর মাধ্যমে ভাগ্য সহায় হলে আপনি জিতে নিতে পারেন ১৫,০০০ থেকে ২০,০০০ টাকা মূল্যের প্রিমিয়াম স্মার্টফোন বা আকর্ষণীয় পুরস্কার!
+                            কোর্স সম্পন্ন ও রেফারেলের মাধ্যমে যেসব শিক্ষার্থী ৫,৯০০ বা তার বেশি পয়েন্ট অর্জন করবেন, তারা মেগা ড্র এন্ট্রি তালিকায় স্থান পাবেন।
                         </p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: TERMS & CONDITIONS -->
+        <section id="page-terms" class="hidden max-w-4xl mx-auto space-y-8 animate-fadeIn">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
+                </button>
+                <h2 class="text-xl md:text-2xl font-bold text-white">ব্যবহারের শর্তাবলি</h2>
+            </div>
+
+            <div class="glassmorphism rounded-3xl p-6 md:p-10 border border-gray-800 space-y-6 text-sm text-gray-300 leading-relaxed">
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ১. অ্যাকাউন্ট রেজিস্ট্রেশন ও নিরাপত্তা</h3>
+                    <p>SFT Arabic Express এ অ্যাকাউন্ট খোলার সময় সঠিক নাম, ইমেইল এবং তথ্য প্রদান করতে হবে। আপনার পাসওয়ার্ড ও অ্যাকাউন্টের গোপনীয়তা রক্ষার দায়িত্ব সম্পূর্ণ আপনার নিজের।</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-sftGreen flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ২. পয়েন্ট অর্জন ও রেফারেল নীতি</h3>
+                    <p>সাইন-আপ করার পর ফ্রি পয়েন্ট এবং বন্ধু বা পরিচিত প্রবাসীর রেফারেল আইডি ব্যবহার করে অতিরিক্ত বোনাস পয়েন্ট অর্জন করা যাবে। ফেক রেফারেল নিষিদ্ধ।</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-sftPink flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ৩. লেসন কুইজ ও প্রোগ্রেস</h3>
+                    <p>প্রতিদিনের লেসনে থাকা শব্দভাণ্ডার এবং বাক্য কুইজ নির্দিষ্ট নিয়মে সম্পন্ন করতে হবে। একবার কুইজ সম্পন্ন হলে তা আবার দেওয়া যায় না।</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-sftBlue flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ৪. স্মার্টফোন মেগা অফার ও লাকি ড্র</h3>
+                    <p>৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে মেগা ড্র এন্ট্রি পাবেন। ড্র-এর সিদ্ধান্ত চূড়ান্ত বলে গণ্য হবে।</p>
+                </div>
+                <div class="pt-4 border-t border-gray-800 text-center">
+                    <button onclick="navigateTo('home')" class="px-6 py-3 rounded-xl bg-sftGreen text-gray-950 font-bold text-xs hover:shadow-neonGreen transition">হোম পেজে ফিরে যান</button>
                 </div>
             </div>
         </section>
@@ -258,9 +283,14 @@
         <!-- PAGE: ROUTINE -->
         <section id="page-routine" class="hidden space-y-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-white">৩০ দিনের স্পেশাল কোর্স রুটিন</h2>
-                    <p class="text-gray-400 text-sm">একটি লেসন শেষ করলে পরবর্তী দিন অটোম্যাটিক আনলক হবে।</p>
+                <div class="flex items-center space-x-3">
+                    <button onclick="navigateTo('home')" class="px-3.5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 transition text-xs font-bold flex items-center space-x-1.5 border border-gray-700" title="হোম পেজে যান">
+                        <i class="fa-solid fa-house"></i> <span>হোম</span>
+                    </button>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white">৩০ দিনের স্পেশাল কোর্স রুটিন</h2>
+                        <p class="text-gray-400 text-sm">একটি লেসন শেষ করলে পরবর্তী দিন অটোম্যাটিক আনলক হবে।</p>
+                    </div>
                 </div>
                 <div class="flex items-center space-x-2 text-xs bg-gray-900 p-2 rounded-lg border border-gray-800">
                     <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-sftGreen inline-block"></span> সম্পন্ন</span>
@@ -285,8 +315,13 @@
         <!-- PAGE: LESSON -->
         <section id="page-lesson" class="hidden space-y-6">
             <div class="glassmorphism rounded-2xl p-4 md:p-6 border border-gray-800 flex flex-wrap items-center justify-between gap-4">
-                <div class="flex items-center space-x-4">
-                    <button onclick="navigateTo('routine')" class="p-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 transition"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="flex items-center space-x-3">
+                    <button onclick="navigateTo('routine')" class="px-3.5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 transition text-xs font-bold flex items-center space-x-1.5 border border-gray-700" title="রুটিনে ফিরে যান">
+                        <i class="fa-solid fa-arrow-left"></i> <span>ব্যাকে যান</span>
+                    </button>
+                    <button onclick="navigateTo('home')" class="px-3.5 py-2.5 rounded-xl bg-sftGreen/20 hover:bg-sftGreen/30 text-sftGreen transition text-xs font-bold flex items-center space-x-1.5 border border-sftGreen/40" title="হোম পেজে যান">
+                        <i class="fa-solid fa-house"></i> <span>হোম</span>
+                    </button>
                     <div>
                         <span id="lesson-day-tag" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-sftPink/20 text-sftPink border border-sftPink/30">দিন ১</span>
                         <h2 id="lesson-title" class="text-xl md:text-2xl font-bold text-white mt-1">আজকের লেসন</h2>
@@ -309,15 +344,24 @@
             </div>
 
             <div id="tab-words" class="space-y-4">
-                <div class="bg-indigo-950/40 border border-indigo-800/50 p-4 rounded-xl text-sm text-indigo-200">💡 আজকের ১০টি আঞ্চলিক আরবি শব্দ বাংলায় উচ্চারণে ও বাংলায় অর্থসহ দেওয়া হলো। আপনি যেকোনো সময় এগুলো রিভিউ করতে পারবেন।</div>
+                <div class="bg-indigo-950/40 border border-indigo-800/50 p-4 rounded-xl text-sm text-indigo-200 flex items-center justify-between">
+                    <span>💡 আজকের ১০টি আঞ্চলিক আরবি শব্দ বাংলায় উচ্চারণে ও বাংলায় অর্থসহ দেওয়া হলো।</span>
+                    <button onclick="navigateTo('routine')" class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-lg border border-gray-700 whitespace-nowrap ml-2"><i class="fa-solid fa-xmark"></i> লেসন ছাড়ুন</button>
+                </div>
                 <div id="words-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4"></div>
-                <div class="flex justify-end pt-4"><button onclick="switchLessonTab('word-game')" class="px-6 py-3 rounded-xl bg-sftGreen text-gray-950 font-bold hover:shadow-neonGreen transition">পরবর্তী ধাপে যান &rarr;</button></div>
+                <div class="flex justify-between pt-4">
+                    <button onclick="navigateTo('routine')" class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold text-xs"><i class="fa-solid fa-arrow-left"></i> রুটিনে ফিরে যান</button>
+                    <button onclick="switchLessonTab('word-game')" class="px-6 py-3 rounded-xl bg-sftGreen text-gray-950 font-bold hover:shadow-neonGreen transition">পরবর্তী ধাপে যান &rarr;</button>
+                </div>
             </div>
 
             <div id="tab-word-game" class="hidden space-y-6">
                 <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between text-sm">
                     <span id="word-game-status-label" class="text-gray-300">সঠিক অর্থ বাছাই করুন (প্রতিটি ১০ পয়েন্ট)</span>
-                    <span id="word-quiz-progress" class="font-bold text-sftPink">প্রশ্ন ১/১০</span>
+                    <div class="flex items-center space-x-3">
+                        <span id="word-quiz-progress" class="font-bold text-sftPink">প্রশ্ন ১/১০</span>
+                        <button onclick="if(confirm('কুইজ থেকে বের হয়ে যেতে চান? প্রোগ্রেস সেভ হবে না।')) navigateTo('routine');" class="text-xs bg-red-500/20 text-red-400 hover:bg-red-500/30 px-3 py-1 rounded-lg border border-red-500/30"><i class="fa-solid fa-right-from-bracket"></i> কুইজ ছাড়ুন</button>
+                    </div>
                 </div>
                 <div id="word-quiz-card" class="glassmorphism rounded-2xl p-6 md:p-8 border border-gray-800 text-center space-y-6 max-w-2xl mx-auto"></div>
             </div>
@@ -325,13 +369,19 @@
             <div id="tab-sentences" class="hidden space-y-4">
                 <div class="bg-indigo-950/40 border border-indigo-800/50 p-4 rounded-xl text-sm text-indigo-200">💡 আজকের ৫টি আঞ্চলিক আরবি বাক্য ও বাংলা অর্থ।</div>
                 <div id="sentences-container" class="space-y-4"></div>
-                <div class="flex justify-end pt-4"><button onclick="switchLessonTab('sentence-game')" class="px-6 py-3 rounded-xl bg-sftPink text-white font-bold shadow-neonPink hover:scale-105 transition">পরবর্তী ধাপে যান &rarr;</button></div>
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchLessonTab('words')" class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold text-xs">&larr; শব্দভাণ্ডারে ফিরুন</button>
+                    <button onclick="switchLessonTab('sentence-game')" class="px-6 py-3 rounded-xl bg-sftPink text-white font-bold shadow-neonPink hover:scale-105 transition">পরবর্তী ধাপে যান &rarr;</button>
+                </div>
             </div>
 
             <div id="tab-sentence-game" class="hidden space-y-6">
                 <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between text-sm">
                     <span id="sentence-game-status-label" class="text-gray-300">সঠিক বাংলা বাক্যের সাথে আরবি মেলাও</span>
-                    <span id="sentence-quiz-progress" class="font-bold text-sftGreen">প্রশ্ন ১/৫</span>
+                    <div class="flex items-center space-x-3">
+                        <span id="sentence-quiz-progress" class="font-bold text-sftGreen">প্রশ্ন ১/৫</span>
+                        <button onclick="if(confirm('কুইজ থেকে বের হয়ে যেতে চান?')) navigateTo('routine');" class="text-xs bg-red-500/20 text-red-400 hover:bg-red-500/30 px-3 py-1 rounded-lg border border-red-500/30"><i class="fa-solid fa-right-from-bracket"></i> কুইজ ছাড়ুন</button>
+                    </div>
                 </div>
                 <div id="sentence-quiz-card" class="glassmorphism rounded-2xl p-6 md:p-8 border border-gray-800 text-center space-y-6 max-w-2xl mx-auto"></div>
             </div>
@@ -339,9 +389,11 @@
 
         <!-- PAGE: LEADERBOARD -->
         <section id="page-leaderboard" class="hidden space-y-6">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <h2 class="text-3xl font-extrabold text-white">🏆 গ্লোবাল লিডারবোর্ড ও পয়েন্ট র‍্যাংক</h2>
-                <p class="text-gray-400 text-sm">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী শিক্ষার্থীদের তালিকা</p>
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
+                </button>
+                <h2 class="text-2xl font-extrabold text-white">🏆 গ্লোবাল লিডারবোর্ড</h2>
             </div>
             <div class="glassmorphism rounded-2xl border border-gray-800 overflow-hidden shadow-2xl max-w-4xl mx-auto">
                 <div class="overflow-x-auto">
@@ -362,27 +414,36 @@
 
         <!-- PAGE: LOTTERY -->
         <section id="page-lottery" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
+                </button>
+                <h2 id="lottery-page-heading" class="text-xl font-bold text-white">স্মার্টফোন মেগা অফার তালিকা ও টাইমার</h2>
+            </div>
             <div id="lottery-main-content" class="space-y-6">
-                <div class="text-center max-w-2xl mx-auto space-y-2">
-                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">🎁 অফার তালিকা ও সময়সীমা</span>
-                    <h2 id="lottery-page-heading" class="text-3xl font-extrabold text-white">স্মার্টফোন মেগা অফার তালিকা ও টাইমার</h2>
-                    <p class="text-gray-400 text-sm">কোর্স শেষ বা রেফারেলের মাধ্যমে ৫৯০০+ পয়েন্ট অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে অফার এন্ট্রি পাবেন।</p>
-                </div>
                 <div id="lottery-content-wrapper" class="max-w-4xl mx-auto space-y-6"></div>
             </div>
         </section>
 
         <!-- PAGE: CERTIFICATE -->
         <section id="page-certificate" class="hidden space-y-6 text-center">
-            <div class="max-w-xl mx-auto space-y-2">
-                <h2 class="text-3xl font-extrabold text-white">📜 অফিসিয়াল অর্জন সনদ (সার্টিফিকেট)</h2>
-                <p class="text-gray-400 text-sm">৩০ দিনের ক্লাস সম্পূর্ণ হলে অথবা এডমিন আনলক করলে সার্টিফিকেট ডাউনলোড করতে পারবেন।</p>
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4 text-left">
+                <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
+                </button>
+                <h2 class="text-xl font-bold text-white">অফিসিয়াল সার্টিফিকেট</h2>
             </div>
             <div id="certificate-wrapper" class="max-w-3xl mx-auto"></div>
         </section>
 
         <!-- PAGE: PROFILE -->
         <section id="page-profile" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
+                </button>
+                <h2 class="text-xl font-bold text-white">প্রোফাইল সেটিংস</h2>
+            </div>
             <div class="glassmorphism rounded-2xl p-6 border border-amber-500/40 bg-gradient-to-r from-amber-950/30 via-gray-900 to-amber-950/30 space-y-3">
                 <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2">
                     <i class="fa-solid fa-id-card"></i> আপনার রেফারেল আইডি ও প্রোগ্রাম
@@ -397,7 +458,6 @@
             </div>
 
             <div class="glassmorphism rounded-2xl p-6 md:p-8 border border-gray-800 space-y-6">
-                <h2 class="text-2xl font-bold text-white flex items-center gap-2 border-b border-gray-800 pb-4"><i class="fa-solid fa-user-gear text-sftGreen"></i> প্রোফাইল সেটিংস</h2>
                 <form id="profile-form" onsubmit="handleProfileUpdate(event)" class="space-y-4">
                     <div class="flex flex-col items-center space-y-3 pb-4">
                         <img id="profile-avatar-preview" src="https://api.dicebear.com/7.x/bottts/svg?seed=User" class="w-24 h-24 rounded-full bg-gray-800 border-2 border-sftGreen p-1 object-cover">
@@ -417,9 +477,14 @@
         <!-- PAGE: ADMIN -->
         <section id="page-admin" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-gray-800 pb-4 gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-sftPink"></i> এডমিন কন্ট্রোল প্যানেল</h2>
-                    <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন লক/আনলক ও হোম ইনফো আর্টিকেল এডিটর</p>
+                <div class="flex items-center space-x-3">
+                    <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-arrow-left"></i> <span>হোমে যান</span>
+                    </button>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-sftPink"></i> এডমিন কন্ট্রোল প্যানেল</h2>
+                        <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন লক/আনলক ও হোম ইনফো আর্টিকেল এডিটর</p>
+                    </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-3 py-2 rounded-lg bg-sftPink text-white text-xs font-bold shadow-neonPink">ইউজারবৃন্দ</button>
@@ -480,28 +545,24 @@
             <div id="admin-sec-homeinfo" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
                 <div>
                     <h3 class="text-lg font-bold text-white">হোম পেজ ফুটার ইনফো আর্টিকেল এডিটর</h3>
-                    <p class="text-xs text-gray-400">হোম পেজের নিচে প্রদর্শित ৪টি ইনফো কার্ডের শিরোনাম ও বিবরণ এখান থেকে পরিবর্তন করুন।</p>
+                    <p class="text-xs text-gray-400">হোম পেজের নিচে প্রদর্শিত ৪টি ইনফো কার্ডের শিরোনাম ও বিবরণ এখান থেকে পরিবর্তন করুন।</p>
                 </div>
                 <form onsubmit="handleSaveHomeInfoArticles(event)" class="space-y-6">
-                    <!-- Article 1 -->
                     <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
                         <h4 class="text-sm font-bold text-sftPink">কার্ড ১: সাইন-আপ ও লগইন</h4>
                         <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-art-1-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
                         <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-art-1-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
                     </div>
-                    <!-- Article 2 -->
                     <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
                         <h4 class="text-sm font-bold text-sftGreen">কার্ড ২: লেসন ও পয়েন্ট</h4>
                         <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-art-2-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
                         <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-art-2-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
                     </div>
-                    <!-- Article 3 -->
                     <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
                         <h4 class="text-sm font-bold text-amber-400">কার্ড ৩: ৩০ দিন কোর্স ও সার্টিফিকেট</h4>
                         <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-art-3-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
                         <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-art-3-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
                     </div>
-                    <!-- Article 4 -->
                     <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
                         <h4 class="text-sm font-bold text-sftBlue">কার্ড ৪: লিডারবোর্ড ও ড্র</h4>
                         <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-art-4-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
@@ -576,7 +637,11 @@
     <footer class="glassmorphism border-t border-gray-800/80 mt-12 py-6 px-4">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
             <div class="flex items-center space-x-2"><span class="font-bold text-gradient-sft text-sm">SFT Arabic Express</span><span>&copy; 2026 সর্বস্বত্ব সংরক্ষিত</span></div>
-            <div><span>আঞ্চলিক আরবি ভাষা শিক্ষা • ফায়ারবেস রিয়েলটাইম ডাটাবেস</span></div>
+            <div class="flex items-center space-x-4">
+                <button onclick="navigateTo('terms')" class="hover:text-sftPink transition">শর্তাবলি (Terms & Conditions)</button>
+                <span>•</span>
+                <span>আঞ্চলিক আরবি ভাষা শিক্ষা</span>
+            </div>
         </div>
     </footer>
 
@@ -608,6 +673,7 @@
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">অ্যাকাউন্ট নেই? </span><button type="button" onclick="switchAuthMode('signup')" class="text-xs text-sftGreen font-bold hover:underline">সাইন আপ করুন</button></div>
             </form>
             
+            <!-- SIGNUP FORM WITH TERMS CHECKBOX -->
             <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4 hidden">
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">আপনার নাম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="আপনার নাম লিখুন"></div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label><input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com"></div>
@@ -615,6 +681,13 @@
                 <div>
                     <label class="block text-xs font-semibold text-amber-400 mb-1">রেফারেল আইডি (ঐচ্ছিক)</label>
                     <input type="text" id="signup-ref-id" class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-amber-300 text-sm uppercase font-mono" placeholder="যেমন: SFT1234 (না থাকলে ফাঁকা রাখুন)">
+                </div>
+
+                <div class="flex items-start space-x-2 pt-1">
+                    <input type="checkbox" id="signup-terms-checkbox" required class="mt-1 w-4 h-4 rounded bg-gray-900 border-gray-700 text-sftGreen focus:ring-0 cursor-pointer">
+                    <label for="signup-terms-checkbox" class="text-xs text-gray-300 leading-tight cursor-pointer">
+                        আমি SFT Arabic Express এর সমস্ত <button type="button" onclick="closeAuthModal(); navigateTo('terms');" class="text-sftGreen font-bold hover:underline">ব্যবহারের শর্তাবলি (Terms & Conditions)</button> পড়েছি এবং সম্মত আছি।
+                    </label>
                 </div>
                 
                 <button type="submit" id="signup-submit-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftGreen to-sftBlue text-gray-950 font-bold shadow-neonGreen flex items-center justify-center space-x-2">
@@ -676,13 +749,13 @@
         
         const DEFAULT_HOME_INFO = {
             art1Title: "১. সাইন-আপ ও লগইন নির্দেশিকা",
-            art1Desc: "ওয়েবসাইটে নতুন অ্যাকাউন্ট খুলতে 'সাইন আপ' বাটনে ক্লিক করুন। আপনার নাম, জিমেইল ও পাসওয়ার্ড দিয়ে একাউন্ট তৈরি করলেই সাথে পাবেন ৩০০০ পয়েন্ট ফ্রি! আপনার বন্ধু বা প্রবাসীর রেফারেল আইডি ব্যবহার করলে অতিরিক্ত ৩০০০ পয়েন্ট সহ মোট ৬০০০ পয়েন্ট বোনাস পাবেন। পরবর্তীতে জিমেইল ও পাসওয়ার্ড দিয়ে সহজেই 'লগইন' করে আপনার কোর্স চালিয়ে যেতে পারবেন।",
+            art1Desc: "ওয়েবসাইটে নতুন অ্যাকাউন্ট খুলতে 'সাইন আপ' বাটনে ক্লিক করুন। আপনার নাম, জিমেইল ও পাসওয়ার্ড দিয়ে একাউন্ট তৈরি করলেই সাথে পাবেন ৩০০০ পয়েন্ট ফ্রি!",
             art2Title: "২. লেসন পড়ার নিয়ম ও পয়েন্ট অর্জন",
-            art2Desc: "প্রতিটি লেসনে রয়েছে ১০টি করে আঞ্চলিক আরবি শব্দ এবং ৫টি গুরুত্বপূর্ণ বাক্য। শব্দগুলো পড়ার পর ১০টি শব্দ কুইজে অংশগ্রহণ করতে হবে (প্রতিটি সঠিক উত্তরে ১০ পয়েন্ট করে মোট ১০০ পয়েন্ট)। এরপর ৫টি বাক্য কুইজে সঠিক উত্তর দিলে প্রতিটিতে ২০ পয়েন্ট করে মোট ১০০ পয়েন্ট অর্জিত হবে। কুইজ একবারই দেওয়া যায়, তবে শব্দ ও বাক্যগুলো যত খুশি ততবার রিভিউ বা পড়তে পারবেন।",
+            art2Desc: "প্রতিটি লেসনে রয়েছে ১০টি করে আঞ্চলিক আরবি শব্দ এবং ৫টি গুরুত্বপূর্ণ বাক্য। শব্দগুলো পড়ার পর কুইজে সঠিক উত্তর দিলে পয়েন্ট অর্জিত হয়।",
             art3Title: "৩. ৩০ দিন কোর্স ও সার্টিফিকেট আনলক",
-            art3Desc: "১ম দিন বাদে বাকি লেসনগুলো সিকোয়েন্সিয়ালি লক থাকবে। একটি লেসন শেষ করলে স্বয়ংক্রিয়ভাবে পরবর্তী দিন আনলক হবে। এভাবে ৩০ দিনের সবগুলো লেসন সফলভাবে সম্পন্ন করলে আপনার অফিসিয়াল কোর্স সমাপনী সার্টিফিকেটটি স্বয়ংক্রিয়ভাবে আনলক হয়ে যাবে। সার্টিফিকেট কার্ডটি আপনি এক ক্লিকেই পিএনজি (PNG) ফরম্যাটে ডাউনলোড করে প্রিন্ট বা শেয়ার করতে পারবেন।",
+            art3Desc: "১ম দিন বাদে বাকি লেসনগুলো সিকোয়েন্সিয়ালি লক থাকবে। ৩০ দিনের সবগুলো লেসন সফলভাবে সম্পন্ন করলে আপনার অফিসিয়াল সার্টিফিকেট আনলক হয়ে যাবে।",
             art4Title: "৪. লিডারবোর্ড ও স্মার্টফোন মেগা ড্র",
-            art4Desc: "কোর্স সম্পন্ন ও রেফারেলের মাধ্যমে যেসব শিক্ষার্থী ৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জন করবেন, তারা স্বয়ংক্রিয়ভাবে গ্লোবাল লিডারবোর্ড এবং মেগা ড্র এন্ট্রি তালিকায় স্থান পাবেন। প্রতি ৫,৯০০ পয়েন্টের জন্য ১টি করে লাকি ড্র এন্ট্রি কাউন্ট হবে। ড্র এর মাধ্যমে ভাগ্য সহায় হলে আপনি জিতে নিতে পারেন ১৫,০০০ থেকে ২০,০০০ টাকা মূল্যের প্রিমিয়াম স্মার্টফোন বা আকর্ষণীয় পুরস্কার!"
+            art4Desc: "কোর্স সম্পন্ন ও রেফারেলের মাধ্যমে যেসব শিক্ষার্থী ৫,৯০০ বা তার বেশি পয়েন্ট অর্জন করবেন, তারা মেগা ড্র এন্ট্রি তালিকায় স্থান পাবেন।"
         };
 
         const DEFAULT_LOTTERY_SETTINGS = {
@@ -708,7 +781,7 @@
                 lessons[day] = {
                     day: day,
                     title: `দিন ${day}: আঞ্চলিক আরবি কথোপকথন ও শব্দভাণ্ডার`,
-                    isLocked: day !== 1, // ১ম দিন বাদে বাকি সব বাই ডিফল্ট লকড থাকবে
+                    isLocked: day !== 1,
                     words: words,
                     sentences: sentences
                 };
@@ -753,7 +826,7 @@
                     onValue(ref(db, 'settings/lessons'), (snap) => { if (snap.exists()) appLessons = snap.val(); });
                     onValue(ref(db, 'settings/motivation'), (snap) => { if (snap.exists()) motivationalQuote = snap.val(); });
                     onValue(ref(db, 'settings/lottery'), (snap) => { if (snap.exists()) lotterySettings = snap.val(); });
-                    onValue(ref(db, 'settings/homeInfo'), (snap) => { if (snap.exists()) homeInfoArticles = snap.val(); renderHomeInfoArticles(); });
+                    onValue(ref(db, 'settings/homeInfo'), (snap) => { if (snap.exists()) { homeInfoArticles = snap.val(); renderHomeInfoArticles(); } });
                     onValue(ref(db, 'settings/winner'), (snap) => { luckyWinner = snap.val() || null; });
                     onValue(ref(db, 'settings/globalCertificateUnlock'), (snap) => { globalCertificateUnlock = snap.exists() ? snap.val() : false; });
 
@@ -842,10 +915,12 @@
         function navigateTo(pageId, dayNum = 1) {
             activePage = pageId;
             if (dayNum) activeLessonDay = dayNum;
-            ['home', 'routine', 'lesson', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'].forEach(p => {
-                document.getElementById(`page-${p}`).classList.add('hidden');
+            ['home', 'terms', 'routine', 'lesson', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'].forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                if (el) el.classList.add('hidden');
             });
-            document.getElementById(`page-${activePage}`).classList.remove('hidden');
+            const targetPage = document.getElementById(`page-${activePage}`);
+            if (targetPage) targetPage.classList.remove('hidden');
 
             if (activePage === 'home') renderHomePage();
             if (activePage === 'routine') renderRoutinePage();
@@ -968,7 +1043,6 @@
                 const isCompleted = completedDays.includes(day);
                 
                 const isUnlocked = !adminLocked && (day === 1 || completedDays.includes(day - 1));
-                const isCurrent = !adminLocked && !isCompleted && (day === 1 || completedDays.includes(day - 1));
 
                 let cardClass = "", badgeHtml = "", clickAction = "";
                 if (adminLocked) {
@@ -1137,7 +1211,10 @@
                         </div>
                         <h3 class="text-xl font-bold text-white">এই লেসনের শব্দ কুইজ আপনি ইতিমধ্যে সম্পন্ন করেছেন!</h3>
                         <p class="text-xs text-gray-400 max-w-md mx-auto">কুইজ কেবল একবারই দেওয়া যায়। তবে আপনি চাইলে 'শব্দভাণ্ডার' ট্যাবে গিয়ে যেকোনো সময় শব্দগুলো যতবার খুশি রিভিউ বা পড়তে পারবেন।</p>
-                        <button onclick="switchLessonTab('sentences')" class="mt-4 px-6 py-2.5 bg-sftGreen text-gray-950 font-bold rounded-xl text-sm hover:scale-105 transition">বাক্য অংশে যান &rarr;</button>
+                        <div class="flex justify-center gap-3 pt-2">
+                            <button onclick="navigateTo('routine')" class="px-6 py-2.5 bg-gray-800 text-gray-200 font-bold rounded-xl text-xs hover:bg-gray-700">&larr; রুটিনে ফিরে যান</button>
+                            <button onclick="switchLessonTab('sentences')" class="px-6 py-2.5 bg-sftGreen text-gray-950 font-bold rounded-xl text-xs hover:scale-105 transition">বাক্য অংশে যান &rarr;</button>
+                        </div>
                     </div>
                 `;
                 return;
@@ -1298,9 +1375,9 @@
         }
 
         function renderLotteryPage() {
-            document.getElementById('lottery-page-heading').textContent = lotterySettings.heading;
-            let lotteryEntries = [];
+            document.getElementById('lottery-page-heading').textContent = lotterySettings.heading || "স্মার্টফোন মেগা অফার তালিকা ও টাইমার";
             
+            let lotteryEntries = [];
             allUsersCache.forEach(u => {
                 const pts = u.points || 0;
                 const entries = Math.floor(pts / 5900);
@@ -1309,30 +1386,80 @@
                 }
             });
 
-            document.getElementById('lottery-content-wrapper').innerHTML = `
-                <div class="glassmorphism p-6 rounded-2xl border border-amber-500/40 text-center space-y-3 bg-gradient-to-r from-amber-950/40 via-gray-900 to-amber-950/40">
-                    <h3 class="text-xl font-bold text-amber-400"><i class="fa-solid fa-clock"></i> ${lotterySettings.badgeText}</h3>
+            const contentWrapper = document.getElementById('lottery-content-wrapper');
+            if (!contentWrapper) return;
+
+            contentWrapper.innerHTML = `
+                <!-- অফারের বিবরণ ও নিয়মাবলি কার্ড -->
+                <div class="glassmorphism p-6 md:p-8 rounded-2xl border border-amber-500/40 space-y-4 bg-gradient-to-r from-amber-950/40 via-gray-900 to-amber-950/40">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">মেগা ড্র অফার বিবরণ</span>
+                            <h3 class="text-xl font-bold text-white">${lotterySettings.badgeText || '১৫,০০০ - ২০,০০০ টাকার স্মার্টফোন মেগা অফার'}</h3>
+                        </div>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+                        ৩০ দিনের কোর্স সম্পন্ন করে অথবা বন্ধু ও প্রবাসীদের রেফার করে যেসব শিক্ষার্থী <strong class="text-amber-400 font-bold">৫,৯০০ বা তার বেশি পয়েন্ট (XP)</strong> অর্জন করবেন, তারা স্বয়ংক্রিয়ভাবে এই মেগা ড্র লিস্টে এন্ট্রি পাবেন। প্রতিটি ৫,৯০০ পয়েন্টের জন্য ১টি করে লাকি ড্র টিকেট বা এন্ট্রি কাউন্ট হবে। ড্র-এর নির্দিষ্ট তারিখে র্যান্ডম বা এডমিন প্যানেলের মাধ্যমে বিজয়ী নির্বাচন করে স্মার্টফোন প্রদান করা হবে!
+                    </p>
                 </div>
-                ${luckyWinner ? `<div class="glassmorphism p-6 rounded-2xl border-2 border-amber-500 shadow-goldGlow text-center space-y-2"><h3 class="text-2xl font-black text-amber-300">🎉 অফার বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)</h3></div>` : ''}
+
+                <!-- বিজয়ী ঘোষণা সেকশন -->
+                ${luckyWinner ? `
+                    <div class="glassmorphism p-6 rounded-2xl border-2 border-amber-500 shadow-goldGlow text-center space-y-3 bg-amber-950/60">
+                        <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-500/20 text-amber-400 text-3xl mb-1">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-amber-300">🎉 অফার বিজয়ী ঘোষণা করা হয়েছে!</h3>
+                        <p class="text-base font-bold text-white">বিজয়ীর নাম: <span class="text-amber-400">${luckyWinner.username}</span> (${luckyWinner.points || 0} XP)</p>
+                        <p class="text-xs text-gray-300">অভিনন্দন! SFT Arabic Express-এর পক্ষ থেকে খুব শীঘ্রই আপনার সাথে যোগাযোগ করা হবে।</p>
+                    </div>
+                ` : ''}
+
+                <!-- অফার যোগ্য ইউজারদের তালিকা -->
                 <div class="glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-ticket text-amber-400"></i> অফার যোগ্য তালিকা (মোট এন্ট্রি: ${lotteryEntries.length} টি)
-                    </h3>
-                    <p class="text-xs text-gray-400">প্রতি ৫৯০০ পয়েন্ট অর্জন করলে অফার লিস্টে স্বয়ংক্রিয়ভাবে ১টি করে এন্ট্রি যুক্ত হয়।</p>
-                    ${lotteryEntries.length === 0 ? '<p class="text-sm text-gray-400 text-center py-4">এখনও কেউ ৫৯০০+ পয়েন্ট অর্জন করেননি।</p>' : 
-                      lotteryEntries.map((e, idx) => `
-                        <div class="flex justify-between items-center p-3 rounded-xl bg-gray-900 border border-gray-800 text-sm">
-                            <div class="flex items-center space-x-3">
-                                <span class="font-bold text-amber-400">#${idx + 1}</span>
-                                <img src="${e.user.avatar}" class="w-8 h-8 rounded-full">
-                                <div>
-                                    <span class="font-bold text-white">${e.user.username}</span>
-                                    <span class="text-[10px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/30 ml-2">অফার এন্ট্রি ${e.ticketNum}/${e.totalTickets}</span>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-800 pb-3">
+                        <div>
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-ticket text-amber-400"></i> অফার যোগ্য ইউজারদের তালিকা (এন্ট্রি: ${lotteryEntries.length} টি)
+                            </h3>
+                            <p class="text-xs text-gray-400">যাদের পয়েন্ট ৫৯০০ বা তার বেশি, কেবল তাদের নামই এখানে শো করছে।</p>
+                        </div>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full border border-amber-500/30 font-bold">
+                            সর্বমোট যোগ্য শিক্ষার্থী: ${new Set(lotteryEntries.map(e => e.user.id)).size} জন
+                        </span>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        ${lotteryEntries.length === 0 ? `
+                            <div class="text-center py-8 space-y-2">
+                                <i class="fa-solid fa-hourglass-empty text-3xl text-gray-600"></i>
+                                <p class="text-sm text-gray-400">এখনও ৫৯০০+ পয়েন্ট অর্জনকারী কেউ নেই। লেসন শেষ করুন বা রেফার করে পয়েন্ট বাড়িয়ে লিস্টে নাম তুলুন!</p>
+                            </div>
+                        ` : 
+                          lotteryEntries.map((e, idx) => `
+                            <div class="flex justify-between items-center p-3.5 rounded-xl bg-gray-900/80 border border-gray-800 hover:border-amber-500/30 transition">
+                                <div class="flex items-center space-x-3">
+                                    <span class="w-7 text-center font-bold text-amber-400 text-sm">#${idx + 1}</span>
+                                    <img src="${e.user.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=User'}" class="w-9 h-9 rounded-full bg-gray-800 border border-gray-700">
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold text-white text-sm">${e.user.username}</span>
+                                            <span class="text-[10px] text-gray-400 font-mono">ID: ${e.user.referralID || '---'}</span>
+                                        </div>
+                                        <span class="text-[10px] text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 mt-0.5 inline-block">
+                                            লাকি ড্র টিকেট এন্ট্রি: ${e.ticketNum} / ${e.totalTickets}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-sm font-black text-amber-400">${e.user.points || 0} XP</span>
                                 </div>
                             </div>
-                            <span class="text-amber-400 font-bold">${e.user.points} XP</span>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
             `;
         }
@@ -1409,6 +1536,12 @@
         async function handleSignup(e) {
             e.preventDefault();
             
+            const termsCheckbox = document.getElementById('signup-terms-checkbox');
+            if (termsCheckbox && !termsCheckbox.checked) {
+                showToast("অ্যাকাউন্ট খুলতে ব্যবহারের শর্তাবলিতে (Terms & Conditions) টিক মার্ক দিন!", "error");
+                return;
+            }
+
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const password = document.getElementById('signup-password').value.trim();
@@ -1511,6 +1644,7 @@
                 document.getElementById('signup-email').value = '';
                 document.getElementById('signup-password').value = '';
                 document.getElementById('signup-ref-id').value = '';
+                if(termsCheckbox) termsCheckbox.checked = false;
 
                 closeAuthModal();
                 navigateTo('routine');
