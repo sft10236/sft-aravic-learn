@@ -12,11 +12,11 @@
             theme: {
                 extend: {
                     colors: {
-                        sftPink: '#FF2E93',
-                        sftGreen: '#00F5D4',
-                        sftBlue: '#00B4D8',
-                        darkBg: '#0B0F19',
-                        cardBg: '#151C2C',
+                        sftPink: 'var(--color-pink, #FF2E93)',
+                        sftGreen: 'var(--color-green, #00F5D4)',
+                        sftBlue: 'var(--color-blue, #00B4D8)',
+                        darkBg: 'var(--color-bg, #0B0F19)',
+                        cardBg: 'var(--color-card, #151C2C)',
                         glassBg: 'rgba(21, 28, 44, 0.75)'
                     },
                     boxShadow: {
@@ -62,20 +62,27 @@
     </script>
 
     <style>
+        :root {
+            --color-pink: #FF2E93;
+            --color-green: #00F5D4;
+            --color-blue: #00B4D8;
+            --color-bg: #0B0F19;
+            --color-card: #151C2C;
+        }
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: #0B0F19;
+            background-color: var(--color-bg);
             color: #F3F4F6;
             overflow-x: hidden;
         }
         .glassmorphism {
-            background: rgba(21, 28, 44, 0.75);
+            background: var(--color-card);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .text-gradient-sft {
-            background: linear-gradient(135deg, #FF2E93 0%, #00F5D4 50%, #00B4D8 100%);
+            background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-green) 50%, var(--color-blue) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -83,7 +90,7 @@
             width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0B0F19;
+            background: var(--color-bg);
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #1F2937;
@@ -259,20 +266,20 @@
 
             <div class="glassmorphism rounded-3xl p-6 md:p-10 border border-gray-800 space-y-6 text-sm text-gray-300 leading-relaxed">
                 <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ১. অ্যাকাউন্ট রেজিস্ট্রেশন ও নিরাপত্তা</h3>
-                    <p>SFT Arabic Express এ অ্যাকাউন্ট খোলার সময় সঠিক নাম, ইমেইল এবং তথ্য প্রদান করতে হবে। আপনার পাসওয়ার্ড ও অ্যাকাউন্টের গোপনীয়তা রক্ষার দায়িত্ব সম্পূর্ণ আপনার নিজের।</p>
+                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> <span id="terms-art-1-title">১. অ্যাকাউন্ট রেজিস্ট্রেশন ও নিরাপত্তা</span></h3>
+                    <p id="terms-art-1-desc">SFT Arabic Express এ অ্যাকাউন্ট খোলার সময় সঠিক নাম, ইমেইল এবং তথ্য প্রদান করতে হবে। আপনার পাসওয়ার্ড ও অ্যাকাউন্টের গোপনীয়তা রক্ষার দায়িত্ব সম্পূর্ণ আপনার নিজের।</p>
                 </div>
                 <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-sftGreen flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ২. পয়েন্ট অর্জন ও রেফারেল নীতি</h3>
-                    <p>সাইন-আপ করার পর ফ্রি পয়েন্ট এবং বন্ধু বা পরিচিত প্রবাসীর রেফারেল আইডি ব্যবহার করে অতিরিক্ত বোনাস পয়েন্ট অর্জন করা যাবে। ফেক রেফারেল নিষিদ্ধ।</p>
+                    <h3 class="text-lg font-bold text-sftGreen flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> <span id="terms-art-2-title">২. পয়েন্ট অর্জন ও রেফারেল নীতি</span></h3>
+                    <p id="terms-art-2-desc">সাইন-আপ করার পর ফ্রি পয়েন্ট এবং বন্ধু বা পরিচিত প্রবাসীর রেফারেল আইডি ব্যবহার করে অতিরিক্ত বোনাস পয়েন্ট অর্জন করা যাবে। ফেক রেফারেল নিষিদ্ধ।</p>
                 </div>
                 <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-sftPink flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ৩. লেসন কুইজ ও প্রোগ্রেস</h3>
-                    <p>প্রতিদিনের লেসনে থাকা শব্দভাণ্ডার এবং বাক্য কুইজ নির্দিষ্ট নিয়মে সম্পন্ন করতে হবে। একবার কুইজ সম্পন্ন হলে তা আবার দেওয়া যায় না।</p>
+                    <h3 class="text-lg font-bold text-sftPink flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> <span id="terms-art-3-title">৩. লেসন কুইজ ও প্রোগ্রেস</span></h3>
+                    <p id="terms-art-3-desc">প্রতিদিনের লেসনে থাকা শব্দভাণ্ডার এবং বাক্য কুইজ নির্দিষ্ট নিয়মে সম্পন্ন করতে হবে। একবার কুইজ সম্পন্ন হলে তা আবার দেওয়া যায় না।</p>
                 </div>
                 <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-sftBlue flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> ৪. স্মার্টফোন মেগা অফার ও লাকি ড্র</h3>
-                    <p>৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে মেগা ড্র এন্ট্রি পাবেন। ড্র-এর সিদ্ধান্ত চূড়ান্ত বলে গণ্য হবে।</p>
+                    <h3 class="text-lg font-bold text-sftBlue flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> <span id="terms-art-4-title">৪. স্মার্টফোন মেগা অফার ও লাকি ড্র</span></h3>
+                    <p id="terms-art-4-desc">৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে মেগা ড্র এন্ট্রি পাবেন। ড্র-এর সিদ্ধান্ত চূড়ান্ত বলে গণ্য হবে।</p>
                 </div>
                 <div class="pt-4 border-t border-gray-800 text-center">
                     <button onclick="navigateTo('home')" class="px-6 py-3 rounded-xl bg-sftGreen text-gray-950 font-bold text-xs hover:shadow-neonGreen transition">হোম পেজে ফিরে যান</button>
@@ -483,13 +490,15 @@
                     </button>
                     <div>
                         <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-sftPink"></i> এডমিন কন্ট্রোল প্যানেল</h2>
-                        <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন লক/আনলক ও হোম ইনফো আর্টিকেল এডিটর</p>
+                        <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন লক/আনলক, থিম ও কালার এডিটর</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-3 py-2 rounded-lg bg-sftPink text-white text-xs font-bold shadow-neonPink">ইউজারবৃন্দ</button>
                     <button onclick="switchAdminTab('referrals')" id="admin-tab-referrals" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">রেফারেল হিস্ট্রি</button>
-                    <button onclick="switchAdminTab('homeinfo')" id="admin-tab-homeinfo" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">হোম ইনফো এডিটর</button>
+                    <button onclick="switchAdminTab('theme')" id="admin-tab-theme" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">থিম ও কালার</button>
+                    <button onclick="switchAdminTab('homeinfo')" id="admin-tab-homeinfo" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">হোম ইনফো</button>
+                    <button onclick="switchAdminTab('terms')" id="admin-tab-terms" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">শর্তাবলি</button>
                     <button onclick="switchAdminTab('motivation')" id="admin-tab-motivation" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">মোটিভেশন</button>
                     <button onclick="switchAdminTab('lessons')" id="admin-tab-lessons" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">লেসন ও লক</button>
                     <button onclick="switchAdminTab('lottery')" id="admin-tab-lottery" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">অফার এডিটর</button>
@@ -542,6 +551,57 @@
                 </div>
             </div>
 
+            <!-- THEME & COLOR CUSTOMIZER TAB (NEW) -->
+            <div id="admin-sec-theme" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white">ওয়েবসাইট কালার কম্বিনেশন ও থিম এডিটর</h3>
+                    <p class="text-xs text-gray-400">অ্যাপ্লিকেশনের বিভিন্ন প্রধান কালার এখান থেকে পরিবর্তন করুন এবং সেভ করুন।</p>
+                </div>
+                <form onsubmit="handleSaveThemeColors(event)" class="space-y-6 max-w-xl">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                            <div>
+                                <label class="block text-xs font-bold text-sftPink">প্রাইমারি পিংক কালার</label>
+                                <span class="text-[10px] text-gray-400">বাটন ও হাইলাইট</span>
+                            </div>
+                            <input type="color" id="theme-color-pink" class="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-gray-700" value="#FF2E93">
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                            <div>
+                                <label class="block text-xs font-bold text-sftGreen">প্রাইমারি গ্রীন কালার</label>
+                                <span class="text-[10px] text-gray-400">সাকসেস ও অ্যাক্টিভ</span>
+                            </div>
+                            <input type="color" id="theme-color-green" class="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-gray-700" value="#00F5D4">
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                            <div>
+                                <label class="block text-xs font-bold text-sftBlue">প্রাইমারি ব্লু কালার</label>
+                                <span class="text-[10px] text-gray-400">ইনফো ও ব্যালেন্স</span>
+                            </div>
+                            <input type="color" id="theme-color-blue" class="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-gray-700" value="#00B4D8">
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300">ব্যাকগ্রাউন্ড কালার</label>
+                                <span class="text-[10px] text-gray-400">মেইন বডি ব্যাকগ্রাউন্ড</span>
+                            </div>
+                            <input type="color" id="theme-color-bg" class="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-gray-700" value="#0B0F19">
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 flex items-center justify-between sm:col-span-2">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300">কার্ড ব্যাকগ্রাউন্ড (Glass/Card)</label>
+                                <span class="text-[10px] text-gray-400">বক্স ও কার্ডের কালার</span>
+                            </div>
+                            <input type="color" id="theme-color-card" class="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-gray-700" value="#151C2C">
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="submit" class="px-6 py-3 bg-sftGreen text-gray-950 font-bold rounded-xl shadow-neonGreen text-sm">কালার ও থিম সেভ করুন</button>
+                        <button type="button" onclick="resetDefaultThemeColors()" class="px-6 py-3 bg-gray-800 text-gray-300 font-bold rounded-xl text-sm hover:bg-gray-700">ডিফল্ট কালার রিটেইনি</button>
+                    </div>
+                </form>
+            </div>
+
             <!-- HOME INFO ARTICLES EDITOR TAB -->
             <div id="admin-sec-homeinfo" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
                 <div>
@@ -570,6 +630,37 @@
                         <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-art-4-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
                     </div>
                     <button type="submit" class="px-6 py-3 bg-sftGreen text-gray-950 font-bold rounded-xl shadow-neonGreen text-sm">ইনফো আর্টিকেল সেভ করুন</button>
+                </form>
+            </div>
+
+            <!-- TERMS & CONDITIONS EDITOR TAB -->
+            <div id="admin-sec-terms" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white">ব্যবহারের শর্তাবলি (Terms & Conditions) এডিটর</h3>
+                    <p class="text-xs text-gray-400">শর্তাবলি পেজের ৪টি প্রধান নিয়মের শিরোনাম ও বিস্তারিত বিবরণ এখান থেকে আপডেট করুন।</p>
+                </div>
+                <form onsubmit="handleSaveTermsArticles(event)" class="space-y-6">
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-amber-400">শর্ত ১</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-terms-1-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-terms-1-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-sftGreen">শর্ত ২</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-terms-2-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-terms-2-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-sftPink">শর্ত ৩</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-terms-3-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-terms-3-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-sftBlue">শর্ত ৪</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-terms-4-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-terms-4-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-sftGreen text-gray-950 font-bold rounded-xl shadow-neonGreen text-sm">শর্তাবলি সেভ করুন</button>
                 </form>
             </div>
 
@@ -765,6 +856,25 @@
             art4Desc: "কোর্স সম্পন্ন ও রেফারেলের মাধ্যমে যেসব শিক্ষার্থী ৫,৯০০ বা তার বেশি পয়েন্ট অর্জন করবেন, তারা মেগা ড্র এন্ট্রি তালিকায় স্থান পাবেন।"
         };
 
+        const DEFAULT_TERMS_ARTICLES = {
+            art1Title: "১. অ্যাকাউন্ট রেজিস্ট্রেশন ও নিরাপত্তা",
+            art1Desc: "SFT Arabic Express এ অ্যাকাউন্ট খোলার সময় সঠিক নাম, ইমেইল এবং তথ্য প্রদান করতে হবে। আপনার পাসওয়ার্ড ও অ্যাকাউন্টের গোপনীয়তা রক্ষার দায়িত্ব সম্পূর্ণ আপনার নিজের।",
+            art2Title: "২. পয়েন্ট অর্জন ও রেফারেল নীতি",
+            art2Desc: "সাইন-আপ করার পর ফ্রি পয়েন্ট এবং বন্ধু বা পরিচিত প্রবাসীর রেফারেল আইডি ব্যবহার করে অতিরিক্ত বোনাস পয়েন্ট অর্জন করা যাবে। ফেক রেফারেল নিষিদ্ধ।",
+            art3Title: "৩. লেসন কুইজ ও প্রোগ্রেস",
+            art3Desc: "প্রতিদিনের লেসনে থাকা শব্দভাণ্ডার এবং বাক্য কুইজ নির্দিষ্ট নিয়মে সম্পন্ন করতে হবে। একবার কুইজ সম্পন্ন হলে তা আবার দেওয়া যায় না।",
+            art4Title: "৪. স্মার্টফোন মেগা অফার ও লাকি ড্র",
+            art4Desc: "৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে মেগা ড্র এন্ট্রি পাবেন। ড্র-এর সিদ্ধান্ত চূড়ান্ত বলে গণ্য হবে।"
+        };
+
+        const DEFAULT_THEME_COLORS = {
+            pink: "#FF2E93",
+            green: "#00F5D4",
+            blue: "#00B4D8",
+            bg: "#0B0F19",
+            card: "#151C2C"
+        };
+
         const DEFAULT_LOTTERY_SETTINGS = {
             bannerText: "৩০ দিনে ৩০০ শব্দ ও ১৫০ সেন্টেন্স শিখে জিতে নিন <span class='text-amber-400'>একটি প্রিমিয়াম স্মার্টফোন!</span>",
             heading: "স্মার্টফোন মেগা অফার তালিকা ও টাইমার",
@@ -807,8 +917,20 @@
         let lotterySettings = DEFAULT_LOTTERY_SETTINGS;
         let motivationalQuote = DEFAULT_MOTIVATIONAL_QUOTE;
         let homeInfoArticles = DEFAULT_HOME_INFO;
+        let termsArticles = DEFAULT_TERMS_ARTICLES;
+        let themeColors = DEFAULT_THEME_COLORS;
         let luckyWinner = null;
         let globalCertificateUnlock = false;
+
+        function applyThemeColors(colors) {
+            const root = document.documentElement;
+            if(!colors) colors = DEFAULT_THEME_COLORS;
+            root.style.setProperty('--color-pink', colors.pink || DEFAULT_THEME_COLORS.pink);
+            root.style.setProperty('--color-green', colors.green || DEFAULT_THEME_COLORS.green);
+            root.style.setProperty('--color-blue', colors.blue || DEFAULT_THEME_COLORS.blue);
+            root.style.setProperty('--color-bg', colors.bg || DEFAULT_THEME_COLORS.bg);
+            root.style.setProperty('--color-card', colors.card || DEFAULT_THEME_COLORS.card);
+        }
 
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast'), icon = document.getElementById('toast-icon'), msg = document.getElementById('toast-message');
@@ -835,6 +957,8 @@
                     onValue(ref(db, 'settings/motivation'), (snap) => { if (snap.exists()) motivationalQuote = snap.val(); });
                     onValue(ref(db, 'settings/lottery'), (snap) => { if (snap.exists()) lotterySettings = snap.val(); });
                     onValue(ref(db, 'settings/homeInfo'), (snap) => { if (snap.exists()) { homeInfoArticles = snap.val(); renderHomeInfoArticles(); } });
+                    onValue(ref(db, 'settings/terms'), (snap) => { if (snap.exists()) { termsArticles = snap.val(); renderTermsPage(); } });
+                    onValue(ref(db, 'settings/theme'), (snap) => { if (snap.exists()) { themeColors = snap.val(); applyThemeColors(themeColors); } });
                     onValue(ref(db, 'settings/winner'), (snap) => { luckyWinner = snap.val() || null; });
                     onValue(ref(db, 'settings/globalCertificateUnlock'), (snap) => { globalCertificateUnlock = snap.exists() ? snap.val() : false; });
 
@@ -850,7 +974,6 @@
                         }
                     });
 
-                    // ফায়ারবেস থেকে সমস্ত ইউজার ডেটা লোড করার মূল ফিক্সড লজিক
                     onValue(ref(db, 'users'), (snapshot) => {
                         allUsersCache = [];
                         if (snapshot.exists()) {
@@ -932,6 +1055,7 @@
             if (targetPage) targetPage.classList.remove('hidden');
 
             if (activePage === 'home') renderHomePage();
+            if (activePage === 'terms') renderTermsPage();
             if (activePage === 'routine') renderRoutinePage();
             if (activePage === 'lesson') renderLessonPage(activeLessonDay);
             if (activePage === 'leaderboard') renderLeaderboardPage();
@@ -997,6 +1121,22 @@
             if (d3) d3.textContent = homeInfoArticles.art3Desc || DEFAULT_HOME_INFO.art3Desc;
             if (t4) t4.textContent = homeInfoArticles.art4Title || DEFAULT_HOME_INFO.art4Title;
             if (d4) d4.textContent = homeInfoArticles.art4Desc || DEFAULT_HOME_INFO.art4Desc;
+        }
+
+        function renderTermsPage() {
+            const t1 = document.getElementById('terms-art-1-title'), d1 = document.getElementById('terms-art-1-desc');
+            const t2 = document.getElementById('terms-art-2-title'), d2 = document.getElementById('terms-art-2-desc');
+            const t3 = document.getElementById('terms-art-3-title'), d3 = document.getElementById('terms-art-3-desc');
+            const t4 = document.getElementById('terms-art-4-title'), d4 = document.getElementById('terms-art-4-desc');
+
+            if (t1) t1.textContent = termsArticles.art1Title || DEFAULT_TERMS_ARTICLES.art1Title;
+            if (d1) d1.textContent = termsArticles.art1Desc || DEFAULT_TERMS_ARTICLES.art1Desc;
+            if (t2) t2.textContent = termsArticles.art2Title || DEFAULT_TERMS_ARTICLES.art2Title;
+            if (d2) d2.textContent = termsArticles.art2Desc || DEFAULT_TERMS_ARTICLES.art2Desc;
+            if (t3) t3.textContent = termsArticles.art3Title || DEFAULT_TERMS_ARTICLES.art3Title;
+            if (d3) d3.textContent = termsArticles.art3Desc || DEFAULT_TERMS_ARTICLES.art3Desc;
+            if (t4) t4.textContent = termsArticles.art4Title || DEFAULT_TERMS_ARTICLES.art4Title;
+            if (d4) d4.textContent = termsArticles.art4Desc || DEFAULT_TERMS_ARTICLES.art4Desc;
         }
 
         function renderHomePage() {
@@ -1381,7 +1521,6 @@
             setTimeout(() => navigateTo('routine'), 1800);
         }
 
-        // গ্লোবাল লিডারবোর্ড: শুধুমাত্র ৫৯০০+ পয়েন্ট অর্জনকারীদের প্রদর্শন করবে
         function renderLeaderboardPage() {
             let sortedUsers = [];
             if (allUsersCache && Array.isArray(allUsersCache)) {
@@ -1411,7 +1550,6 @@
             const headingEl = document.getElementById('lottery-page-heading');
             if(headingEl) headingEl.textContent = lotterySettings.heading || "স্মার্টফোন মেগা অফার তালিকা ও টাইমার";
             
-            // অফার যোগ্য ইউজার তালিকা: ৫৯০০+ পয়েন্ট
             let lotteryEntries = [];
             if (allUsersCache && Array.isArray(allUsersCache)) {
                 allUsersCache.forEach(u => {
@@ -1429,7 +1567,6 @@
             if (!contentWrapper) return;
 
             contentWrapper.innerHTML = `
-                <!-- অফারের বিবরণ ও নিয়মাবলি কার্ড -->
                 <div class="glassmorphism p-6 md:p-8 rounded-2xl border border-amber-500/40 space-y-4 bg-gradient-to-r from-amber-950/40 via-gray-900 to-amber-950/40">
                     <div class="flex items-center space-x-3">
                         <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold">
@@ -1445,7 +1582,6 @@
                     </p>
                 </div>
 
-                <!-- বিজয়ী ঘোষণা সেকশন -->
                 ${luckyWinner ? `
                     <div class="glassmorphism p-6 rounded-2xl border-2 border-amber-500 shadow-goldGlow text-center space-y-3 bg-amber-950/60">
                         <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-500/20 text-amber-400 text-3xl mb-1">
@@ -1457,7 +1593,6 @@
                     </div>
                 ` : ''}
 
-                <!-- অফার যোগ্য ইউজারদের তালিকা -->
                 <div class="glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-800 pb-3">
                         <div>
@@ -1803,6 +1938,7 @@
             if(motivInput) motivInput.value = motivationalQuote;
             setupAdminLessonSelect();
 
+            // হোম ইনফো ফর্ম পপুলেট
             const art1t = document.getElementById('admin-art-1-title'), art1d = document.getElementById('admin-art-1-desc');
             const art2t = document.getElementById('admin-art-2-title'), art2d = document.getElementById('admin-art-2-desc');
             const art3t = document.getElementById('admin-art-3-title'), art3d = document.getElementById('admin-art-3-desc');
@@ -1816,6 +1952,34 @@
             if(art3d) art3d.value = homeInfoArticles.art3Desc || DEFAULT_HOME_INFO.art3Desc;
             if(art4t) art4t.value = homeInfoArticles.art4Title || DEFAULT_HOME_INFO.art4Title;
             if(art4d) art4d.value = homeInfoArticles.art4Desc || DEFAULT_HOME_INFO.art4Desc;
+
+            // শর্তাবলি এডিটর ফর্ম পপুলেট
+            const tArt1t = document.getElementById('admin-terms-1-title'), tArt1d = document.getElementById('admin-terms-1-desc');
+            const tArt2t = document.getElementById('admin-terms-2-title'), tArt2d = document.getElementById('admin-terms-2-desc');
+            const tArt3t = document.getElementById('admin-terms-3-title'), tArt3d = document.getElementById('admin-terms-3-desc');
+            const tArt4t = document.getElementById('admin-terms-4-title'), tArt4d = document.getElementById('admin-terms-4-desc');
+
+            if(tArt1t) tArt1t.value = termsArticles.art1Title || DEFAULT_TERMS_ARTICLES.art1Title;
+            if(tArt1d) tArt1d.value = termsArticles.art1Desc || DEFAULT_TERMS_ARTICLES.art1Desc;
+            if(tArt2t) tArt2t.value = termsArticles.art2Title || DEFAULT_TERMS_ARTICLES.art2Title;
+            if(tArt2d) tArt2d.value = termsArticles.art2Desc || DEFAULT_TERMS_ARTICLES.art2Desc;
+            if(tArt3t) tArt3t.value = termsArticles.art3Title || DEFAULT_TERMS_ARTICLES.art3Title;
+            if(tArt3d) tArt3d.value = termsArticles.art3Desc || DEFAULT_TERMS_ARTICLES.art3Desc;
+            if(tArt4t) tArt4t.value = termsArticles.art4Title || DEFAULT_TERMS_ARTICLES.art4Title;
+            if(tArt4d) tArt4d.value = termsArticles.art4Desc || DEFAULT_TERMS_ARTICLES.art4Desc;
+
+            // থিম কালার পপুলেট
+            const cp = document.getElementById('theme-color-pink');
+            const cg = document.getElementById('theme-color-green');
+            const cb = document.getElementById('theme-color-blue');
+            const cbg = document.getElementById('theme-color-bg');
+            const cc = document.getElementById('theme-color-card');
+
+            if(cp) cp.value = themeColors.pink || DEFAULT_THEME_COLORS.pink;
+            if(cg) cg.value = themeColors.green || DEFAULT_THEME_COLORS.green;
+            if(cb) cb.value = themeColors.blue || DEFAULT_THEME_COLORS.blue;
+            if(cbg) cbg.value = themeColors.bg || DEFAULT_THEME_COLORS.bg;
+            if(cc) cc.value = themeColors.card || DEFAULT_THEME_COLORS.card;
 
             const bannerH = document.getElementById('admin-banner-heading');
             const lotteryH = document.getElementById('admin-lottery-heading');
@@ -1841,12 +2005,36 @@
         }
 
         function switchAdminTab(sec) {
-            ['users', 'referrals', 'homeinfo', 'motivation', 'lessons', 'lottery'].forEach(s => {
+            ['users', 'referrals', 'theme', 'homeinfo', 'terms', 'motivation', 'lessons', 'lottery'].forEach(s => {
                 const secEl = document.getElementById(`admin-sec-${s}`);
                 const tabEl = document.getElementById(`admin-tab-${s}`);
                 if (secEl) secEl.classList.toggle('hidden', s !== sec);
                 if (tabEl) tabEl.className = `px-3 py-2 rounded-lg text-xs font-bold ${s === sec ? 'bg-sftPink text-white shadow-neonPink' : 'bg-gray-800 text-gray-300'}`;
             });
+        }
+
+        async function handleSaveThemeColors(e) {
+            e.preventDefault();
+            const { db, ref, set } = window.firebaseApp;
+            themeColors = {
+                pink: document.getElementById('theme-color-pink').value,
+                green: document.getElementById('theme-color-green').value,
+                blue: document.getElementById('theme-color-blue').value,
+                bg: document.getElementById('theme-color-bg').value,
+                card: document.getElementById('theme-color-card').value
+            };
+            await set(ref(db, 'settings/theme'), themeColors);
+            applyThemeColors(themeColors);
+            showToast("ওয়েবসাইট কালার ও থিম সফলভাবে আপডেট ও সেভ হয়েছে!", "success");
+        }
+
+        async function resetDefaultThemeColors() {
+            const { db, ref, set } = window.firebaseApp;
+            themeColors = DEFAULT_THEME_COLORS;
+            await set(ref(db, 'settings/theme'), themeColors);
+            applyThemeColors(themeColors);
+            renderAdminPage();
+            showToast("ডিফল্ট কালার রিটেইন করা হয়েছে!", "info");
         }
 
         async function handleSaveHomeInfoArticles(e) {
@@ -1866,6 +2054,24 @@
             showToast("হোম পেজ ইনফো আর্টিকেল সফলভাবে সেভ হয়েছে!", "success");
         }
 
+        async function handleSaveTermsArticles(e) {
+            e.preventDefault();
+            const { db, ref, set } = window.firebaseApp;
+            termsArticles = {
+                art1Title: document.getElementById('admin-terms-1-title').value.trim(),
+                art1Desc: document.getElementById('admin-terms-1-desc').value.trim(),
+                art2Title: document.getElementById('admin-terms-2-title').value.trim(),
+                art2Desc: document.getElementById('admin-terms-2-desc').value.trim(),
+                art3Title: document.getElementById('admin-terms-3-title').value.trim(),
+                art3Desc: document.getElementById('admin-terms-3-desc').value.trim(),
+                art4Title: document.getElementById('admin-terms-4-title').value.trim(),
+                art4Desc: document.getElementById('admin-terms-4-desc').value.trim()
+            };
+            await set(ref(db, 'settings/terms'), termsArticles);
+            renderTermsPage();
+            showToast("ব্যবহারের শর্তাবলি সফলভাবে আপডেট ও সেভ হয়েছে!", "success");
+        }
+
         async function handleSaveLotterySettings(e) {
             e.preventDefault();
             const { db, ref, set } = window.firebaseApp;
@@ -1881,7 +2087,6 @@
             showToast("অফার সেটিংস সফলভাবে আপডেট হয়েছে!", "success");
         }
 
-        // অ্যাডমিন প্যানেল ইউজার টেবিল রেন্ডার এবং ফায়ারবেস থেকে ইউজার ডিলিট করার ফাংশন
         function renderAdminUsersTable() {
             const countEl = document.getElementById('admin-user-count');
             const tbodyEl = document.getElementById('admin-users-table-body');
@@ -1964,7 +2169,6 @@
             showToast("ইউজারের এক্সপি ও তথ্য সফলভাবে আপডেট হয়েছে!", "success");
         }
 
-        // সরাসরি ফায়ারবেস ডাটাবেস থেকে ইউজার ডিলিট করার ফাংশন
         async function handleAdminDeleteUser(id) {
             if (currentUser && currentUser.id === id) {
                 showToast("আপনি নিজের অ্যাকাউন্ট ডিলিট করতে পারবেন না!", "error");
