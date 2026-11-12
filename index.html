@@ -96,6 +96,13 @@
         .glow-pulse {
             animation: pulseGlow 3s infinite ease-in-out;
         }
+        @keyframes liveBlink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.9); }
+        }
+        .live-dot {
+            animation: liveBlink 1.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-sftGreen selection:text-black custom-scrollbar">
@@ -113,8 +120,14 @@
                     </span>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold leading-none tracking-wide text-gradient-sft">SFT <span class="text-gradient-sft font-semibold text-xs tracking-wider uppercase block">Arabic Express</span></h1>
-                    <span class="text-[10px] text-gray-400">৩০ দিনে আঞ্চলিক আরবি শিক্ষা</span>
+                    <div class="flex items-center space-x-2">
+                        <h1 class="text-lg font-bold leading-none tracking-wide text-gradient-sft">SFT <span class="text-gradient-sft font-semibold text-xs tracking-wider uppercase inline-block">Arabic Express</span></h1>
+                    </div>
+                    <!-- LIVE ACTIVE BADGE -->
+                    <div class="flex items-center space-x-1.5 mt-1">
+                        <span class="w-2 h-2 rounded-full bg-sftGreen live-dot inline-block"></span>
+                        <span class="text-[10px] text-sftGreen font-bold tracking-wider uppercase">Live Active</span>
+                    </div>
                 </div>
             </div>
 
@@ -190,19 +203,6 @@
             </div>
 
             <div id="user-stats-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-
-            <div class="glassmorphism rounded-2xl p-6 border border-gray-800">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-crown text-amber-400"></i> সেরা লার্নারদের র‍্যাংকিং (৩০০০+ পয়েন্ট)
-                        </h3>
-                        <p class="text-xs text-gray-400">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী সেরা ৫ জন শিক্ষার্থী</p>
-                    </div>
-                    <button onclick="navigateTo('leaderboard')" class="text-xs text-sftGreen hover:underline font-semibold">সবাইকে দেখুন &rarr;</button>
-                </div>
-                <div id="home-leaderboard-list" class="space-y-3"></div>
-            </div>
 
             <!-- HOME PAGE FOOTER INFO SECTION -->
             <div class="pt-8 space-y-6 border-t border-gray-800">
@@ -393,7 +393,7 @@
                 <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
                     <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
                 </button>
-                <h2 class="text-2xl font-extrabold text-white">🏆 গ্লোবাল লিডারবোর্ড</h2>
+                <h2 class="text-2xl font-extrabold text-white">🏆 গ্লোবাল লিডারবোর্ড (৫৯০০+ পয়েন্ট / অফার যোগ্য)</h2>
             </div>
             <div class="glassmorphism rounded-2xl border border-gray-800 overflow-hidden shadow-2xl max-w-4xl mx-auto">
                 <div class="overflow-x-auto">
@@ -499,18 +499,19 @@
             <!-- ইউজার লিস্ট ট্যাব -->
             <div id="admin-sec-users" class="glassmorphism rounded-2xl p-6 border border-gray-800 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-white">ইউজার তালিকা, নাম, ইমেইল, এক্সপি ও রেফারেল আইডি</h3>
+                    <h3 class="text-lg font-bold text-white">সকল ইউজার তালিকা, এক্সপি, ইমেইল ও রেফারেল ডিটেইলস</h3>
                     <span class="text-xs text-sftGreen font-bold bg-sftGreen/10 px-3 py-1 rounded-full border border-sftGreen/30" id="admin-user-count">ইউজার সংখ্যা: 0</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
                             <tr class="bg-gray-900 text-gray-400 text-xs uppercase border-b border-gray-800">
-                                <th class="p-3">ছবি ও নাম</th>
+                                <th class="p-3">ইউজার (নাম ও ছবি)</th>
                                 <th class="p-3">ইমেইল</th>
                                 <th class="p-3 text-center">রেফারেল আইডি</th>
-                                <th class="p-3 text-center">বর্তমান পয়েন্ট (XP)</th>
-                                <th class="p-3 text-center">অ্যাকশন</th>
+                                <th class="p-3 text-center">রেফারে কে এসেছে</th>
+                                <th class="p-3 text-center">পয়েন্ট (XP)</th>
+                                <th class="p-3 text-center">অ্যাকশন (এডিট/ডিলিট)</th>
                             </tr>
                         </thead>
                         <tbody id="admin-users-table-body" class="divide-y divide-gray-800"></tbody>
@@ -636,11 +637,17 @@
     <!-- FOOTER -->
     <footer class="glassmorphism border-t border-gray-800/80 mt-12 py-6 px-4">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
-            <div class="flex items-center space-x-2"><span class="font-bold text-gradient-sft text-sm">SFT Arabic Express</span><span>&copy; 2026 সর্বস্বত্ব সংরক্ষিত</span></div>
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-gradient-sft text-sm">SFT Arabic Express</span>
+                <span>&copy; 2026 সর্বস্বত্ব সংরক্ষিত</span>
+            </div>
             <div class="flex items-center space-x-4">
-                <button onclick="navigateTo('terms')" class="hover:text-sftPink transition">শর্তাবলি (Terms & Conditions)</button>
+                <div class="flex items-center space-x-1.5 bg-gray-900 px-3 py-1 rounded-full border border-gray-800">
+                    <span class="w-2 h-2 rounded-full bg-sftGreen live-dot inline-block"></span>
+                    <span class="text-[10px] text-sftGreen font-bold">System Online & Active</span>
+                </div>
                 <span>•</span>
-                <span>আঞ্চলিক আরবি ভাষা শিক্ষা</span>
+                <button onclick="navigateTo('terms')" class="hover:text-sftPink transition">শর্তাবলি (Terms & Conditions)</button>
             </div>
         </div>
     </footer>
@@ -709,7 +716,7 @@
                 <input type="hidden" id="admin-edit-userid">
                 <div><label class="text-xs text-gray-400">নাম</label><input type="text" id="admin-edit-username" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
                 <div><label class="text-xs text-gray-400">ইমেইল</label><input type="email" id="admin-edit-email" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-sm"></div>
-                <div><label class="text-xs text-amber-400 font-bold">পয়েন্ট (XP)</label><input type="number" id="admin-edit-points" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-amber-400 font-bold text-sm"></div>
+                <div><label class="text-xs text-amber-400 font-bold">পয়েন্ট বাড়ান বা কমান (XP)</label><input type="number" id="admin-edit-points" required class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-amber-400 font-bold text-sm"></div>
                 <div><label class="text-xs text-sftPink font-bold">ইউজারকে ওয়ার্নিং বা নোটিশ পাঠান</label><textarea id="admin-edit-warning" rows="2" class="w-full p-2 bg-gray-900 border border-gray-700 rounded-xl text-white text-xs" placeholder="এখানে ওয়ার্নিং মেসেজ লিখুন..."></textarea></div>
                 <div class="pt-2 flex justify-end space-x-2">
                     <button type="button" onclick="closeAdminUserModal()" class="px-4 py-2 bg-gray-800 text-xs rounded-xl">বাতিল</button>
@@ -805,6 +812,7 @@
 
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast'), icon = document.getElementById('toast-icon'), msg = document.getElementById('toast-message');
+            if(!toast || !icon || !msg) return;
             msg.textContent = message;
             if (type === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check text-sftGreen"></i>'; toast.style.borderColor = '#00F5D4'; }
             else if (type === 'error') { icon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-sftPink"></i>'; toast.style.borderColor = '#FF2E93'; }
@@ -839,10 +847,10 @@
                         }
                         if (activePage === 'admin') {
                             renderAdminReferralsTable();
-                            renderAdminUsersTable();
                         }
                     });
 
+                    // ফায়ারবেস থেকে সমস্ত ইউজার ডেটা লোড করার মূল ফিক্সড লজিক
                     onValue(ref(db, 'users'), (snapshot) => {
                         allUsersCache = [];
                         if (snapshot.exists()) {
@@ -852,6 +860,7 @@
                                     allUsersCache.push({
                                         id: childSnap.key,
                                         referralID: userData.referralID || generateReferralID(childSnap.key),
+                                        points: Number(userData.points) || 0,
                                         ...userData
                                     });
                                 }
@@ -884,7 +893,7 @@
                             const snapshot = await get(userRef);
                             const generatedID = generateReferralID(user.uid);
                             if (snapshot.exists()) {
-                                currentUser = { id: user.uid, referralID: generatedID, ...snapshot.val() };
+                                currentUser = { id: user.uid, referralID: generatedID, points: Number(snapshot.val().points) || 0, ...snapshot.val() };
                                 if (!snapshot.val().referralID) {
                                     await update(userRef, { referralID: generatedID });
                                 }
@@ -937,7 +946,11 @@
 
         function updateHeaderNav() {
             const container = document.getElementById('nav-auth-controls');
-            document.getElementById('nav-lottery-label').textContent = lotterySettings.badgeText ? lotterySettings.badgeText.split(" ")[0] + " অফার" : "মেগা অফার";
+            if(!container) return;
+            const badgeLabel = document.getElementById('nav-lottery-label');
+            if(badgeLabel && lotterySettings.badgeText) {
+                badgeLabel.textContent = lotterySettings.badgeText.split(" ")[0] + " অফার";
+            }
 
             if (currentUser) {
                 container.innerHTML = `
@@ -946,7 +959,7 @@
                         <div onclick="navigateTo('profile')" class="flex items-center space-x-2 cursor-pointer bg-gray-900 px-3 py-1.5 rounded-full border border-gray-800 hover:border-sftGreen transition">
                             <img src="${currentUser.avatar || ''}" class="w-6 h-6 rounded-full bg-gray-800">
                             <span class="text-xs font-bold text-white max-w-[90px] truncate">${currentUser.username}</span>
-                            <span class="text-[10px] bg-amber-400/20 text-amber-400 px-2 py-0.5 rounded-full font-bold">${currentUser.points || 0} XP</span>
+                            <span class="text-[10px] bg-amber-400/20 text-amber-400 px-2 py-0.5 rounded-full font-bold">${Number(currentUser.points) || 0} XP</span>
                         </div>
                         <button onclick="handleLogout()" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-sftPink transition"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>
@@ -963,9 +976,10 @@
             if (!lotterySettings.end) return;
             const distance = new Date(lotterySettings.end).getTime() - new Date().getTime();
             const badge = document.getElementById('home-timer-badge');
-            if (distance < 0) { if (badge) badge.innerHTML = "🔴 অফারের সময় শেষ!"; return; }
+            if (!badge) return;
+            if (distance < 0) { badge.innerHTML = "🔴 অফারের সময় শেষ!"; return; }
             const d = Math.floor(distance / (1000 * 60 * 60 * 24)), h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), s = Math.floor((distance % (1000 * 60)) / 1000);
-            if (badge) badge.innerHTML = `⏳ সময় বাকি: ${d} দিন ${h} ঘণ্টা ${m} মিনিট ${s} সেকেন্ড`;
+            badge.innerHTML = `⏳ সময় বাকি: ${d} দিন ${h} ঘণ্টা ${m} মিনিট ${s} সেকেন্ড`;
         }
         setInterval(updateLotteryTimers, 1000);
 
@@ -986,56 +1000,43 @@
         }
 
         function renderHomePage() {
-            document.getElementById('motivational-quote-display').textContent = `"${motivationalQuote}"`;
-            document.getElementById('home-lottery-badge').innerHTML = `<i class="fa-solid fa-gift"></i> <span>${lotterySettings.badgeText}</span>`;
-            document.getElementById('home-main-title').innerHTML = lotterySettings.bannerText;
+            const quoteEl = document.getElementById('motivational-quote-display');
+            if(quoteEl) quoteEl.textContent = `"${motivationalQuote}"`;
+            const badgeEl = document.getElementById('home-lottery-badge');
+            if(badgeEl) badgeEl.innerHTML = `<i class="fa-solid fa-gift"></i> <span>${lotterySettings.badgeText}</span>`;
+            const mainTitleEl = document.getElementById('home-main-title');
+            if(mainTitleEl) mainTitleEl.innerHTML = lotterySettings.bannerText;
             renderHomeInfoArticles();
             updateLotteryTimers();
 
             const statsContainer = document.getElementById('user-stats-container');
-            if (currentUser) {
-                const totalXP = currentUser.points || 0, completedCount = currentUser.completedDays ? currentUser.completedDays.length : 0;
-                statsContainer.innerHTML = `
-                    <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 text-2xl"><i class="fa-solid fa-bolt"></i></div>
-                        <div><span class="text-xs text-gray-400 font-semibold block">মোট অর্জিত পয়েন্ট</span><span class="text-2xl font-black text-white">${totalXP} <span class="text-xs text-amber-400">XP</span></span></div>
-                    </div>
-                    <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-xl bg-sftGreen/20 flex items-center justify-center text-sftGreen text-2xl"><i class="fa-solid fa-calendar-check"></i></div>
-                        <div><span class="text-xs text-gray-400 font-semibold block">সম্পন্ন লেসন</span><span class="text-2xl font-black text-white">${completedCount} <span class="text-xs text-sftGreen">/ ৩০ দিন</span></span></div>
-                    </div>
-                    <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-xl bg-sftBlue/20 flex items-center justify-center text-sftBlue text-2xl"><i class="fa-solid fa-id-card"></i></div>
-                        <div><span class="text-xs text-gray-400 font-semibold block">আপনার রেফারেল আইডি</span><span class="text-xl font-black text-amber-300 font-mono">${currentUser.referralID || '---'}</span></div>
-                    </div>
-                `;
-            } else {
-                statsContainer.innerHTML = `<div class="md:col-span-3 glassmorphism p-6 rounded-2xl border border-gray-800 text-center space-y-3"><p class="text-sm text-gray-300">লগইন করুন আপনার প্রোগ্রেস দেখার জন্য।</p><button onclick="openAuthModal('signup')" class="px-6 py-2.5 rounded-xl bg-sftGreen text-gray-950 font-bold">সাইনআপ করুন</button></div>`;
-            }
-
-            let sortedUsers = [...allUsersCache]
-                .filter(u => (u.points || 0) >= 3000)
-                .sort((a, b) => (b.points || 0) - (a.points || 0));
-
-            const homeListEl = document.getElementById('home-leaderboard-list');
-            if (sortedUsers.length === 0) {
-                homeListEl.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কেউ নেই।</p>`;
-            } else {
-                homeListEl.innerHTML = sortedUsers.slice(0, 5).map((u, idx) => `
-                    <div class="flex items-center justify-between p-3 rounded-xl bg-gray-900/60 border border-gray-800/80">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-6 text-center font-bold text-sm ${idx === 0 ? 'text-amber-400' : 'text-gray-500'}">#${idx + 1}</span>
-                            <img src="${u.avatar}" class="w-8 h-8 rounded-full bg-gray-800">
-                            <div><h4 class="text-sm font-bold text-white leading-tight">${u.username}</h4><span class="text-[10px] text-gray-400">ID: ${u.referralID || '---'} • ${u.completedDays ? u.completedDays.length : 0} দিন</span></div>
+            if(statsContainer) {
+                if (currentUser) {
+                    const totalXP = Number(currentUser.points) || 0, completedCount = currentUser.completedDays ? currentUser.completedDays.length : 0;
+                    statsContainer.innerHTML = `
+                        <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 text-2xl"><i class="fa-solid fa-bolt"></i></div>
+                            <div><span class="text-xs text-gray-400 font-semibold block">মোট অর্জিত পয়েন্ট</span><span class="text-2xl font-black text-white">${totalXP} <span class="text-xs text-amber-400">XP</span></span></div>
                         </div>
-                        <span class="text-sm font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">${u.points || 0} XP</span>
-                    </div>
-                `).join('');
+                        <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-sftGreen/20 flex items-center justify-center text-sftGreen text-2xl"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div><span class="text-xs text-gray-400 font-semibold block">সম্পন্ন লেসন</span><span class="text-2xl font-black text-white">${completedCount} <span class="text-xs text-sftGreen">/ ৩০ দিন</span></span></div>
+                        </div>
+                        <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-sftBlue/20 flex items-center justify-center text-sftBlue text-2xl"><i class="fa-solid fa-id-card"></i></div>
+                            <div><span class="text-xs text-gray-400 font-semibold block">আপনার রেফারেল আইডি</span><span class="text-xl font-black text-amber-300 font-mono">${currentUser.referralID || '---'}</span></div>
+                        </div>
+                    `;
+                } else {
+                    statsContainer.innerHTML = `<div class="md:col-span-3 glassmorphism p-6 rounded-2xl border border-gray-800 text-center space-y-3"><p class="text-sm text-gray-300">লগইন করুন আপনার প্রোগ্রেস দেখার জন্য।</p><button onclick="openAuthModal('signup')" class="px-6 py-2.5 rounded-xl bg-sftGreen text-gray-950 font-bold">সাইনআপ করুন</button></div>`;
+                }
             }
         }
 
         function renderRoutinePage() {
-            const grid = document.getElementById('routine-grid'), completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
+            const grid = document.getElementById('routine-grid');
+            if(!grid) return;
+            const completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
             let html = '';
             for (let day = 1; day <= 30; day++) {
                 const lessonData = appLessons[day] || { isLocked: day !== 1 };
@@ -1077,6 +1078,8 @@
         function renderRoutineCertificateSection() {
             const wrapper = document.getElementById('routine-certificate-card-wrapper');
             const statusBadge = document.getElementById('routine-cert-status-badge');
+            if(!wrapper || !statusBadge) return;
+
             if (!currentUser) {
                 statusBadge.className = "text-xs px-3 py-1 rounded-full font-bold bg-gray-800 text-gray-400";
                 statusBadge.textContent = "লগইন প্রয়োজন";
@@ -1085,7 +1088,7 @@
             }
 
             const completedCount = currentUser.completedDays ? currentUser.completedDays.length : 0;
-            const points = currentUser.points || 0;
+            const points = Number(currentUser.points) || 0;
             const isEligible = globalCertificateUnlock || completedCount >= 30;
             const progressPct = Math.min(100, Math.round((completedCount / 30) * 100));
 
@@ -1163,27 +1166,36 @@
                 return;
             }
 
-            document.getElementById('lesson-day-tag').textContent = `দিন ${day}`;
-            document.getElementById('lesson-title').textContent = lesson.title;
-            document.getElementById('lesson-current-xp').textContent = `${currentUser ? currentUser.points || 0 : 0} XP`;
+            const dayTag = document.getElementById('lesson-day-tag');
+            if(dayTag) dayTag.textContent = `দিন ${day}`;
+            const titleEl = document.getElementById('lesson-title');
+            if(titleEl) titleEl.textContent = lesson.title;
+            const xpEl = document.getElementById('lesson-current-xp');
+            if(xpEl) xpEl.textContent = `${currentUser ? Number(currentUser.points) || 0 : 0} XP`;
 
             gameQuizState = { currentWordIdx: 0, wordScore: 0, currentSentIdx: 0, sentScore: 0 };
 
             const wordsArr = lesson.words || [];
-            document.getElementById('words-container').innerHTML = wordsArr.map((item, idx) => `
-                <div class="glassmorphism p-4 rounded-xl border border-gray-800 flex items-center justify-between">
-                    <div class="flex items-center space-x-3"><span class="w-7 h-7 rounded-lg bg-sftBlue/10 text-sftBlue font-bold text-xs flex items-center justify-center">${idx + 1}</span><h4 class="text-lg font-bold text-white">${item.w || item.word || ''}</h4></div>
-                    <span class="text-sm font-semibold text-sftGreen">${item.m || item.meaning || ''}</span>
-                </div>
-            `).join('');
+            const wordsContainer = document.getElementById('words-container');
+            if(wordsContainer) {
+                wordsContainer.innerHTML = wordsArr.map((item, idx) => `
+                    <div class="glassmorphism p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><span class="w-7 h-7 rounded-lg bg-sftBlue/10 text-sftBlue font-bold text-xs flex items-center justify-center">${idx + 1}</span><h4 class="text-lg font-bold text-white">${item.w || item.word || ''}</h4></div>
+                        <span class="text-sm font-semibold text-sftGreen">${item.m || item.meaning || ''}</span>
+                    </div>
+                `).join('');
+            }
 
             const sentencesArr = lesson.sentences || [];
-            document.getElementById('sentences-container').innerHTML = sentencesArr.map((item, idx) => `
-                <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
-                    <div class="flex items-center space-x-3"><span class="w-8 h-8 rounded-xl bg-sftPink/20 text-sftPink font-bold text-sm flex items-center justify-center">${idx + 1}</span><h4 class="text-xl font-bold text-white">${item.s || item.sentence || ''}</h4></div>
-                    <div class="glassmorphism px-4 py-2 rounded-xl text-sftGreen font-bold text-sm">"${item.m || item.meaning || ''}"</div>
-                </div>
-            `).join('');
+            const sentencesContainer = document.getElementById('sentences-container');
+            if(sentencesContainer) {
+                sentencesContainer.innerHTML = sentencesArr.map((item, idx) => `
+                    <div class="glassmorphism p-5 rounded-2xl border border-gray-800 flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><span class="w-8 h-8 rounded-xl bg-sftPink/20 text-sftPink font-bold text-sm flex items-center justify-center">${idx + 1}</span><h4 class="text-xl font-bold text-white">${item.s || item.sentence || ''}</h4></div>
+                        <div class="glassmorphism px-4 py-2 rounded-xl text-sftGreen font-bold text-sm">"${item.m || item.meaning || ''}"</div>
+                    </div>
+                `).join('');
+            }
 
             switchLessonTab('words');
         }
@@ -1191,11 +1203,15 @@
         function switchLessonTab(tab) {
             currentLessonTab = tab;
             ['words', 'word-game', 'sentences', 'sentence-game'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-gray-800 text-gray-400 border border-gray-700";
+                const tabDiv = document.getElementById(`tab-${t}`);
+                if(tabDiv) tabDiv.classList.add('hidden');
+                const tabBtn = document.getElementById(`tab-btn-${t}`);
+                if(tabBtn) tabBtn.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-gray-800 text-gray-400 border border-gray-700";
             });
-            document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-sftGreen/20 text-sftGreen border border-sftGreen/40 shadow-neonGreen";
+            const activeDiv = document.getElementById(`tab-${tab}`);
+            if(activeDiv) activeDiv.classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tab}`);
+            if(activeBtn) activeBtn.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap bg-sftGreen/20 text-sftGreen border border-sftGreen/40 shadow-neonGreen";
 
             if (tab === 'word-game') initWordGame();
             if (tab === 'sentence-game') initSentenceGame();
@@ -1203,8 +1219,11 @@
 
         function initWordGame() {
             const completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
+            const quizCard = document.getElementById('word-quiz-card');
+            if(!quizCard) return;
+
             if (completedDays.includes(activeLessonDay)) {
-                document.getElementById('word-quiz-card').innerHTML = `
+                quizCard.innerHTML = `
                     <div class="py-8 space-y-4">
                         <div class="w-16 h-16 bg-sftGreen/20 border-2 border-sftGreen rounded-full flex items-center justify-center text-sftGreen text-3xl mx-auto">
                             <i class="fa-solid fa-check"></i>
@@ -1221,20 +1240,22 @@
             }
 
             const lesson = appLessons[activeLessonDay];
-            const wordsList = lesson.words || [];
+            const wordsList = lesson && lesson.words ? lesson.words : [];
             if (gameQuizState.currentWordIdx >= wordsList.length) {
                 switchLessonTab('sentences');
                 return;
             }
             const current = wordsList[gameQuizState.currentWordIdx];
+            if(!current) return;
             const currentWord = current.w || current.word;
             const currentMeaning = current.m || current.meaning;
 
-            document.getElementById('word-quiz-progress').textContent = `প্রশ্ন ${gameQuizState.currentWordIdx + 1} / ${wordsList.length}`;
+            const progressEl = document.getElementById('word-quiz-progress');
+            if(progressEl) progressEl.textContent = `প্রশ্ন ${gameQuizState.currentWordIdx + 1} / ${wordsList.length}`;
             const wrongOptions = wordsList.map(w => w.m || w.meaning).filter(m => m !== currentMeaning).sort(() => 0.5 - Math.random()).slice(0, 3);
             const options = [...wrongOptions, currentMeaning].sort(() => 0.5 - Math.random());
 
-            document.getElementById('word-quiz-card').innerHTML = `
+            quizCard.innerHTML = `
                 <h3 class="text-3xl font-black text-white py-2">${currentWord}</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                     ${options.map(opt => `<button onclick="handleWordAnswer(this, '${opt}', '${currentMeaning}')" class="p-4 rounded-xl bg-gray-900 border border-gray-700 text-white font-bold text-sm">${opt}</button>`).join('')}
@@ -1269,8 +1290,11 @@
 
         function initSentenceGame() {
             const completedDays = currentUser && currentUser.completedDays ? currentUser.completedDays : [];
+            const sentenceCard = document.getElementById('sentence-quiz-card');
+            if(!sentenceCard) return;
+
             if (completedDays.includes(activeLessonDay)) {
-                document.getElementById('sentence-quiz-card').innerHTML = `
+                sentenceCard.innerHTML = `
                     <div class="py-8 space-y-4">
                         <div class="w-16 h-16 bg-sftPink/20 border-2 border-sftPink rounded-full flex items-center justify-center text-sftPink text-3xl mx-auto">
                             <i class="fa-solid fa-check"></i>
@@ -1284,21 +1308,23 @@
             }
 
             const lesson = appLessons[activeLessonDay];
-            const sentencesList = lesson.sentences || [];
+            const sentencesList = lesson && lesson.sentences ? lesson.sentences : [];
             if (gameQuizState.currentSentIdx >= sentencesList.length) {
                 markDayComplete(activeLessonDay);
                 showCompletionModal();
                 return;
             }
             const current = sentencesList[gameQuizState.currentSentIdx];
+            if(!current) return;
             const currentSent = current.s || current.sentence;
             const currentMeaning = current.m || current.meaning;
 
-            document.getElementById('sentence-quiz-progress').textContent = `প্রশ্ন ${gameQuizState.currentSentIdx + 1} / ${sentencesList.length}`;
+            const progressEl = document.getElementById('sentence-quiz-progress');
+            if(progressEl) progressEl.textContent = `প্রশ্ন ${gameQuizState.currentSentIdx + 1} / ${sentencesList.length}`;
             const wrongOpts = sentencesList.map(s => s.m || s.meaning).filter(m => m !== currentMeaning).sort(() => 0.5 - Math.random()).slice(0, 3);
             const options = [...wrongOpts, currentMeaning].sort(() => 0.5 - Math.random());
 
-            document.getElementById('sentence-quiz-card').innerHTML = `
+            sentenceCard.innerHTML = `
                 <h3 class="text-2xl font-black text-white py-2">${currentSent}</h3>
                 <div class="space-y-3 pt-2">
                     ${options.map(opt => `<button onclick="handleSentenceAnswer(this, '${opt}', '${currentMeaning}')" class="w-full p-4 rounded-xl bg-gray-900 border border-gray-700 text-white font-bold text-sm text-left">${opt}</button>`).join('')}
@@ -1334,9 +1360,10 @@
         async function awardPoints(pts) {
             if (!currentUser || pts <= 0) return;
             const { db, ref, update } = window.firebaseApp;
-            currentUser.points = (currentUser.points || 0) + pts;
+            currentUser.points = (Number(currentUser.points) || 0) + pts;
             await update(ref(db, 'users/' + currentUser.id), { points: currentUser.points });
-            document.getElementById('lesson-current-xp').textContent = `${currentUser.points} XP`;
+            const xpEl = document.getElementById('lesson-current-xp');
+            if(xpEl) xpEl.textContent = `${currentUser.points} XP`;
         }
 
         async function markDayComplete(day) {
@@ -1354,37 +1381,49 @@
             setTimeout(() => navigateTo('routine'), 1800);
         }
 
+        // গ্লোবাল লিডারবোর্ড: শুধুমাত্র ৫৯০০+ পয়েন্ট অর্জনকারীদের প্রদর্শন করবে
         function renderLeaderboardPage() {
-            let sortedUsers = [...allUsersCache]
-                .filter(u => (u.points || 0) >= 3000)
-                .sort((a, b) => (b.points || 0) - (a.points || 0));
+            let sortedUsers = [];
+            if (allUsersCache && Array.isArray(allUsersCache)) {
+                sortedUsers = allUsersCache
+                    .filter(u => (Number(u.points) || 0) >= 5900)
+                    .sort((a, b) => (Number(b.points) || 0) - (Number(a.points) || 0));
+            }
 
             const tbodyEl = document.getElementById('full-leaderboard-body');
+            if (!tbodyEl) return;
+
             if (sortedUsers.length === 0) {
-                tbodyEl.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">কমপক্ষে ৩০০০ পয়েন্ট অর্জনকারী কোনো শিক্ষার্থী এখনও নেই।</td></tr>`;
+                tbodyEl.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-400">কমপক্ষে ৫,৯০০ পয়েন্ট অর্জনকারী কোনো শিক্ষার্থী এখনও লিডারবোর্ডে নেই।</td></tr>`;
             } else {
                 tbodyEl.innerHTML = sortedUsers.map((u, idx) => `
                     <tr class="${currentUser && currentUser.id === u.id ? 'bg-sftGreen/10 border-l-4 border-sftGreen' : ''}">
                         <td class="p-4 text-center font-bold text-amber-400">#${idx + 1}</td>
-                        <td class="p-4 flex items-center space-x-3"><img src="${u.avatar}" class="w-10 h-10 rounded-full bg-gray-800"><div><h4 class="font-bold text-white">${u.username}</h4></div></td>
+                        <td class="p-4 flex items-center space-x-3"><img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=User'}" class="w-10 h-10 rounded-full bg-gray-800 object-cover"><div><h4 class="font-bold text-white">${u.username || 'নামহীন'}</h4></div></td>
                         <td class="p-4 text-center text-amber-300 font-mono font-bold">${u.referralID || '---'}</td>
-                        <td class="p-4 text-right font-black text-amber-400">${u.points || 0} XP</td>
+                        <td class="p-4 text-right font-black text-amber-400">${Number(u.points) || 0} XP</td>
                     </tr>
                 `).join('');
             }
         }
 
         function renderLotteryPage() {
-            document.getElementById('lottery-page-heading').textContent = lotterySettings.heading || "স্মার্টফোন মেগা অফার তালিকা ও টাইমার";
+            const headingEl = document.getElementById('lottery-page-heading');
+            if(headingEl) headingEl.textContent = lotterySettings.heading || "স্মার্টফোন মেগা অফার তালিকা ও টাইমার";
             
+            // অফার যোগ্য ইউজার তালিকা: ৫৯০০+ পয়েন্ট
             let lotteryEntries = [];
-            allUsersCache.forEach(u => {
-                const pts = u.points || 0;
-                const entries = Math.floor(pts / 5900);
-                for (let i = 1; i <= entries; i++) {
-                    lotteryEntries.push({ user: u, ticketNum: i, totalTickets: entries });
-                }
-            });
+            if (allUsersCache && Array.isArray(allUsersCache)) {
+                allUsersCache.forEach(u => {
+                    const pts = Number(u.points) || 0;
+                    if (pts >= 5900) {
+                        const entries = Math.floor(pts / 5900);
+                        for (let i = 1; i <= entries; i++) {
+                            lotteryEntries.push({ user: u, ticketNum: i, totalTickets: entries });
+                        }
+                    }
+                });
+            }
 
             const contentWrapper = document.getElementById('lottery-content-wrapper');
             if (!contentWrapper) return;
@@ -1413,7 +1452,7 @@
                             <i class="fa-solid fa-trophy"></i>
                         </div>
                         <h3 class="text-2xl font-black text-amber-300">🎉 অফার বিজয়ী ঘোষণা করা হয়েছে!</h3>
-                        <p class="text-base font-bold text-white">বিজয়ীর নাম: <span class="text-amber-400">${luckyWinner.username}</span> (${luckyWinner.points || 0} XP)</p>
+                        <p class="text-base font-bold text-white">বিজয়ীর নাম: <span class="text-amber-400">${luckyWinner.username}</span> (${Number(luckyWinner.points) || 0} XP)</p>
                         <p class="text-xs text-gray-300">অভিনন্দন! SFT Arabic Express-এর পক্ষ থেকে খুব শীঘ্রই আপনার সাথে যোগাযোগ করা হবে।</p>
                     </div>
                 ` : ''}
@@ -1455,7 +1494,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-sm font-black text-amber-400">${e.user.points || 0} XP</span>
+                                    <span class="text-sm font-black text-amber-400">${Number(e.user.points) || 0} XP</span>
                                 </div>
                             </div>
                         `).join('')}
@@ -1466,16 +1505,28 @@
 
         function renderCertificatePage() { renderRoutineCertificateSection(); }
 
-        function openAuthModal(mode = 'login') { document.getElementById('auth-modal').classList.remove('hidden'); switchAuthMode(mode); }
-        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+        function openAuthModal(mode = 'login') {
+            const modal = document.getElementById('auth-modal');
+            if(modal) modal.classList.remove('hidden');
+            switchAuthMode(mode);
+        }
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            if(modal) modal.classList.add('hidden');
+        }
         function switchAuthMode(mode) {
-            document.getElementById('login-form').classList.toggle('hidden', mode === 'signup');
-            document.getElementById('signup-form').classList.toggle('hidden', mode !== 'signup');
-            document.getElementById('auth-modal-title').textContent = mode === 'signup' ? 'নতুন অ্যাকাউন্ট খুলুন' : 'লগইন করুন';
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const titleEl = document.getElementById('auth-modal-title');
+            if(loginForm) loginForm.classList.toggle('hidden', mode === 'signup');
+            if(signupForm) signupForm.classList.toggle('hidden', mode !== 'signup');
+            if(titleEl) titleEl.textContent = mode === 'signup' ? 'নতুন অ্যাকাউন্ট খুলুন' : 'লগইন করুন';
         }
 
         async function handleForgotPassword() {
-            const email = document.getElementById('login-identifier').value.trim();
+            const input = document.getElementById('login-identifier');
+            if(!input) return;
+            const email = input.value.trim();
             if (!email || !email.includes('@')) {
                 showToast("পাসওয়ার্ড রিসেট করতে ইমেইল ফিল্ডে আপনার সঠিক জিমেইল দিন!", "error");
                 return;
@@ -1503,9 +1554,9 @@
             const btnText = document.getElementById('login-btn-text');
             const spinner = document.getElementById('login-spinner');
             
-            submitBtn.disabled = true;
-            btnText.textContent = "লগইন হচ্ছে...";
-            spinner.classList.remove('hidden');
+            if(submitBtn) submitBtn.disabled = true;
+            if(btnText) btnText.textContent = "লগইন হচ্ছে...";
+            if(spinner) spinner.classList.remove('hidden');
 
             const { auth, signInWithEmailAndPassword } = window.firebaseApp;
 
@@ -1527,9 +1578,9 @@
                 }
                 showToast(errorMsg, "error");
             } finally {
-                submitBtn.disabled = false;
-                btnText.textContent = "লগইন করুন";
-                spinner.classList.add('hidden');
+                if(submitBtn) submitBtn.disabled = false;
+                if(btnText) btnText.textContent = "লগইন করুন";
+                if(spinner) spinner.classList.add('hidden');
             }
         }
 
@@ -1560,9 +1611,9 @@
             const btnText = document.getElementById('signup-btn-text');
             const spinner = document.getElementById('signup-spinner');
             
-            submitBtn.disabled = true;
-            btnText.textContent = "অ্যাকাউন্ট তৈরি হচ্ছে...";
-            spinner.classList.remove('hidden');
+            if(submitBtn) submitBtn.disabled = true;
+            if(btnText) btnText.textContent = "অ্যাকাউন্ট তৈরি হচ্ছে...";
+            if(spinner) spinner.classList.remove('hidden');
 
             const { auth, db, createUserWithEmailAndPassword, ref, set, get, update, push, query, orderByChild, equalTo } = window.firebaseApp;
 
@@ -1574,6 +1625,7 @@
                 let initialPoints = 3000;
                 let referrerId = "";
                 let referrerUsername = "";
+                let usedReferralIdCode = "";
 
                 if (inputRefID) {
                     const usersRef = ref(db, 'users');
@@ -1593,6 +1645,7 @@
                         } else if (matchedRefData) {
                             referrerId = matchedRefKey;
                             referrerUsername = matchedRefData.username || "ইউজার";
+                            usedReferralIdCode = inputRefID;
 
                             const refCurrentPoints = Number(matchedRefData.points) || 0;
                             const refCurrentCount = Number(matchedRefData.referralsCount) || 0;
@@ -1614,6 +1667,7 @@
                 const newUser = {
                     id: newUserId,
                     referralID: newRefID,
+                    referredBy: usedReferralIdCode || "কেউ না (সরাসরি)",
                     username,
                     email,
                     avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${username}`,
@@ -1639,7 +1693,8 @@
 
                 currentUser = newUser;
                 
-                document.getElementById('signup-form').classList.add('hidden');
+                const signupForm = document.getElementById('signup-form');
+                if(signupForm) signupForm.classList.add('hidden');
                 document.getElementById('signup-username').value = '';
                 document.getElementById('signup-email').value = '';
                 document.getElementById('signup-password').value = '';
@@ -1662,9 +1717,9 @@
                 }
                 showToast(errorMsg, "error");
             } finally {
-                submitBtn.disabled = false;
-                btnText.textContent = "অ্যাকাউন্ট তৈরি করুন";
-                spinner.classList.add('hidden');
+                if(submitBtn) submitBtn.disabled = false;
+                if(btnText) btnText.textContent = "অ্যাকাউন্ট তৈরি করুন";
+                if(spinner) spinner.classList.add('hidden');
             }
         }
 
@@ -1678,18 +1733,26 @@
 
         function renderProfilePage() {
             if (!currentUser) return;
-            document.getElementById('profile-username').value = currentUser.username || '';
-            document.getElementById('profile-email').value = currentUser.email || '';
-            document.getElementById('profile-avatar-preview').src = currentUser.avatar || '';
-            document.getElementById('profile-avatar-input').value = currentUser.avatar || '';
+            const usernameInput = document.getElementById('profile-username');
+            const emailInput = document.getElementById('profile-email');
+            const avatarPrev = document.getElementById('profile-avatar-preview');
+            const avatarInp = document.getElementById('profile-avatar-input');
+            const refDisplay = document.getElementById('profile-my-ref-id-display');
+            const refInp = document.getElementById('referral-id-input');
+
+            if(usernameInput) usernameInput.value = currentUser.username || '';
+            if(emailInput) emailInput.value = currentUser.email || '';
+            if(avatarPrev) avatarPrev.src = currentUser.avatar || '';
+            if(avatarInp) avatarInp.value = currentUser.avatar || '';
 
             const myRefID = currentUser.referralID || generateReferralID(currentUser.id);
-            document.getElementById('profile-my-ref-id-display').textContent = myRefID;
-            document.getElementById('referral-id-input').value = myRefID;
+            if(refDisplay) refDisplay.textContent = myRefID;
+            if(refInp) refInp.value = myRefID;
         }
 
         function copyReferralID() {
             const input = document.getElementById('referral-id-input');
+            if(!input) return;
             input.select();
             navigator.clipboard.writeText(input.value);
             showToast("রেফারেল আইডি কপি করা হয়েছে!", "success");
@@ -1697,7 +1760,10 @@
 
         function randomizeAvatar() {
             const seed = Math.random().toString(36).substring(7), newAvatar = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}`;
-            document.getElementById('profile-avatar-preview').src = newAvatar; document.getElementById('profile-avatar-input').value = newAvatar;
+            const prev = document.getElementById('profile-avatar-preview');
+            const inp = document.getElementById('profile-avatar-input');
+            if(prev) prev.src = newAvatar; 
+            if(inp) inp.value = newAvatar;
         }
 
         async function handleProfileUpdate(e) {
@@ -1733,29 +1799,45 @@
             if (!currentUser || !currentUser.isAdmin) { navigateTo('home'); return; }
             renderAdminUsersTable();
             renderAdminReferralsTable();
-            document.getElementById('admin-motivation-input').value = motivationalQuote;
+            const motivInput = document.getElementById('admin-motivation-input');
+            if(motivInput) motivInput.value = motivationalQuote;
             setupAdminLessonSelect();
 
-            document.getElementById('admin-art-1-title').value = homeInfoArticles.art1Title || DEFAULT_HOME_INFO.art1Title;
-            document.getElementById('admin-art-1-desc').value = homeInfoArticles.art1Desc || DEFAULT_HOME_INFO.art1Desc;
-            document.getElementById('admin-art-2-title').value = homeInfoArticles.art2Title || DEFAULT_HOME_INFO.art2Title;
-            document.getElementById('admin-art-2-desc').value = homeInfoArticles.art2Desc || DEFAULT_HOME_INFO.art2Desc;
-            document.getElementById('admin-art-3-title').value = homeInfoArticles.art3Title || DEFAULT_HOME_INFO.art3Title;
-            document.getElementById('admin-art-3-desc').value = homeInfoArticles.art3Desc || DEFAULT_HOME_INFO.art3Desc;
-            document.getElementById('admin-art-4-title').value = homeInfoArticles.art4Title || DEFAULT_HOME_INFO.art4Title;
-            document.getElementById('admin-art-4-desc').value = homeInfoArticles.art4Desc || DEFAULT_HOME_INFO.art4Desc;
+            const art1t = document.getElementById('admin-art-1-title'), art1d = document.getElementById('admin-art-1-desc');
+            const art2t = document.getElementById('admin-art-2-title'), art2d = document.getElementById('admin-art-2-desc');
+            const art3t = document.getElementById('admin-art-3-title'), art3d = document.getElementById('admin-art-3-desc');
+            const art4t = document.getElementById('admin-art-4-title'), art4d = document.getElementById('admin-art-4-desc');
 
-            document.getElementById('admin-banner-heading').value = lotterySettings.bannerText || DEFAULT_LOTTERY_SETTINGS.bannerText;
-            document.getElementById('admin-lottery-heading').value = lotterySettings.heading || DEFAULT_LOTTERY_SETTINGS.heading;
-            document.getElementById('admin-lottery-badge-text').value = lotterySettings.badgeText || DEFAULT_LOTTERY_SETTINGS.badgeText;
-            document.getElementById('admin-lottery-start').value = lotterySettings.start || '';
-            document.getElementById('admin-lottery-end').value = lotterySettings.end || '';
-            document.getElementById('admin-lottery-draw').value = lotterySettings.draw || '';
+            if(art1t) art1t.value = homeInfoArticles.art1Title || DEFAULT_HOME_INFO.art1Title;
+            if(art1d) art1d.value = homeInfoArticles.art1Desc || DEFAULT_HOME_INFO.art1Desc;
+            if(art2t) art2t.value = homeInfoArticles.art2Title || DEFAULT_HOME_INFO.art2Title;
+            if(art2d) art2d.value = homeInfoArticles.art2Desc || DEFAULT_HOME_INFO.art2Desc;
+            if(art3t) art3t.value = homeInfoArticles.art3Title || DEFAULT_HOME_INFO.art3Title;
+            if(art3d) art3d.value = homeInfoArticles.art3Desc || DEFAULT_HOME_INFO.art3Desc;
+            if(art4t) art4t.value = homeInfoArticles.art4Title || DEFAULT_HOME_INFO.art4Title;
+            if(art4d) art4d.value = homeInfoArticles.art4Desc || DEFAULT_HOME_INFO.art4Desc;
+
+            const bannerH = document.getElementById('admin-banner-heading');
+            const lotteryH = document.getElementById('admin-lottery-heading');
+            const badgeT = document.getElementById('admin-lottery-badge-text');
+            const startD = document.getElementById('admin-lottery-start');
+            const endD = document.getElementById('admin-lottery-end');
+            const drawD = document.getElementById('admin-lottery-draw');
+
+            if(bannerH) bannerH.value = lotterySettings.bannerText || DEFAULT_LOTTERY_SETTINGS.bannerText;
+            if(lotteryH) lotteryH.value = lotterySettings.heading || DEFAULT_LOTTERY_SETTINGS.heading;
+            if(badgeT) badgeT.value = lotterySettings.badgeText || DEFAULT_LOTTERY_SETTINGS.badgeText;
+            if(startD) startD.value = lotterySettings.start || '';
+            if(endD) endD.value = lotterySettings.end || '';
+            if(drawD) drawD.value = lotterySettings.draw || '';
 
             const selectEl = document.getElementById('admin-manual-winner-select');
-            selectEl.innerHTML = allUsersCache.length === 0 ? '<option value="">ইউজার নেই</option>' : allUsersCache.map(u => `<option value="${u.id}">${u.username} (${u.points || 0} XP)</option>`).join('');
+            if(selectEl) {
+                selectEl.innerHTML = allUsersCache.length === 0 ? '<option value="">ইউজার নেই</option>' : allUsersCache.map(u => `<option value="${u.id}">${u.username} (${Number(u.points) || 0} XP)</option>`).join('');
+            }
 
-            if (luckyWinner) document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 অফার বিজয়ী: ${luckyWinner.username} (${luckyWinner.points} XP)`;
+            const winnerBox = document.getElementById('admin-lucky-draw-winner-box');
+            if (luckyWinner && winnerBox) winnerBox.innerHTML = `🎉 অফার বিজয়ী: ${luckyWinner.username} (${Number(luckyWinner.points) || 0} XP)`;
         }
 
         function switchAdminTab(sec) {
@@ -1799,31 +1881,42 @@
             showToast("অফার সেটিংস সফলভাবে আপডেট হয়েছে!", "success");
         }
 
+        // অ্যাডমিন প্যানেল ইউজার টেবিল রেন্ডার এবং ফায়ারবেস থেকে ইউজার ডিলিট করার ফাংশন
         function renderAdminUsersTable() {
-            document.getElementById('admin-user-count').textContent = `ইউজার সংখ্যা: ${allUsersCache.length}`;
-            document.getElementById('admin-users-table-body').innerHTML = allUsersCache.map(u => {
-                const points = Number(u.points) || 0;
-                const refID = u.referralID || generateReferralID(u.id);
+            const countEl = document.getElementById('admin-user-count');
+            const tbodyEl = document.getElementById('admin-users-table-body');
+            if(countEl) countEl.textContent = `ইউজার সংখ্যা: ${allUsersCache.length}`;
+            if(tbodyEl) {
+                if(allUsersCache.length === 0) {
+                    tbodyEl.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-400">কোনো ইউজার পাওয়া যায়নি।</td></tr>`;
+                    return;
+                }
+                tbodyEl.innerHTML = allUsersCache.map(u => {
+                    const points = Number(u.points) || 0;
+                    const refID = u.referralID || generateReferralID(u.id);
+                    const referredBy = u.referredBy || 'কেউ না (সরাসরি)';
 
-                return `
-                    <tr class="hover:bg-gray-900/40 align-top">
-                        <td class="p-3 flex items-center space-x-2">
-                            <img src="${u.avatar}" class="w-8 h-8 rounded-full">
-                            <div>
-                                <span class="font-bold text-white block">${u.username}</span>
-                                ${u.isAdmin ? '<span class="text-[10px] text-sftPink font-bold">Admin</span>' : ''}
-                            </div>
-                        </td>
-                        <td class="p-3 text-gray-300 text-xs">${u.email}</td>
-                        <td class="p-3 text-center text-amber-300 font-mono font-bold text-xs">${refID}</td>
-                        <td class="p-3 text-center text-amber-400 font-bold">${points} XP</td>
-                        <td class="p-3 text-center space-x-1">
-                            <button onclick="openAdminUserEditModal('${u.id}')" class="px-3 py-1.5 bg-sftBlue/20 text-sftBlue text-xs rounded-xl font-bold hover:bg-sftBlue/30">এডিট</button>
-                            <button onclick="handleAdminDeleteUser('${u.id}')" class="px-3 py-1.5 bg-sftPink/20 text-sftPink text-xs rounded-xl font-bold hover:bg-sftPink/30">ডিলিট</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+                    return `
+                        <tr class="hover:bg-gray-900/40 align-middle">
+                            <td class="p-3 flex items-center space-x-2">
+                                <img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=User'}" class="w-8 h-8 rounded-full bg-gray-800 object-cover">
+                                <div>
+                                    <span class="font-bold text-white block">${u.username || 'নামহীন'}</span>
+                                    ${u.isAdmin ? '<span class="text-[10px] text-sftPink font-bold">Admin</span>' : ''}
+                                </div>
+                            </td>
+                            <td class="p-3 text-gray-300 text-xs">${u.email || ''}</td>
+                            <td class="p-3 text-center text-amber-300 font-mono font-bold text-xs">${refID}</td>
+                            <td class="p-3 text-center text-sftGreen font-mono font-semibold text-xs">${referredBy}</td>
+                            <td class="p-3 text-center text-amber-400 font-black">${points} XP</td>
+                            <td class="p-3 text-center space-x-1 whitespace-nowrap">
+                                <button onclick="openAdminUserEditModal('${u.id}')" class="px-3 py-1.5 bg-sftBlue/20 text-sftBlue text-xs rounded-xl font-bold hover:bg-sftBlue/30 transition">এডিট / পয়েন্ট</button>
+                                <button onclick="handleAdminDeleteUser('${u.id}')" class="px-3 py-1.5 bg-sftPink/20 text-sftPink text-xs rounded-xl font-bold hover:bg-sftPink/30 transition">ডিলিট</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
         }
 
         function renderAdminReferralsTable() {
@@ -1847,9 +1940,9 @@
             const u = allUsersCache.find(x => x.id === id);
             if (!u) return;
             document.getElementById('admin-edit-userid').value = u.id;
-            document.getElementById('admin-edit-username').value = u.username;
-            document.getElementById('admin-edit-email').value = u.email;
-            document.getElementById('admin-edit-points').value = u.points || 0;
+            document.getElementById('admin-edit-username').value = u.username || '';
+            document.getElementById('admin-edit-email').value = u.email || '';
+            document.getElementById('admin-edit-points').value = Number(u.points) || 0;
             document.getElementById('admin-edit-warning').value = u.warningMessage || '';
             document.getElementById('admin-user-modal').classList.remove('hidden');
         }
@@ -1871,18 +1964,20 @@
             showToast("ইউজারের এক্সপি ও তথ্য সফলভাবে আপডেট হয়েছে!", "success");
         }
 
+        // সরাসরি ফায়ারবেস ডাটাবেস থেকে ইউজার ডিলিট করার ফাংশন
         async function handleAdminDeleteUser(id) {
             if (currentUser && currentUser.id === id) {
                 showToast("আপনি নিজের অ্যাকাউন্ট ডিলিট করতে পারবেন না!", "error");
                 return;
             }
-            if (confirm("নিশ্চিতভাবে এই অ্যাকাউন্টটি ডিলিট করতে চান?")) {
+            if (confirm("নিশ্চিতভাবে এই অ্যাকাউন্টটি ফায়ারবেস ডাটাবেস থেকে স্থায়ীভাবে ডিলিট করতে চান?")) {
                 const { db, ref, remove } = window.firebaseApp;
                 try {
                     await remove(ref(db, 'users/' + id));
                     allUsersCache = allUsersCache.filter(u => u.id !== id);
                     renderAdminUsersTable();
-                    showToast("অ্যাকাউন্ট সফলভাবে মুছে ফেলা হয়েছে!", "info");
+                    renderLeaderboardPage();
+                    showToast("ফায়ারবেস ডাটাবেস থেকে অ্যাকাউন্ট সফলভাবে মুছে ফেলা হয়েছে!", "info");
                 } catch (err) {
                     showToast("ডিলিট করতে সমস্যা হয়েছে: " + err.message, "error");
                 }
@@ -2005,26 +2100,32 @@
             const { db, ref, set } = window.firebaseApp;
             let lotteryEntries = [];
             allUsersCache.forEach(u => {
-                const pts = u.points || 0;
-                const entries = Math.floor(pts / 5900);
-                for (let i = 1; i <= entries; i++) lotteryEntries.push(u);
+                const pts = Number(u.points) || 0;
+                if (pts >= 5900) {
+                    const entries = Math.floor(pts / 5900);
+                    for (let i = 1; i <= entries; i++) lotteryEntries.push(u);
+                }
             });
             if (lotteryEntries.length === 0) { showToast("যোগ্য কোনো অফার এন্ট্রি নেই!", "error"); return; }
             const winner = lotteryEntries[Math.floor(Math.random() * lotteryEntries.length)];
             luckyWinner = winner;
             await set(ref(db, 'settings/winner'), luckyWinner);
-            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 অফার বিজয়ী: ${winner.username} (${winner.points} XP)`;
+            const winnerBox = document.getElementById('admin-lucky-draw-winner-box');
+            if(winnerBox) winnerBox.innerHTML = `🎉 অফার বিজয়ী: ${winner.username} (${Number(winner.points) || 0} XP)`;
             showToast("র্যান্ডম ড্র এর মাধ্যমে বিজয়ী নির্বাচন করা হয়েছে!", "success");
         }
 
         async function adminSetManualWinner() {
-            const userId = document.getElementById('admin-manual-winner-select').value;
+            const selectEl = document.getElementById('admin-manual-winner-select');
+            if(!selectEl) return;
+            const userId = selectEl.value;
             const user = allUsersCache.find(u => u.id === userId);
             if (!user) { showToast("ইউজার পাওয়া যায়নি!", "error"); return; }
             const { db, ref, set } = window.firebaseApp;
             luckyWinner = user;
             await set(ref(db, 'settings/winner'), luckyWinner);
-            document.getElementById('admin-lucky-draw-winner-box').innerHTML = `🎉 অফার বিজয়ী: ${user.username} (${user.points} XP)`;
+            const winnerBox = document.getElementById('admin-lucky-draw-winner-box');
+            if(winnerBox) winnerBox.innerHTML = `🎉 অফার বিজয়ী: ${user.username} (${Number(user.points) || 0} XP)`;
             showToast(`${user.username}-কে অফার বিজয়ী হিসেবে সিলেক্ট করা হয়েছে!`, "success");
         }
     </script>
