@@ -130,7 +130,6 @@
                     <div class="flex items-center space-x-2">
                         <h1 class="text-lg font-bold leading-none tracking-wide text-gradient-sft">SFT <span class="text-gradient-sft font-semibold text-xs tracking-wider uppercase inline-block">Arabic Express</span></h1>
                     </div>
-                    <!-- LIVE ACTIVE BADGE -->
                     <div class="flex items-center space-x-1.5 mt-1">
                         <span class="w-2 h-2 rounded-full bg-sftGreen live-dot inline-block"></span>
                         <span class="text-[10px] text-sftGreen font-bold tracking-wider uppercase">Live Active</span>
@@ -145,6 +144,7 @@
                 <button onclick="navigateTo('lottery')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-gift text-amber-400"></i> <span id="nav-lottery-label">মেগা অফার</span></button>
                 <button onclick="navigateTo('certificate')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-certificate"></i> <span>সার্টিফিকেট</span></button>
                 <button onclick="navigateTo('terms')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-file-contract text-sftPink"></i> <span>শর্তাবলি</span></button>
+                <button onclick="navigateTo('privacy')" class="hover:text-sftGreen transition flex items-center space-x-1"><i class="fa-solid fa-shield-halved text-sftBlue"></i> <span>প্রাইভেসি</span></button>
             </nav>
 
             <div id="nav-auth-controls" class="flex items-center space-x-3"></div>
@@ -282,6 +282,43 @@
                     <p id="terms-art-4-desc">৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে মেগা ড্র এন্ট্রি পাবেন। ড্র-এর সিদ্ধান্ত চূড়ান্ত বলে গণ্য হবে।</p>
                 </div>
                 <div class="pt-4 border-t border-gray-800 text-center">
+                    <button onclick="navigateTo('home')" class="px-6 py-3 rounded-xl bg-sftGreen text-gray-950 font-bold text-xs hover:shadow-neonGreen transition">হোম পেজে ফিরে যান</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: PRIVACY POLICY -->
+        <section id="page-privacy" class="hidden max-w-4xl mx-auto space-y-8 animate-fadeIn">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                <button onclick="navigateTo('home')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>হোমে ফিরে যান</span>
+                </button>
+                <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-sftBlue"></i> প্রাইভেসি পলিসি (Privacy Policy)</h2>
+            </div>
+
+            <div class="glassmorphism rounded-3xl p-6 md:p-10 border border-gray-800 space-y-6 text-sm text-gray-300 leading-relaxed">
+                <div class="bg-sftBlue/10 border border-sftBlue/30 p-4 rounded-2xl text-xs text-sftBlue">
+                    <strong>SFT Arabic Express</strong> আপনার ব্যক্তিগত তথ্যের গোপনীয়তা রক্ষায় সম্পূর্ণ অঙ্গীকারবদ্ধ। আমাদের প্ল্যাটফর্ম ব্যবহারের সময় আপনার কোন তথ্যগুলো সংগ্রহ করা হয় এবং তা কীভাবে সুরক্ষিত রাখা হয় তা নিচে বিস্তারিত উল্লেখ করা হলো:
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-sftBlue flex items-center gap-2"><i class="fa-solid fa-database"></i> <span id="privacy-art-1-title">১. আমরা কী কী তথ্য সংগ্রহ করি (Information Collection)</span></h3>
+                    <p id="privacy-art-1-desc">SFT Arabic Express-এ অ্যাকাউন্ট তৈরি এবং কোর্স পরিচালনার জন্য আমরা ব্যবহারকারীর নাম, ইমেইল ঠিকানা (Gmail), প্রোফাইল অ্যাভাটার, রেফারেল আইডি, অর্জিত পয়েন্ট (XP) এবং ৩০ দিনের লেসন কমপ্লিশন প্রোগ্রেস সংগ্রহ ও সংরক্ষণ করি।</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-sftGreen flex items-center gap-2"><i class="fa-solid fa-gears"></i> <span id="privacy-art-2-title">২. সংগৃহীত তথ্যের ব্যবহার (How We Use Information)</span></h3>
+                    <p id="privacy-art-2-desc">আপনার তথ্য শুধুমাত্র অ্যাপের মূল সেবাসমূহ প্রদানের জন্য ব্যবহৃত হয়—যেমন: লগইন ও অ্যাকাউন্ট নিরাপত্তা নিশ্চিত করা, দৈনিক আরবি লেসন ও কুইজ স্কোর সংরক্ষণ করা, রেফারেল বোনাস হিসাব করা, গ্লোবাল লিডারবোর্ড ও মেগা অফার লাকি ড্র পরিচালনা করা এবং কোর্স শেষে আপনার নামে অফিসিয়াল সার্টিফিকেট তৈরি করা।</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-sftPink flex items-center gap-2"><i class="fa-solid fa-lock"></i> <span id="privacy-art-3-title">৩. ডেটা নিরাপত্তা ও তৃতীয় পক্ষের সেবা (Data Security & Third-Party Services)</span></h3>
+                    <p id="privacy-art-3-desc">আমরা ব্যবহারকারীর অথেনটিকেশন এবং ডেটা সংরক্ষণের জন্য গুগলের নিরাপদ ক্লাউড প্ল্যাটফর্ম Firebase (Firebase Authentication ও Realtime Database) ব্যবহার করি। আপনার পাসওয়ার্ড সম্পূর্ণ এনক্রিপ্টেড অবস্থায় থাকে। আমরা কোনো তৃতীয় পক্ষ বা বিজ্ঞাপনদাতার কাছে আপনার ব্যক্তিগত তথ্য বিক্রি বা শেয়ার করি না।</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-user-check"></i> <span id="privacy-art-4-title">৪. ব্যবহারকারীর অধিকার ও অ্যাকাউন্ট নিয়ন্ত্রণ (User Rights & Control)</span></h3>
+                    <p id="privacy-art-4-desc">আপনি যেকোনো সময় প্রোফাইল সেটিংস থেকে আপনার নাম, ছবি এবং পাসওয়ার্ড পরিবর্তন করতে পারবেন। আপনি যদি আপনার অ্যাকাউন্ট ও সকল ডেটা স্থায়ীভাবে মুছে ফেলতে চান, তবে অ্যাডমিনের সাথে যোগাযোগ করলে আপনার তথ্য ডাটাবেস থেকে সম্পূর্ণ ডিলিট করে দেওয়া হবে।</p>
+                </div>
+                <div class="pt-4 border-t border-gray-800 flex flex-wrap justify-center gap-4">
+                    <button onclick="navigateTo('terms')" class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-xs transition">ব্যবহারের শর্তাবলি দেখুন</button>
                     <button onclick="navigateTo('home')" class="px-6 py-3 rounded-xl bg-sftGreen text-gray-950 font-bold text-xs hover:shadow-neonGreen transition">হোম পেজে ফিরে যান</button>
                 </div>
             </div>
@@ -490,7 +527,7 @@
                     </button>
                     <div>
                         <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-shield text-sftPink"></i> এডমিন কন্ট্রোল প্যানেল</h2>
-                        <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন লক/আনলক, থিম ও কালার এডিটর</p>
+                        <p class="text-xs text-gray-400">ইউজার ম্যানেজমেন্ট, রেফারেল হিস্ট্রি, লেসন লক/আনলক, প্রাইভেসি পলিসি, থিম ও কালার এডিটর</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
@@ -499,6 +536,7 @@
                     <button onclick="switchAdminTab('theme')" id="admin-tab-theme" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">থিম ও কালার</button>
                     <button onclick="switchAdminTab('homeinfo')" id="admin-tab-homeinfo" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">হোম ইনফো</button>
                     <button onclick="switchAdminTab('terms')" id="admin-tab-terms" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">শর্তাবলি</button>
+                    <button onclick="switchAdminTab('privacy')" id="admin-tab-privacy" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">প্রাইভেসি পলিসি</button>
                     <button onclick="switchAdminTab('motivation')" id="admin-tab-motivation" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">মোটিভেশন</button>
                     <button onclick="switchAdminTab('lessons')" id="admin-tab-lessons" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">লেসন ও লক</button>
                     <button onclick="switchAdminTab('lottery')" id="admin-tab-lottery" class="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-bold">অফার এডিটর</button>
@@ -551,7 +589,7 @@
                 </div>
             </div>
 
-            <!-- THEME & COLOR CUSTOMIZER TAB (NEW) -->
+            <!-- THEME & COLOR CUSTOMIZER TAB -->
             <div id="admin-sec-theme" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
                 <div>
                     <h3 class="text-lg font-bold text-white">ওয়েবসাইট কালার কম্বিনেশন ও থিম এডিটর</h3>
@@ -664,6 +702,37 @@
                 </form>
             </div>
 
+            <!-- PRIVACY POLICY EDITOR TAB -->
+            <div id="admin-sec-privacy" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-sftBlue"></i> প্রাইভেসি পলিসি (Privacy Policy) এডিটর</h3>
+                    <p class="text-xs text-gray-400">প্রাইভেসি পলিসি পেজের ৪টি প্রধান সেকশনের শিরোনাম ও বিস্তারিত বিবরণ এখান থেকে আপডেট করুন।</p>
+                </div>
+                <form onsubmit="handleSavePrivacyArticles(event)" class="space-y-6">
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-sftBlue">সেকশন ১: তথ্য সংগ্রহ</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-privacy-1-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-privacy-1-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-sftGreen">সেকশন ২: তথ্যের ব্যবহার</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-privacy-2-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-privacy-2-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-sftPink">সেকশন ৩: ডেটা নিরাপত্তা ও থার্ড-পার্টি</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-privacy-3-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-privacy-3-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 space-y-3">
+                        <h4 class="text-sm font-bold text-amber-400">সেকশন ৪: ব্যবহারকারীর অধিকার</h4>
+                        <div><label class="block text-xs text-gray-400 mb-1">শিরোনাম</label><input type="text" id="admin-privacy-4-title" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></div>
+                        <div><label class="block text-xs text-gray-400 mb-1">বিবরণ</label><textarea id="admin-privacy-4-desc" rows="3" class="w-full p-2.5 bg-gray-950 border border-gray-700 rounded-xl text-white text-xs" required></textarea></div>
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-sftBlue text-gray-950 font-bold rounded-xl shadow-neonBlue text-sm">প্রাইভেসি পলিসি সেভ করুন</button>
+                </form>
+            </div>
+
             <div id="admin-sec-motivation" class="hidden glassmorphism rounded-2xl p-6 border border-gray-800 max-w-2xl">
                 <h3 class="text-lg font-bold text-white mb-4">হোমপেজ মোটিভেশনাল টেক্সট পরিবর্তন</h3>
                 <form onsubmit="handleUpdateMotivationalQuote(event)" class="space-y-4">
@@ -732,13 +801,15 @@
                 <span class="font-bold text-gradient-sft text-sm">SFT Arabic Express</span>
                 <span>&copy; 2026 সর্বস্বত্ব সংরক্ষিত</span>
             </div>
-            <div class="flex items-center space-x-4">
+            <div class="flex flex-wrap items-center justify-center space-x-4">
                 <div class="flex items-center space-x-1.5 bg-gray-900 px-3 py-1 rounded-full border border-gray-800">
                     <span class="w-2 h-2 rounded-full bg-sftGreen live-dot inline-block"></span>
                     <span class="text-[10px] text-sftGreen font-bold">System Online & Active</span>
                 </div>
                 <span>•</span>
                 <button onclick="navigateTo('terms')" class="hover:text-sftPink transition">শর্তাবলি (Terms & Conditions)</button>
+                <span>•</span>
+                <button onclick="navigateTo('privacy')" class="hover:text-sftBlue transition">প্রাইভেসি পলিসি (Privacy Policy)</button>
             </div>
         </div>
     </footer>
@@ -771,7 +842,7 @@
                 <div class="text-center pt-2"><span class="text-xs text-gray-400">অ্যাকাউন্ট নেই? </span><button type="button" onclick="switchAuthMode('signup')" class="text-xs text-sftGreen font-bold hover:underline">সাইন আপ করুন</button></div>
             </form>
             
-            <!-- SIGNUP FORM WITH TERMS CHECKBOX -->
+            <!-- SIGNUP FORM WITH TERMS & PRIVACY CHECKBOX -->
             <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4 hidden">
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">আপনার নাম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="আপনার নাম লিখুন"></div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল (Gmail)</label><input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com"></div>
@@ -784,7 +855,7 @@
                 <div class="flex items-start space-x-2 pt-1">
                     <input type="checkbox" id="signup-terms-checkbox" required class="mt-1 w-4 h-4 rounded bg-gray-900 border-gray-700 text-sftGreen focus:ring-0 cursor-pointer">
                     <label for="signup-terms-checkbox" class="text-xs text-gray-300 leading-tight cursor-pointer">
-                        আমি SFT Arabic Express এর সমস্ত <button type="button" onclick="closeAuthModal(); navigateTo('terms');" class="text-sftGreen font-bold hover:underline">ব্যবহারের শর্তাবলি (Terms & Conditions)</button> পড়েছি এবং সম্মত আছি।
+                        আমি SFT Arabic Express এর সমস্ত <button type="button" onclick="closeAuthModal(); navigateTo('terms');" class="text-sftGreen font-bold hover:underline">ব্যবহারের শর্তাবলি</button> এবং <button type="button" onclick="closeAuthModal(); navigateTo('privacy');" class="text-sftBlue font-bold hover:underline">প্রাইভেসি পলিসি</button> পড়েছি এবং সম্মত আছি।
                     </label>
                 </div>
                 
@@ -867,6 +938,17 @@
             art4Desc: "৫,৯০০ বা তার বেশি পয়েন্ট (XP) অর্জনকারীরা প্রতিটি ৫৯০০ পয়েন্টের জন্য ১টি করে মেগা ড্র এন্ট্রি পাবেন। ড্র-এর সিদ্ধান্ত চূড়ান্ত বলে গণ্য হবে।"
         };
 
+        const DEFAULT_PRIVACY_ARTICLES = {
+            art1Title: "১. আমরা কী কী তথ্য সংগ্রহ করি (Information Collection)",
+            art1Desc: "SFT Arabic Express-এ অ্যাকাউন্ট তৈরি এবং কোর্স পরিচালনার জন্য আমরা ব্যবহারকারীর নাম, ইমেইল ঠিকানা (Gmail), প্রোফাইল অ্যাভাটার, রেফারেল আইডি, অর্জিত পয়েন্ট (XP) এবং ৩০ দিনের লেসন কমপ্লিশন প্রোগ্রেস সংগ্রহ ও সংরক্ষণ করি।",
+            art2Title: "২. সংগৃহীত তথ্যের ব্যবহার (How We Use Information)",
+            art2Desc: "আপনার তথ্য শুধুমাত্র অ্যাপের মূল সেবাসমূহ প্রদানের জন্য ব্যবহৃত হয়—যেমন: লগইন ও অ্যাকাউন্ট নিরাপত্তা নিশ্চিত করা, দৈনিক আরবি লেসন ও কুইজ স্কোর সংরক্ষণ করা, রেফারেল বোনাস হিসাব করা, গ্লোবাল লিডারবোর্ড ও মেগা অফার লাকি ড্র পরিচালনা করা এবং কোর্স শেষে আপনার নামে অফিসিয়াল সার্টিফিকেট তৈরি করা।",
+            art3Title: "৩. ডেটা নিরাপত্তা ও তৃতীয় পক্ষের সেবা (Data Security & Third-Party Services)",
+            art3Desc: "আমরা ব্যবহারকারীর অথেনটিকেশন এবং ডেটা সংরক্ষণের জন্য গুগলের নিরাপদ ক্লাউড প্ল্যাটফর্ম Firebase (Firebase Authentication ও Realtime Database) ব্যবহার করি। আপনার পাসওয়ার্ড সম্পূর্ণ এনক্রিপ্টেড অবস্থায় থাকে। আমরা কোনো তৃতীয় পক্ষ বা বিজ্ঞাপনদাতার কাছে আপনার ব্যক্তিগত তথ্য বিক্রি বা শেয়ার করি না।",
+            art4Title: "৪. ব্যবহারকারীর অধিকার ও অ্যাকাউন্ট নিয়ন্ত্রণ (User Rights & Control)",
+            art4Desc: "আপনি যেকোনো সময় প্রোফাইল সেটিংস থেকে আপনার নাম, ছবি এবং পাসওয়ার্ড পরিবর্তন করতে পারবেন। আপনি যদি আপনার অ্যাকাউন্ট ও সকল ডেটা স্থায়ীভাবে মুছে ফেলতে চান, তবে অ্যাডমিনের সাথে যোগাযোগ করলে আপনার তথ্য ডাটাবেস থেকে সম্পূর্ণ ডিলিট করে দেওয়া হবে।"
+        };
+
         const DEFAULT_THEME_COLORS = {
             pink: "#FF2E93",
             green: "#00F5D4",
@@ -918,6 +1000,7 @@
         let motivationalQuote = DEFAULT_MOTIVATIONAL_QUOTE;
         let homeInfoArticles = DEFAULT_HOME_INFO;
         let termsArticles = DEFAULT_TERMS_ARTICLES;
+        let privacyArticles = DEFAULT_PRIVACY_ARTICLES;
         let themeColors = DEFAULT_THEME_COLORS;
         let luckyWinner = null;
         let globalCertificateUnlock = false;
@@ -947,7 +1030,26 @@
             return "SFT" + uid.substring(0, 5).toUpperCase();
         }
 
+        function handleInitialHashRoute() {
+            const hash = window.location.hash.replace('#', '').trim();
+            const validPages = ['home', 'terms', 'privacy', 'routine', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'];
+            if (hash && validPages.includes(hash)) {
+                activePage = hash;
+            }
+        }
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '').trim();
+            const validPages = ['home', 'terms', 'privacy', 'routine', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'];
+            if (hash && validPages.includes(hash) && hash !== activePage) {
+                navigateTo(hash);
+            }
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
+            handleInitialHashRoute();
+            navigateTo(activePage);
+
             const checkInterval = setInterval(() => {
                 if (window.firebaseApp) {
                     clearInterval(checkInterval);
@@ -958,6 +1060,7 @@
                     onValue(ref(db, 'settings/lottery'), (snap) => { if (snap.exists()) lotterySettings = snap.val(); });
                     onValue(ref(db, 'settings/homeInfo'), (snap) => { if (snap.exists()) { homeInfoArticles = snap.val(); renderHomeInfoArticles(); } });
                     onValue(ref(db, 'settings/terms'), (snap) => { if (snap.exists()) { termsArticles = snap.val(); renderTermsPage(); } });
+                    onValue(ref(db, 'settings/privacy'), (snap) => { if (snap.exists()) { privacyArticles = snap.val(); renderPrivacyPage(); } });
                     onValue(ref(db, 'settings/theme'), (snap) => { if (snap.exists()) { themeColors = snap.val(); applyThemeColors(themeColors); } });
                     onValue(ref(db, 'settings/winner'), (snap) => { luckyWinner = snap.val() || null; });
                     onValue(ref(db, 'settings/globalCertificateUnlock'), (snap) => { globalCertificateUnlock = snap.exists() ? snap.val() : false; });
@@ -1047,7 +1150,12 @@
         function navigateTo(pageId, dayNum = 1) {
             activePage = pageId;
             if (dayNum) activeLessonDay = dayNum;
-            ['home', 'terms', 'routine', 'lesson', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'].forEach(p => {
+            
+            if (window.location.hash !== `#${pageId}`) {
+                history.replaceState(null, null, pageId === 'home' ? window.location.pathname : `#${pageId}`);
+            }
+
+            ['home', 'terms', 'privacy', 'routine', 'lesson', 'leaderboard', 'lottery', 'certificate', 'profile', 'admin'].forEach(p => {
                 const el = document.getElementById(`page-${p}`);
                 if (el) el.classList.add('hidden');
             });
@@ -1056,6 +1164,7 @@
 
             if (activePage === 'home') renderHomePage();
             if (activePage === 'terms') renderTermsPage();
+            if (activePage === 'privacy') renderPrivacyPage();
             if (activePage === 'routine') renderRoutinePage();
             if (activePage === 'lesson') renderLessonPage(activeLessonDay);
             if (activePage === 'leaderboard') renderLeaderboardPage();
@@ -1137,6 +1246,22 @@
             if (d3) d3.textContent = termsArticles.art3Desc || DEFAULT_TERMS_ARTICLES.art3Desc;
             if (t4) t4.textContent = termsArticles.art4Title || DEFAULT_TERMS_ARTICLES.art4Title;
             if (d4) d4.textContent = termsArticles.art4Desc || DEFAULT_TERMS_ARTICLES.art4Desc;
+        }
+
+        function renderPrivacyPage() {
+            const p1t = document.getElementById('privacy-art-1-title'), p1d = document.getElementById('privacy-art-1-desc');
+            const p2t = document.getElementById('privacy-art-2-title'), p2d = document.getElementById('privacy-art-2-desc');
+            const p3t = document.getElementById('privacy-art-3-title'), p3d = document.getElementById('privacy-art-3-desc');
+            const p4t = document.getElementById('privacy-art-4-title'), p4d = document.getElementById('privacy-art-4-desc');
+
+            if (p1t) p1t.textContent = privacyArticles.art1Title || DEFAULT_PRIVACY_ARTICLES.art1Title;
+            if (p1d) p1d.textContent = privacyArticles.art1Desc || DEFAULT_PRIVACY_ARTICLES.art1Desc;
+            if (p2t) p2t.textContent = privacyArticles.art2Title || DEFAULT_PRIVACY_ARTICLES.art2Title;
+            if (p2d) p2d.textContent = privacyArticles.art2Desc || DEFAULT_PRIVACY_ARTICLES.art2Desc;
+            if (p3t) p3t.textContent = privacyArticles.art3Title || DEFAULT_PRIVACY_ARTICLES.art3Title;
+            if (p3d) p3d.textContent = privacyArticles.art3Desc || DEFAULT_PRIVACY_ARTICLES.art3Desc;
+            if (p4t) p4t.textContent = privacyArticles.art4Title || DEFAULT_PRIVACY_ARTICLES.art4Title;
+            if (p4d) p4d.textContent = privacyArticles.art4Desc || DEFAULT_PRIVACY_ARTICLES.art4Desc;
         }
 
         function renderHomePage() {
@@ -1724,7 +1849,7 @@
             
             const termsCheckbox = document.getElementById('signup-terms-checkbox');
             if (termsCheckbox && !termsCheckbox.checked) {
-                showToast("অ্যাকাউন্ট খুলতে ব্যবহারের শর্তাবলিতে (Terms & Conditions) টিক মার্ক দিন!", "error");
+                showToast("অ্যাকাউন্ট খুলতে ব্যবহারের শর্তাবলি এবং প্রাইভেসি পলিসিতে টিক মার্ক দিন!", "error");
                 return;
             }
 
@@ -1796,7 +1921,7 @@
                         showToast("ভুল রেফারেল আইডি! তবে সাইন-আপ বোনাস হিসেবে আপনার অ্যাকাউন্টে ৩০০০ পয়েন্ট যুক্ত হয়েছে।", "error");
                     }
                 } else {
-                    showToast("সাইন-আপ সফল! বোনাস হিসেবে আপনার অ্যাকাউন্টে ৩০০০ পয়েন্ট যুক্ত হয়েছে।", "success");
+                    showToast("সাইন-আপ সফল! বোনাস হিসেবে আপনার অ্যাকাউন্টে ৩০০০ পয়েন্ট যুক্ত হয়েছে ব্যান্ডেল!", "success");
                 }
 
                 const newUser = {
@@ -1938,7 +2063,6 @@
             if(motivInput) motivInput.value = motivationalQuote;
             setupAdminLessonSelect();
 
-            // হোম ইনফো ফর্ম পপুলেট
             const art1t = document.getElementById('admin-art-1-title'), art1d = document.getElementById('admin-art-1-desc');
             const art2t = document.getElementById('admin-art-2-title'), art2d = document.getElementById('admin-art-2-desc');
             const art3t = document.getElementById('admin-art-3-title'), art3d = document.getElementById('admin-art-3-desc');
@@ -1953,7 +2077,6 @@
             if(art4t) art4t.value = homeInfoArticles.art4Title || DEFAULT_HOME_INFO.art4Title;
             if(art4d) art4d.value = homeInfoArticles.art4Desc || DEFAULT_HOME_INFO.art4Desc;
 
-            // শর্তাবলি এডিটর ফর্ম পপুলেট
             const tArt1t = document.getElementById('admin-terms-1-title'), tArt1d = document.getElementById('admin-terms-1-desc');
             const tArt2t = document.getElementById('admin-terms-2-title'), tArt2d = document.getElementById('admin-terms-2-desc');
             const tArt3t = document.getElementById('admin-terms-3-title'), tArt3d = document.getElementById('admin-terms-3-desc');
@@ -1968,7 +2091,20 @@
             if(tArt4t) tArt4t.value = termsArticles.art4Title || DEFAULT_TERMS_ARTICLES.art4Title;
             if(tArt4d) tArt4d.value = termsArticles.art4Desc || DEFAULT_TERMS_ARTICLES.art4Desc;
 
-            // থিম কালার পপুলেট
+            const pArt1t = document.getElementById('admin-privacy-1-title'), pArt1d = document.getElementById('admin-privacy-1-desc');
+            const pArt2t = document.getElementById('admin-privacy-2-title'), pArt2d = document.getElementById('admin-privacy-2-desc');
+            const pArt3t = document.getElementById('admin-privacy-3-title'), pArt3d = document.getElementById('admin-privacy-3-desc');
+            const pArt4t = document.getElementById('admin-privacy-4-title'), pArt4d = document.getElementById('admin-privacy-4-desc');
+
+            if(pArt1t) pArt1t.value = privacyArticles.art1Title || DEFAULT_PRIVACY_ARTICLES.art1Title;
+            if(pArt1d) pArt1d.value = privacyArticles.art1Desc || DEFAULT_PRIVACY_ARTICLES.art1Desc;
+            if(pArt2t) pArt2t.value = privacyArticles.art2Title || DEFAULT_PRIVACY_ARTICLES.art2Title;
+            if(pArt2d) pArt2d.value = privacyArticles.art2Desc || DEFAULT_PRIVACY_ARTICLES.art2Desc;
+            if(pArt3t) pArt3t.value = privacyArticles.art3Title || DEFAULT_PRIVACY_ARTICLES.art3Title;
+            if(pArt3d) pArt3d.value = privacyArticles.art3Desc || DEFAULT_PRIVACY_ARTICLES.art3Desc;
+            if(pArt4t) pArt4t.value = privacyArticles.art4Title || DEFAULT_PRIVACY_ARTICLES.art4Title;
+            if(pArt4d) pArt4d.value = privacyArticles.art4Desc || DEFAULT_PRIVACY_ARTICLES.art4Desc;
+
             const cp = document.getElementById('theme-color-pink');
             const cg = document.getElementById('theme-color-green');
             const cb = document.getElementById('theme-color-blue');
@@ -2005,7 +2141,7 @@
         }
 
         function switchAdminTab(sec) {
-            ['users', 'referrals', 'theme', 'homeinfo', 'terms', 'motivation', 'lessons', 'lottery'].forEach(s => {
+            ['users', 'referrals', 'theme', 'homeinfo', 'terms', 'privacy', 'motivation', 'lessons', 'lottery'].forEach(s => {
                 const secEl = document.getElementById(`admin-sec-${s}`);
                 const tabEl = document.getElementById(`admin-tab-${s}`);
                 if (secEl) secEl.classList.toggle('hidden', s !== sec);
@@ -2070,6 +2206,24 @@
             await set(ref(db, 'settings/terms'), termsArticles);
             renderTermsPage();
             showToast("ব্যবহারের শর্তাবলি সফলভাবে আপডেট ও সেভ হয়েছে!", "success");
+        }
+
+        async function handleSavePrivacyArticles(e) {
+            e.preventDefault();
+            const { db, ref, set } = window.firebaseApp;
+            privacyArticles = {
+                art1Title: document.getElementById('admin-privacy-1-title').value.trim(),
+                art1Desc: document.getElementById('admin-privacy-1-desc').value.trim(),
+                art2Title: document.getElementById('admin-privacy-2-title').value.trim(),
+                art2Desc: document.getElementById('admin-privacy-2-desc').value.trim(),
+                art3Title: document.getElementById('admin-privacy-3-title').value.trim(),
+                art3Desc: document.getElementById('admin-privacy-3-desc').value.trim(),
+                art4Title: document.getElementById('admin-privacy-4-title').value.trim(),
+                art4Desc: document.getElementById('admin-privacy-4-desc').value.trim()
+            };
+            await set(ref(db, 'settings/privacy'), privacyArticles);
+            renderPrivacyPage();
+            showToast("প্রাইভেসি পলিসি সফলভাবে আপডেট ও সেভ হয়েছে!", "success");
         }
 
         async function handleSaveLotterySettings(e) {
