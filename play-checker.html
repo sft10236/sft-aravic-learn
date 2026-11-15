@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PlayReady Inspector — Google Play Console অ্যাপ চেকার</title>
+  <meta name="description" content="সোর্স কোড বা লাইভ লিংক দিয়ে Google Play Console নীতিমালা, WebView কম্প্যাটিবিলিটি, সিকিউরিটি ও মেটাডেটা যাচাই করার ফ্রন্টএন্ড টুল।" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #162033;
+      --border: rgba(148, 163, 184, 0.16);
+      --border-strong: rgba(148, 163, 184, 0.28);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #0ea5e9;
+      --accent-hover: #38bdf8;
+      --pass: #16a34a;
+      --pass-text: #4ade80;
+      --warn: #d97706;
+      --warn-text: #fbbf24;
+      --fail: #dc2626;
+      --fail-text: #f87171;
+      --font-sans: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono);
+    }
+
+    /* Top Bar Contract: Brand — Segmented Modes — Primary Action */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(11, 17, 32, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      padding-top: max(12px, env(safe-area-inset-top));
+    }
+
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .mode-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 150ms ease, color 150ms ease;
+    }
+
+    .mode-btn:hover {
+      color: var(--text);
+    }
+
+    .mode-btn.active {
+      background: var(--accent);
+      color: #04131d;
+      font-weight: 700;
+    }
+
+    .primary-cta {
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: var(--accent);
+      color: #04131d;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 9px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 150ms ease;
+    }
+
+    .primary-cta:hover {
+      background: var(--accent-hover);
+    }
+
+    .primary-cta:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .secondary-btn {
+      border: 1px solid var(--border-strong);
+      background: var(--surface-2);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 150ms ease, background 150ms ease;
+    }
+
+    .secondary-btn:hover {
+      border-color: var(--accent);
+      background: #1c2942;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+      display: grid;
+      gap: 20px;
+    }
+
+    /* Toast / Notice */
+    .notice {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-2);
+      font-size: 13px;
+      font-weight: 600;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .notice.show {
+      display: flex;
+    }
+
+    .notice.pass {
+      border-color: rgba(74, 222, 128, 0.35);
+      color: var(--pass-text);
+    }
+
+    .notice.warn {
+      border-color: rgba(251, 191, 36, 0.35);
+      color: var(--warn-text);
+    }
+
+    .notice.fail {
+      border-color: rgba(248, 113, 113, 0.35);
+      color: var(--fail-text);
+    }
+
+    /* Workspace Panels (Single-elevation depth) */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .panel-sub {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .toolbar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .code-input {
+      width: 100%;
+      min-height: 230px;
+      max-height: 400px;
+      resize: vertical;
+      background: #070b14;
+      color: #e2e8f0;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.55;
+      outline: none;
+    }
+
+    .code-input:focus {
+      border-color: var(--accent);
+    }
+
+    .url-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .url-input {
+      flex: 1;
+      min-width: 220px;
+      background: #070b14;
+      color: #ffffff;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .url-input:focus {
+      border-color: var(--accent);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Summary Strip */
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: 1.6fr repeat(4, minmax(110px, 1fr));
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .verdict-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .verdict-main {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .verdict-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .verdict-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .verdict-headline {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .verdict-headline.pass { color: var(--pass-text); }
+    .verdict-headline.warn { color: var(--warn-text); }
+    .verdict-headline.fail { color: var(--fail-text); }
+
+    .metric-cell {
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .metric-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .metric-val.pass { color: var(--pass-text); }
+    .metric-val.warn { color: var(--warn-text); }
+    .metric-val.fail { color: var(--fail-text); }
+
+    .metric-name {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Filters & Search */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 150ms ease;
+    }
+
+    .filter-tab:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    .filter-tab.active {
+      background: var(--surface-2);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .search-input {
+      background: #070b14;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 7px 12px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      min-width: 210px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+    }
+
+    /* Audit Table / List */
+    .audit-list {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .audit-row {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 112px 1fr auto;
+      gap: 12px 16px;
+      align-items: start;
+      transition: background 150ms ease;
+    }
+
+    .audit-row:last-child {
+      border-bottom: 0;
+    }
+
+    .audit-row:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (max-width: 680px) {
+      .audit-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    .status-col {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    .status-col.pass { color: var(--pass-text); }
+    .status-col.warn { color: var(--warn-text); }
+    .status-col.fail { color: var(--fail-text); }
+
+    .check-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .check-meta {
+      margin-top: 3px;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .check-evidence {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    .check-fix {
+      margin-top: 8px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      background: #0b1324;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: #bae6fd;
+    }
+
+    .snippet-box {
+      margin-top: 6px;
+      padding: 8px 10px;
+      background: #050912;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .copy-mini {
+      border: 1px solid var(--border-strong);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .copy-mini:hover {
+      border-color: var(--accent);
+      color: var(--accent-hover);
+    }
+
+    /* Live Headers Strip */
+    .headers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .header-kv {
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .header-k {
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .header-v {
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      word-break: break-all;
+    }
+
+    /* Preview Frame */
+    .preview-stage {
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+      background: #070b14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .device-shell {
+      position: relative;
+      background: #000000;
+      border: 2px solid #334155;
+      border-radius: 22px;
+      overflow: hidden;
+      transition: width 180ms ease;
+      height: 70vh;
+      min-height: 460px;
+    }
+
+    .device-shell.mobile { width: 375px; max-width: 100%; }
+    .device-shell.large-mobile { width: 412px; max-width: 100%; }
+    .device-shell.desktop { width: 100%; border-radius: 10px; }
+
+    .device-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #ffffff;
+    }
+
+    .safe-overlay-top, .safe-overlay-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      display: none;
+      z-index: 10;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: #fde68a;
+      background: rgba(217, 119, 6, 0.22);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .safe-overlay-top {
+      top: 0;
+      height: 28px;
+      border-bottom: 1px dashed rgba(251, 191, 36, 0.65);
+    }
+
+    .safe-overlay-bottom {
+      bottom: 0;
+      height: 24px;
+      border-top: 1px dashed rgba(251, 191, 36, 0.65);
+    }
+
+    .show-safe-areas .safe-overlay-top,
+    .show-safe-areas .safe-overlay-bottom {
+      display: flex;
+    }
+
+    /* History Strip */
+    .history-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .history-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .history-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 36px 18px;
+      border: 1px dashed var(--border-strong);
+      border-radius: 10px;
+      color: var(--muted);
+    }
+
+    .empty-state h3 {
+      margin: 0 0 6px;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    .empty-state p {
+      margin: 0 0 16px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        gap: 10px;
+      }
+      .mode-switch {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .mode-btn {
+        flex: 1;
+        text-align: center;
+        padding: 7px 6px;
+        font-size: 12px;
+      }
+    }
+  </style>
+<script src="/_aistudio-iframe.js?v=1f94f900"></script></head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </span>
+        <span>PlayReady Inspector</span>
+      </div>
+
+      <nav class="mode-switch" aria-label="চেকার মোড">
+        <button type="button" class="mode-btn active" data-mode="code">সোর্স কোড চেক</button>
+        <button type="button" class="mode-btn" data-mode="url">লাইভ লিংক চেক</button>
+        <button type="button" class="mode-btn" data-mode="preview">স্ক্রিন প্রিভিউ</button>
+      </nav>
+
+      <button type="button" id="btn-copy-report" class="primary-cta" disabled>
+        রিপোর্ট কপি করুন
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="notice-bar" class="notice" role="status" aria-live="polite">
+      <span id="notice-text"></span>
+      <button type="button" id="btn-close-notice" class="copy-mini">বন্ধ করুন</button>
+    </div>
+
+    <!-- Input Section: Source Code Mode -->
+    <section id="section-code" class="panel">
+      <div class="panel-header">
+        <div>
+          <h1 class="panel-title">১. অ্যাপের HTML / JS সোর্স কোড পেস্ট করুন অথবা ফাইল আপলোড করুন</h1>
+          <p class="panel-sub">সম্পূর্ণ অফলাইনে (কোনো ডাটাবেস ছাড়াই) ২২টি Google Play Console নীতিমালা, WebView, সিকিউরিটি ও মেটাডেটা ভুল ধরবে।</p>
+        </div>
+        <div class="toolbar-row">
+          <label class="secondary-btn" for="file-upload-input" style="cursor:pointer;">
+            ফাইল আপলোড (.html)
+          </label>
+          <input id="file-upload-input" type="file" accept=".html,.htm,.txt" class="hidden" />
+          <button type="button" id="btn-sample-buggy" class="secondary-btn">ত্রুটিপূর্ণ নমুনা টেস্ট</button>
+          <button type="button" id="btn-sample-clean" class="secondary-btn">ক্লিন নমুনা টেস্ট</button>
+          <button type="button" id="btn-clear-code" class="secondary-btn">মুছুন</button>
+        </div>
+      </div>
+
+      <textarea
+        id="source-textarea"
+        class="code-input"
+        placeholder="এখানে আপনার যেকোনো অ্যাপের সম্পূর্ণ index.html কোড পেস্ট করুন..."
+        spellcheck="false"
+      ></textarea>
+
+      <div class="toolbar-row" style="margin-top: 12px; justify-content: space-between;">
+        <div id="code-meta-line" class="tabular" style="font-size: 12px; color: var(--muted);">
+          ০ লাইন · ০.০ KB
+        </div>
+        <button type="button" id="btn-run-code-audit" class="primary-cta">
+          Play Console চেক শুরু করুন
+        </button>
+      </div>
+    </section>
+
+    <!-- Input Section: Live URL Mode -->
+    <section id="section-url" class="panel hidden">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">২. লাইভ অ্যাপের লিংক (URL) দিয়ে Google Play চেক করুন</h2>
+          <p class="panel-sub">আপনার হোস্ট করা অ্যাপের লিংক (যেমন https://myapp.vercel.app) দিলে HTTP স্ট্যাটাস, সিকিউরিটি হেডার ও পূর্ণ সোর্স বিশ্লেষণ করবে।</p>
+        </div>
+      </div>
+
+      <div class="url-row">
+        <input
+          type="url"
+          id="live-url-input"
+          class="url-input"
+          placeholder="https://example.com"
+          inputmode="url"
+        />
+        <button type="button" id="btn-run-url-audit" class="primary-cta">
+          লিংক স্ক্যান করুন
+        </button>
+      </div>
+
+      <div id="url-headers-wrap" class="headers-grid hidden"></div>
+    </section>
+
+    <!-- Preview Section -->
+    <section id="section-preview" class="panel hidden">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">মোবাইল WebView ও Safe-Area প্রিভিউ</h2>
+          <p class="panel-sub">Play Console-এ স্ক্রিন কেটে যাওয়া বা লেআউট ভেঙে যাওয়ার সমস্যা আছে কিনা চোখে দেখে যাচাই করুন।</p>
+        </div>
+        <div class="toolbar-row">
+          <button type="button" class="secondary-btn preview-size-btn" data-size="mobile">ফোন (375px)</button>
+          <button type="button" class="secondary-btn preview-size-btn" data-size="large-mobile">বড় ফোন (412px)</button>
+          <button type="button" class="secondary-btn preview-size-btn" data-size="desktop">ডেস্কটপ (100%)</button>
+          <button type="button" id="btn-toggle-safe-area" class="secondary-btn">Safe Area গাইড</button>
+        </div>
+      </div>
+
+      <div class="preview-stage">
+        <div id="device-shell" class="device-shell mobile show-safe-areas">
+          <div class="safe-overlay-top">Android Status Bar / Notch Area</div>
+          <iframe id="preview-iframe" class="device-iframe" title="App Live Preview" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+          <div class="safe-overlay-bottom">Android Navigation Gesture Bar</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local Scan History (Browser localStorage only, zero database) -->
+    <section id="section-history" class="panel hidden">
+      <div class="panel-header" style="margin-bottom: 10px;">
+        <div>
+          <h2 class="panel-title" style="font-size: 14px;">সাম্প্রতিক চেক হিস্ট্রি (শুধু আপনার ব্রাউজারে সেভ থাকে)</h2>
+        </div>
+        <button type="button" id="btn-clear-history" class="copy-mini">হিস্ট্রি মুছুন</button>
+      </div>
+      <div id="history-list" class="history-row"></div>
+    </section>
+
+    <!-- Audit Results Section -->
+    <section id="section-results" class="panel">
+      <div id="empty-results" class="empty-state">
+        <h3>এখনও কোনো অ্যাপ স্ক্যান করা হয়নি</h3>
+        <p>উপরে আপনার অ্যাপের HTML কোড পেস্ট করুন অথবা লাইভ লিংক দিয়ে "Play Console চেক শুরু করুন" বাটনে ক্লিক করুন।</p>
+        <button type="button" id="btn-empty-demo" class="primary-cta">উদাহরণ কোড দিয়ে চেক দেখুন</button>
+      </div>
+
+      <div id="populated-results" class="hidden">
+        <div class="verdict-grid">
+          <div class="verdict-main">
+            <span class="verdict-label" id="result-target-meta">স্ক্যান ফলাফল</span>
+            <div class="verdict-headline" id="verdict-headline">—</div>
+            <span class="panel-sub" id="verdict-summary" style="margin-top: 2px;"></span>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-val fail tabular" id="stat-critical">0</div>
+            <div class="metric-name">রিজেক্ট ঝুঁকি (Critical)</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-val warn tabular" id="stat-warning">0</div>
+            <div class="metric-name">সতর্কতা (Warning)</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-val pass tabular" id="stat-pass">0</div>
+            <div class="metric-name">চেক পাস (Pass)</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-val tabular" id="stat-size">0 KB</div>
+            <div class="metric-name">ফাইল সাইজ</div>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-tabs" role="tablist" aria-label="ফলাফল ফিল্টার">
+            <button type="button" class="filter-tab active" data-filter="all">সবগুলো</button>
+            <button type="button" class="filter-tab" data-filter="issues">শুধু ভুল ও সতর্কতা</button>
+            <button type="button" class="filter-tab" data-filter="policy">নীতিমালা (Policy)</button>
+            <button type="button" class="filter-tab" data-filter="webview">WebView ও মোবাইল</button>
+            <button type="button" class="filter-tab" data-filter="security">সিকিউরিটি</button>
+            <button type="button" class="filter-tab" data-filter="metadata">PWA ও মেটাডেটা</button>
+          </div>
+          <input type="search" id="result-search" class="search-input" placeholder="সমস্যা খুঁজুন (যেমন: privacy, alert)..." />
+        </div>
+
+        <div id="audit-list" class="audit-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const STORAGE_KEY = 'playready_inspector_history_v1';
+      let currentMode = 'code';
+      let activeFilter = 'all';
+      let searchQuery = '';
+      let lastReport = null;
+      let lastScannedHtml = '';
+      let lastScannedUrl = '';
+
+      const $ = (id) => document.getElementById(id);
+
+      const els = {
+        modeBtns: Array.from(document.querySelectorAll('.mode-btn')),
+        sectionCode: $('section-code'),
+        sectionUrl: $('section-url'),
+        sectionPreview: $('section-preview'),
+        sectionHistory: $('section-history'),
+        historyList: $('history-list'),
+        textarea: $('source-textarea'),
+        codeMetaLine: $('code-meta-line'),
+        fileInput: $('file-upload-input'),
+        urlInput: $('live-url-input'),
+        urlHeadersWrap: $('url-headers-wrap'),
+        btnRunCode: $('btn-run-code-audit'),
+        btnRunUrl: $('btn-run-url-audit'),
+        btnSampleBuggy: $('btn-sample-buggy'),
+        btnSampleClean: $('btn-sample-clean'),
+        btnClearCode: $('btn-clear-code'),
+        btnEmptyDemo: $('btn-empty-demo'),
+        btnCopyReport: $('btn-copy-report'),
+        btnClearHistory: $('btn-clear-history'),
+        noticeBar: $('notice-bar'),
+        noticeText: $('notice-text'),
+        btnCloseNotice: $('btn-close-notice'),
+        emptyResults: $('empty-results'),
+        populatedResults: $('populated-results'),
+        resultTargetMeta: $('result-target-meta'),
+        verdictHeadline: $('verdict-headline'),
+        verdictSummary: $('verdict-summary'),
+        statCritical: $('stat-critical'),
+        statWarning: $('stat-warning'),
+        statPass: $('stat-pass'),
+        statSize: $('stat-size'),
+        filterTabs: Array.from(document.querySelectorAll('.filter-tab')),
+        resultSearch: $('result-search'),
+        auditList: $('audit-list'),
+        deviceShell: $('device-shell'),
+        previewIframe: $('preview-iframe'),
+        previewSizeBtns: Array.from(document.querySelectorAll('.preview-size-btn')),
+        btnToggleSafeArea: $('btn-toggle-safe-area'),
+      };
+
+      const SAMPLE_BUGGY_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <title>Vite App</title>
+  <script src="http://example.com/insecure-lib.js"><\/script>
+  <script src="/_aistudio-iframe.js"><\/script>
+</head>
+<body>
+  <form id="signup-form">
+    <input type="email" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button type="button" onclick="signupUser()">Sign Up</button>
+  </form>
+  <a href="https://example.com/help" target="_blank">Help</a>
+  <a href="tel:+8801700000000">Call</a>
+  <script>
+    function signupUser() {
+      alert('Account created!');
+      window.open('https://example.com/welcome');
+    }
+    const raw = eval("1 + 1");
+  <\/script>
+</body>
+</html>`;
+
+      const SAMPLE_CLEAN_HTML = `<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>আমার নিরাপদ লার্নিং অ্যাপ</title>
+  <meta name="description" content="গুগল প্লে কনসোলের জন্য প্রস্তুত নিরাপদ ওয়েব অ্যাপ।" />
+  <link rel="icon" href="/icon-192.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <style>
+    body { margin: 0; font-family: sans-serif; padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom); background: #0f172a; color: #f8fafc; }
+    .card { max-width: 480px; margin: 24px auto; padding: 20px; border: 1px solid #334155; border-radius: 12px; }
+    a { color: #38bdf8; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>স্বাগতম</h1>
+    <p>এটি একটি ক্লিন Play-Ready ওয়েব অ্যাপ নমুনা।</p>
+    <div id="status-msg" role="status"></div>
+    <section id="page-privacy"><h2>প্রাইভেসি পলিসি</h2><p>কোনো ব্যক্তিগত ডাটা তৃতীয় পক্ষকে দেওয়া হয় না।</p></section>
+    <section id="page-terms"><h2>শর্তাবলি</h2></section>
+    <label><input type="checkbox" id="signup-terms-checkbox" /> আমি শর্তাবলি ও প্রাইভেসি পলিসিতে সম্মত</label>
+    <button type="button" onclick="deleteAccount()">অ্যাকাউন্ট ডিলিট</button>
+  </main>
+  <script>
+    window.addEventListener('offline', () => {
+      document.getElementById('status-msg').textContent = 'ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে।';
+    });
+    function deleteAccount() {
+      document.getElementById('status-msg').textContent = 'অ্যাকাউন্ট ডিলিট অনুরোধ গৃহীত হয়েছে।';
+    }
+  <\/script>
+</body>
+</html>`;
+
+      function showNotice(text, type = 'pass') {
+        els.noticeText.textContent = text;
+        els.noticeBar.className = 'notice show ' + type;
+      }
+
+      els.btnCloseNotice.addEventListener('click', () => {
+        els.noticeBar.className = 'notice';
+      });
+
+      async function copyToClipboard(text, successMsg) {
+        if (!text) return;
+        let copied = false;
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          try {
+            await navigator.clipboard.writeText(text);
+            copied = true;
+          } catch {
+            copied = false;
+          }
+        }
+        if (!copied) {
+          const temp = document.createElement('textarea');
+          temp.value = text;
+          temp.setAttribute('readonly', '');
+          temp.style.position = 'fixed';
+          temp.style.opacity = '0';
+          document.body.appendChild(temp);
+          temp.focus();
+          temp.select();
+          temp.setSelectionRange(0, text.length);
+          try {
+            copied = document.execCommand('copy');
+          } catch {
+            copied = false;
+          }
+          document.body.removeChild(temp);
+        }
+        if (copied) {
+          showNotice(successMsg || 'ক্লিপবোর্ডে কপি হয়েছে!', 'pass');
+        } else {
+          showNotice('ব্রাউজার অটো-কপি ব্লক করেছে; অনুগ্রহ করে ব্রাউজার পারমিশন চেক করুন।', 'warn');
+        }
+      }
+
+      function updateCodeMeta() {
+        const text = els.textarea.value || '';
+        const lines = text ? text.split('\n').length : 0;
+        const kb = (new Blob([text]).size / 1024).toFixed(1);
+        els.codeMetaLine.textContent = `${lines} লাইন · ${kb} KB`;
+      }
+
+      function switchMode(mode) {
+        currentMode = mode;
+        els.modeBtns.forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+        els.sectionCode.classList.toggle('hidden', mode !== 'code');
+        els.sectionUrl.classList.toggle('hidden', mode !== 'url');
+        els.sectionPreview.classList.toggle('hidden', mode !== 'preview');
+        if (mode === 'preview') {
+          refreshPreviewFrame();
+        }
+      }
+
+      function refreshPreviewFrame() {
+        const code = els.textarea.value.trim();
+        if (lastScannedUrl && currentMode === 'preview' && (!code || lastReport?.mode === 'url')) {
+          els.previewIframe.removeAttribute('srcdoc');
+          els.previewIframe.src = lastScannedUrl;
+        } else if (code) {
+          els.previewIframe.removeAttribute('src');
+          els.previewIframe.srcdoc = code;
+        } else if (lastScannedHtml) {
+          els.previewIframe.removeAttribute('src');
+          els.previewIframe.srcdoc = lastScannedHtml;
+        } else {
+          els.previewIframe.removeAttribute('src');
+          els.previewIframe.srcdoc = '<!doctype html><html><body style="font-family:sans-serif;padding:24px;background:#0f172a;color:#cbd5e1;"><h3>প্রিভিউ দেখার জন্য কোড পেস্ট করুন বা লাইভ লিংক দিন।</h3></body></html>';
+        }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function runPlayConsoleAudit(html, meta = {}) {
+        const source = String(html || '');
+        const lower = source.toLowerCase();
+        const urlStr = meta.url || '';
+        const headers = meta.headers || null;
+        const hasSource = source.trim().length > 0;
+        const checks = [];
+
+        const addCheck = (id, category, title, status, evidence, fix, snippet = '') => {
+          checks.push({ id, category, title, status, evidence, fix, snippet });
+        };
+
+        // 1. HTTPS / Cleartext Traffic
+        const httpMatches = [];
+        if (hasSource) {
+          const rawUrls = source.match(/http:\/\/[^\s"'`<>()]+/gi) || [];
+          for (const u of rawUrls) {
+            if (
+              !/^http:\/\/(www\.w3\.org|schemas\.|localhost|127\.0\.0\.1|0\.0\.0\.0)/i.test(u)
+            ) {
+              httpMatches.push(u);
+            }
+          }
+        }
+        if (urlStr && urlStr.startsWith('http://') && !/^http:\/\/(localhost|127\.0\.0\.1)/i.test(urlStr)) {
+          addCheck(
+            'https-url',
+            'webview',
+            'HTTPS নিরাপত্তা (Android 9+ Cleartext ব্লক)',
+            'fail',
+            `মূল লিংকটি অনিরাপদ http:// দিয়ে শুরু (${urlStr})।`,
+            'Android 9+ ডিফল্টভাবে http:// লিংক ব্লক করে দেয় এবং Play Console অ্যাপ রিজেক্ট করে। অবশ্যই SSL (https://) ব্যবহার করুন।'
+          );
+        } else if (httpMatches.length > 0) {
+          addCheck(
+            'https-resources',
+            'webview',
+            'HTTPS নিরাপত্তা (Mixed Content ও http:// রিসোর্স)',
+            'fail',
+            `${httpMatches.length}টি অনিরাপদ http:// লিংক পাওয়া গেছে (যেমন: ${httpMatches.slice(0, 2).join(', ')})।`,
+            'সব <script>, <img>, <link> ও fetch() URL-কে https://-এ পরিবর্তন করুন, নইলে WebView-তে লোড হবে না।',
+            httpMatches.slice(0, 3).join('\n')
+          );
+        } else {
+          addCheck(
+            'https-ok',
+            'webview',
+            'HTTPS ও নিরাপদ নেটওয়ার্ক রিসোর্স',
+            'pass',
+            'কোনো অনিরাপদ http:// স্ক্রিপ্ট বা লিংক পাওয়া যায়নি।',
+            'সঠিক আছে — সব এক্সটার্নাল রিসোর্স HTTPS ব্যবহার করছে।'
+          );
+        }
+
+        if (hasSource) {
+          // 2. Account Creation & Mandatory Account Deletion (Google Play Data Safety)
+          const hasAuth = /(createUserWithEmailAndPassword|signInWithEmailAndPassword|firebase\/auth|type\s*=\s*["']password["']|signup|register|সাইন আপ|রেজিস্ট্রেশন)/i.test(source);
+          const hasDeleteAccount = /(deleteUser|deleteAccount|delete-account|confirmDeleteMyAccount|অ্যাকাউন্ট ডিলিট|account deletion|delete my account)/i.test(source);
+
+          if (hasAuth && !hasDeleteAccount) {
+            addCheck(
+              'account-deletion',
+              'policy',
+              'ইন-অ্যাপ অ্যাকাউন্ট ডিলিট বাধ্যবাধকতা (Play Policy)',
+              'fail',
+              'অ্যাপে সাইন-আপ/লগইন সিস্টেম শনাক্ত হয়েছে, কিন্তু অ্যাকাউন্ট ডিলিট করার কোনো অপশন পাওয়া যায়নি।',
+              'Google Play-এর বাধ্যতামূলক নীতি অনুযায়ী যে অ্যাপে অ্যাকাউন্ট তৈরি করা যায়, সেখানে অ্যাপের ভেতরেই স্থায়ীভাবে অ্যাকাউন্ট ও ডাটা ডিলিট করার বাটন থাকতে হবে—নইলে অ্যাপ সরাসরি রিজেক্ট হয়।',
+              '<button type="button" onclick="deleteMyAccount()">অ্যাকাউন্ট ডিলিট করুন</button>'
+            );
+          } else if (hasAuth && hasDeleteAccount) {
+            addCheck(
+              'account-deletion',
+              'policy',
+              'ইন-অ্যাপ অ্যাকাউন্ট ডিলিট সুবিধা',
+              'pass',
+              'অ্যাকাউন্ট ডিলিট করার লজিক/বাটন শনাক্ত হয়েছে।',
+              'Play Console Data Safety ফর্মেও অ্যাকাউন্ট ডিলিট লিংক হিসেবে আপনার প্রাইভেসি/ডিলিট URL যুক্ত করতে ভুলবেন না।'
+            );
+          } else {
+            addCheck(
+              'account-deletion',
+              'policy',
+              'অ্যাকাউন্ট ডিলিট নীতিমালা',
+              'pass',
+              'অ্যাকাউন্ট তৈরির সিস্টেম পাওয়া যায়নি (প্রযোজ্য নয়)।',
+              'যদি ভবিষ্যতে লগইন/সাইনআপ যুক্ত করেন, অবশ্যই ইন-অ্যাপ Account Delete অপশন রাখবেন।'
+            );
+          }
+
+          // 3. Privacy Policy
+          const hasPrivacy = /(privacy[\s_-]?policy|page-privacy|প্রাইভেসি পলিসি|গোপনীয়তা নীতি|privacy\.html)/i.test(source);
+          if (!hasPrivacy) {
+            addCheck(
+              'privacy-policy',
+              'policy',
+              'প্রাইভেসি পলিসি পেজ বা লিংক',
+              'fail',
+              'অ্যাপের ভেতরে কোনো Privacy Policy লিংক বা সেকশন পাওয়া যায়নি।',
+              'অ্যাপের ভেতরে (প্রোফাইল/মেনুতে) এবং Play Console Store Listing-এ একটি স্পষ্ট প্রাইভেসি পলিসি পেজ থাকতে হবে।',
+              '<a href="#privacy-policy">প্রাইভেসি পলিসি</a>'
+            );
+          } else {
+            addCheck(
+              'privacy-policy',
+              'policy',
+              'প্রাইভেসি পলিসি পেজ বা লিংক',
+              'pass',
+              'প্রাইভেসি পলিসি সংক্রান্ত পেজ/লিংক পাওয়া গেছে।',
+              'নিশ্চিত করুন আপনার Play Console ড্যাশবোর্ডেও একই প্রাইভেসি পলিসি URL দেওয়া আছে।'
+            );
+          }
+
+          // 4. Terms & Signup Consent Checkbox
+          const hasSignupForm = /(createUserWithEmailAndPassword|signup|রেজিস্ট্রেশন|sign up)/i.test(source);
+          const hasTerms = /(terms|শর্তাবলি|conditions)/i.test(source);
+          const hasConsentCheckbox = /type\s*=\s*["']checkbox["']/i.test(source) && (hasTerms || hasPrivacy);
+          if (hasSignupForm && (!hasTerms || !hasConsentCheckbox)) {
+            addCheck(
+              'terms-consent',
+              'policy',
+              'সাইন-আপে শর্তাবলি ও ইউজার সম্মতি চেকবক্স',
+              'warn',
+              'সাইন-আপ ফ্লো থাকলেও বাধ্যতামূলক শর্তাবলি ও প্রাইভেসি সম্মতি চেকবক্স স্পষ্ট নয়।',
+              'অ্যাকাউন্ট খোলার আগে ইউজার যেন Privacy Policy ও Terms দেখে টিক-চিহ্ন দিতে পারে এমন একটি চেকবক্স যুক্ত করা উত্তম।'
+            );
+          } else {
+            addCheck(
+              'terms-consent',
+              'policy',
+              'শর্তাবলি ও ইউজার সম্মতি',
+              'pass',
+              hasSignupForm ? 'শর্তাবলি ও সম্মতি চেকবক্স পাওয়া গেছে।' : 'সাইন-আপ ফর্ম না থাকায় কোনো বাধা নেই।',
+              'নীতিমালা অনুযায়ী সঠিক আছে।'
+            );
+          }
+
+          // 5. Payments Policy
+          const paymentMatches = source.match(/(stripe\.com|paypal\.com|razorpay|sslcommerz|bkash|nagad|rocket)/gi) || [];
+          if (paymentMatches.length > 0) {
+            const uniquePay = Array.from(new Set(paymentMatches.map((x) => x.toLowerCase())));
+            addCheck(
+              'payments-policy',
+              'policy',
+              'Google Play Payments নীতিমালা সতর্কতা',
+              'warn',
+              `এক্সটার্নাল পেমেন্ট কিওয়ার্ড পাওয়া গেছে: ${uniquePay.join(', ')}।`,
+              'অ্যাপের ভেতরে ডিজিটাল কনটেন্ট/সাবস্ক্রিপশন বিক্রি করলে Google Play Billing ব্যবহার বাধ্যতামূলক। শুধু বাস্তব পণ্য বা ফিজিক্যাল সার্ভিসের ক্ষেত্রেই থার্ড-পার্টি পেমেন্ট অনুমোদিত।'
+            );
+          } else {
+            addCheck(
+              'payments-policy',
+              'policy',
+              'পেমেন্ট নীতিমালা',
+              'pass',
+              'কোনো নিষিদ্ধ এক্সটার্নাল ডিজিটাল পেমেন্ট গেটওয়ে শনাক্ত হয়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 6. UGC Moderation
+          const hasUgc = /(chat|comment|forum|community|মন্তব্য|পোস্ট করুন|postMessage|message-input)/i.test(source);
+          const hasModeration = /(report|block|flag|মডারেশন|রিপোর্ট|ব্লক)/i.test(source);
+          if (hasUgc && !hasModeration) {
+            addCheck(
+              'ugc-policy',
+              'policy',
+              'ইউজার-জেনারেটেড কনটেন্ট (UGC) মডারেশন',
+              'warn',
+              'চ্যাট বা ইউজার পোস্ট ফিচার মনে হচ্ছে, কিন্তু Report/Block ফিচার স্পষ্ট নয়।',
+              'Play Console UGC Policy অনুযায়ী ইউজার একে অপরকে মেসেজ বা পাবলিক পোস্ট করতে পারলে Report ও Block বাটন থাকা বাধ্যতামূলক।'
+            );
+          } else {
+            addCheck(
+              'ugc-policy',
+              'policy',
+              'UGC মডারেশন নীতিমালা',
+              'pass',
+              hasUgc ? 'মডারেশন/রিপোর্ট কিওয়ার্ড পাওয়া গেছে।' : 'কোনো পাবলিক ইউজার-জেনারেটেড কনটেন্ট সিস্টেম শনাক্ত হয়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 7. Malware / APK / Hidden Redirects
+          const hasApkLink = /\.apk(["'?\s]|$)/i.test(source);
+          const hasHiddenIframe = /<iframe[^>]+(?:display\s*:\s*none|opacity\s*:\s*0|width\s*=\s*["']?0)/i.test(source);
+          if (hasApkLink || hasHiddenIframe) {
+            addCheck(
+              'malware-deceptive',
+              'policy',
+              'ক্ষতিকর APK ডাউনলোড বা লুকানো ফ্রেম (Malware Policy)',
+              'fail',
+              hasApkLink ? 'কোডে সরাসরি .apk ডাউনলোড লিংক পাওয়া গেছে।' : 'লুকানো (0x0 বা অদৃশ্য) <iframe> পাওয়া গেছে।',
+              'Google Play কোনো অ্যাপের ভেতর থেকে .apk ডাউনলোড বা লুকানো iframe একদমই অনুমোদন করে না—এতে ডেভেলপার অ্যাকাউন্ট সাসপেন্ড পর্যন্ত হতে পারে।'
+            );
+          } else {
+            addCheck(
+              'malware-deceptive',
+              'policy',
+              'ডিসেপটিভ বিহেভিয়ার ও APK ডাউনলোড মুক্ত',
+              'pass',
+              'কোনো নিষিদ্ধ .apk ডাউনলোড লিংক বা লুকানো iframe পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 8. Mobile Viewport
+          const vpMatch = source.match(/<meta[^>]*name\s*=\s*["']viewport["'][^>]*>/i);
+          const vpContent = vpMatch ? vpMatch[0] : '';
+          if (!vpMatch || !/width\s*=\s*device-width/i.test(vpContent)) {
+            addCheck(
+              'viewport-meta',
+              'webview',
+              'মোবাইল Viewport মেটা ট্যাগ',
+              'fail',
+              vpMatch ? 'viewport ট্যাগ থাকলেও width=device-width নেই।' : '<meta name="viewport"> ট্যাগ পাওয়া যায়নি।',
+              'মোবাইল স্ক্রিনে লেখা ছোট বা জুম হয়ে যাওয়া আটকাতে <head>-এ অবশ্যই সঠিক viewport ট্যাগ যুক্ত করুন।',
+              '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />'
+            );
+          } else {
+            addCheck(
+              'viewport-meta',
+              'webview',
+              'মোবাইল Viewport মেটা ট্যাগ',
+              'pass',
+              'width=device-width যুক্ত সঠিক viewport মেটা ট্যাগ পাওয়া গেছে।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 9. Android 15 Edge-to-Edge Safe Area
+          const hasViewportFitCover = /viewport-fit\s*=\s*cover/i.test(vpContent);
+          const hasSafeAreaEnv = /safe-area-inset/i.test(source);
+          if (!hasViewportFitCover) {
+            addCheck(
+              'edge-to-edge',
+              'webview',
+              'Android 15 Edge-to-Edge ও Notch Safe Area',
+              'warn',
+              'viewport-fit=cover পাওয়া যায়নি (এবং safe-area-inset ' + (hasSafeAreaEnv ? 'আছে' : 'নেই') + ')।',
+              'Android 15-এ অ্যাপ পুরো স্ক্রিনজুড়ে চললে উপরের স্ট্যাটাস বার বা নিচের নেভিগেশন বারের নিচে বাটন চাপা পড়তে পারে। viewport-fit=cover ও env(safe-area-inset-*) ব্যবহার করুন।',
+              '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />'
+            );
+          } else {
+            addCheck(
+              'edge-to-edge',
+              'webview',
+              'Android 15 Edge-to-Edge ও Notch Safe Area',
+              'pass',
+              'viewport-fit=cover শনাক্ত হয়েছে।',
+              'নিশ্চিত করুন উপরের ও নিচের ফিক্সড বারগুলোতে পর্যাপ্ত প্যাডিং আছে।'
+            );
+          }
+
+          // 10. Zoom Lock Accessibility
+          if (/user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*1(\.0)?\b/i.test(vpContent)) {
+            addCheck(
+              'zoom-accessibility',
+              'webview',
+              'অ্যাক্সেসিবিলিটি: জুম লক (user-scalable=no)',
+              'warn',
+              'viewport-এ user-scalable=no বা maximum-scale=1 পাওয়া গেছে।',
+              'দৃষ্টিপ্রতিবন্ধী ইউজারদের জন্য জুম বন্ধ করা উচিত নয়—এটি অ্যাক্সেসিবিলিটি ওয়েব চেকারে সতর্কতা দেখায়।'
+            );
+          } else {
+            addCheck(
+              'zoom-accessibility',
+              'webview',
+              'অ্যাক্সেসিবিলিটি জুম সাপোর্ট',
+              'pass',
+              'ইউজার জুম অক্ষম করা হয়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 11. Native Browser Dialogs (alert/confirm/prompt)
+          const scriptBlocks = Array.from(source.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)).map((m) => m[1]).join('\n');
+          const codeToScan = scriptBlocks || source;
+          const dialogMatches = codeToScan.match(/(?<![.\w$])(?:window\.)?(alert|confirm|prompt)\s*\(/g) || [];
+          if (dialogMatches.length > 0) {
+            addCheck(
+              'native-dialogs',
+              'webview',
+              'নেটিভ ব্রাউজার alert() / confirm() / prompt() ব্যবহার',
+              'fail',
+              `কোডে ${dialogMatches.length}টি ব্রাউজার ডায়ালগ কল পাওয়া গেছে (${Array.from(new Set(dialogMatches)).slice(0, 3).join(', ')})।`,
+              'অনেক Android WebView-তে WebChromeClient না থাকলে alert()/confirm() কাজই করে না বা URL-সহ বাজে পপআপ দেখায়—ফলে বাটন অকেজো মনে হয়ে Play Console রিজেক্ট করতে পারে। কাস্টম HTML মডাল ব্যবহার করুন।'
+            );
+          } else {
+            addCheck(
+              'native-dialogs',
+              'webview',
+              'কাস্টম UI মডাল (alert/confirm মুক্ত)',
+              'pass',
+              'কোনো window.alert(), confirm() বা prompt() পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 12. Popup / target="_blank" / window.open
+          const openMatches = codeToScan.match(/\bwindow\.open\s*\(/g) || [];
+          const blankMatches = source.match(/target\s*=\s*["']_blank["']/gi) || [];
+          if (openMatches.length > 0 || blankMatches.length > 0) {
+            addCheck(
+              'popups-blank',
+              'webview',
+              'পপআপ ও নতুন ট্যাব (window.open / target="_blank")',
+              'warn',
+              `${openMatches.length}টি window.open() এবং ${blankMatches.length}টি target="_blank" পাওয়া গেছে।`,
+              'ডিফল্ট Android WebView নতুন ট্যাব সাপোর্ট করে না; তাই target="_blank" বা window.open() এ ক্লিক করলে কিছুই হয় না। ইন-অ্যাপ ভিউ ব্যবহার করুন অথবা Kotlin/Java-তে onCreateWindow হ্যান্ডেল করুন।'
+            );
+          } else {
+            addCheck(
+              'popups-blank',
+              'webview',
+              'পপআপ ও ডেড-লিংক মুক্ত নেভিগেশন',
+              'pass',
+              'কোনো window.open() বা target="_blank" নেই।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 13. External URI Schemes
+          const schemeMatches = source.match(/href\s*=\s*["'](tel:|mailto:|sms:|whatsapp:|intent:|https:\/\/wa\.me)/gi) || [];
+          if (schemeMatches.length > 0) {
+            addCheck(
+              'uri-schemes',
+              'webview',
+              'ফোন/ইমেইল/হোয়াটসঅ্যাপ ডিপ লিংক স্কিম',
+              'warn',
+              `${schemeMatches.length}টি এক্সটার্নাল স্কিম (${schemeMatches.slice(0, 3).join(', ')}) পাওয়া গেছে।`,
+              'Android WebView-তে shouldOverrideUrlLoading সেট করা না থাকলে tel: বা mailto: ক্লিকে ERR_UNKNOWN_URL_SCHEME এরর আসে—Play Console এটি Broken Functionality হিসেবে ধরে।'
+            );
+          } else {
+            addCheck(
+              'uri-schemes',
+              'webview',
+              'URL স্কিম সামঞ্জস্যতা',
+              'pass',
+              'কোনো আনহ্যান্ডেলড ডিপ-লিংক স্কিম পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 14. File Downloads in WebView
+          const usesDownload = /(<a[^>]+download\b|createObjectURL|toDataURL)/i.test(source);
+          const hasAndroidBridge = /(AndroidBridge|webkit\.messageHandlers|ReactNativeWebView)/i.test(source);
+          if (usesDownload && !hasAndroidBridge) {
+            addCheck(
+              'webview-download',
+              'webview',
+              'ফাইল বা সার্টিফিকেট ডাউনলোড সামঞ্জস্যতা',
+              'warn',
+              'Blob বা <a download> ব্যবহার করা হয়েছে, কিন্তু WebView AndroidBridge ফলব্যাক দেখা যাচ্ছে না।',
+              'সাধারণ Android WebView-তে Blob/DataURL ডাউনলোড কাজ করতে হলে Android অ্যাপের দিকে DownloadListener অথবা JavascriptInterface (AndroidBridge) থাকতে হবে।'
+            );
+          } else {
+            addCheck(
+              'webview-download',
+              'webview',
+              'ডাউনলোড ও WebView ব্রিজ',
+              'pass',
+              usesDownload ? 'ডাউনলোডের সাথে WebView Bridge যুক্ত আছে।' : 'কোনো জটিল Blob ডাউনলোড সমস্যা পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 15. html2canvas + Tailwind v4 oklch conflict
+          const usesHtml2Canvas = /html2canvas/i.test(source);
+          const usesTw4 = /@tailwindcss\/browser@4|oklch\(/i.test(source);
+          const hasCanvasFallback = /getContext\s*\(\s*["']2d["']\s*\)/i.test(source);
+          if (usesHtml2Canvas && usesTw4 && !hasCanvasFallback) {
+            addCheck(
+              'html2canvas-oklch',
+              'webview',
+              'html2canvas ও Tailwind v4 oklch ক্র্যাশ ঝুঁকি',
+              'fail',
+              'Tailwind v4-এর সাথে html2canvas ব্যবহার করা হয়েছে, কিন্তু Canvas 2D ফলব্যাক নেই।',
+              'html2canvas 1.4.1 Tailwind v4-এর oklch() কালার পার্স করতে গিয়ে ক্র্যাশ করে। কার্ডের ভেতরে বিশুদ্ধ Hex/RGBA কালার দিন এবং Canvas 2D ফলব্যাক রাখুন।'
+            );
+          } else if (usesHtml2Canvas) {
+            addCheck(
+              'html2canvas-oklch',
+              'webview',
+              'html2canvas ইমেজ এক্সপোর্ট সামঞ্জস্যতা',
+              'pass',
+              hasCanvasFallback ? 'html2canvas-এর পাশাপাশি Canvas 2D ফলব্যাক আছে।' : 'Tailwind v4 oklch কনফ্লিক্ট পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 16. Hardcoded Secrets / API Keys
+          const secretPatterns = [
+            { name: 'Stripe Live Secret Key', regex: /sk_live_[0-9a-zA-Z]{16,}/ },
+            { name: 'AWS Access Key', regex: /AKIA[0-9A-Z]{16}/ },
+            { name: 'GitHub Token', regex: /ghp_[0-9a-zA-Z]{20,}/ },
+            { name: 'Private RSA/PEM Key', regex: /-----BEGIN (?:RSA |EC )?PRIVATE KEY-----/ },
+            { name: 'OpenAI/Secret Bearer Key', regex: /["']sk-[a-zA-Z0-9]{20,}["']/ },
+          ];
+          const foundSecrets = secretPatterns.filter((p) => p.regex.test(source)).map((p) => p.name);
+          if (foundSecrets.length > 0) {
+            addCheck(
+              'secret-keys',
+              'security',
+              'হার্ডকোডেড প্রাইভেট সিক্রেট কী (Play Security Alert)',
+              'fail',
+              `কোডে সরাসরি প্রাইভেট সিক্রেট পাওয়া গেছে: ${foundSecrets.join(', ')}।`,
+              'ক্লায়েন্ট HTML/JS-এ কখনোই প্রাইভেট API Key রাখা যাবে না। Play Console Security Scanner অ্যাপটি ব্লক বা সতর্কতা দেখাবে। কী-গুলো সার্ভারসাইডে রাখুন।'
+            );
+          } else {
+            addCheck(
+              'secret-keys',
+              'security',
+              'প্রাইভেট সিক্রেট কী সুরক্ষা',
+              'pass',
+              'কোনো Stripe/AWS/GitHub/Private Key ফাঁস পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 17. Dynamic Code Loading & XSS (eval / new Function / document.write)
+          const dangerousCalls = codeToScan.match(/\b(eval|document\.write)\s*\(|new\s+Function\s*\(/g) || [];
+          if (dangerousCalls.length > 0) {
+            addCheck(
+              'dynamic-code',
+              'security',
+              'বিপজ্জনক eval() / document.write() (XSS ও DCL নীতি)',
+              'fail',
+              `${dangerousCalls.length}টি ঝুঁকিপূর্ণ কল পাওয়া গেছে: ${Array.from(new Set(dangerousCalls)).join(', ')}।`,
+              'Google Play ডায়নামিক কোড লোডিং ও XSS ঝুঁকির কারণে eval(), new Function() ও document.write() ব্যবহার না করার নির্দেশ দেয়। এগুলো সরিয়ে নিরাপদ DOM API ব্যবহার করুন।'
+            );
+          } else {
+            addCheck(
+              'dynamic-code',
+              'security',
+              'XSS ও ডায়নামিক কোড ইনজেকশন সুরক্ষা',
+              'pass',
+              'কোনো eval(), new Function() বা document.write() পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 18. Firebase Public Privacy Check
+          const usesFirebase = /(firebaseio\.com|firebase-database|firebase\/firestore|initializeApp)/i.test(source);
+          if (usesFirebase) {
+            const leaksEmailPublicly = /leaderboard[\s\S]{0,400}email\s*:/i.test(source);
+            if (leaksEmailPublicly) {
+              addCheck(
+                'firebase-privacy',
+                'security',
+                'Firebase পাবলিক ডাটা প্রাইভেসি',
+                'fail',
+                'পাবলিক leaderboard নোডে ইউজারের email সেভ করার কোড দেখা যাচ্ছে।',
+                'পাবলিক লিডারবোর্ডে কখনোই email সেভ করবেন না—শুধু নাম ও স্কোর রাখুন এবং Firebase Rules লক করুন।'
+              );
+            } else {
+              addCheck(
+                'firebase-privacy',
+                'security',
+                'Firebase কনফিগারেশন ও প্রাইভেসি',
+                'pass',
+                'Firebase পাওয়া গেছে এবং পাবলিক লিডারবোর্ডে ইমেইল লিক শনাক্ত হয়নি।',
+                'Firebase Console-এ Database Rules-এ ".read": true / ".write": true খোলা রাখবেন না।'
+              );
+            }
+          }
+
+          // 19. Dev / Sandbox Leftovers
+          const devMatches = [];
+          if (/_aistudio-iframe/i.test(source)) devMatches.push('/_aistudio-iframe.js');
+          if (/https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(source)) devMatches.push('localhost URL');
+          if (devMatches.length > 0) {
+            addCheck(
+              'dev-leftovers',
+              'security',
+              'ডেভেলপমেন্ট ও স্যান্ডবক্স স্ক্রিপ্টের অবশিষ্টাংশ',
+              'fail',
+              `প্রোডাকশন কোডে পাওয়া গেছে: ${devMatches.join(', ')}।`,
+              'প্রোডাকশনে প্রকাশের আগে _aistudio-iframe.js এবং localhost ঠিকানাগুলো সম্পূর্ণ মুছে ফেলুন।'
+            );
+          } else {
+            addCheck(
+              'dev-leftovers',
+              'security',
+              'ক্লিন প্রোডাকশন বিল্ড',
+              'pass',
+              'কোনো ডেভ সার্ভার বা স্যান্ডবক্স স্ক্রিপ্ট পাওয়া যায়নি।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 20. Title & Meta Description
+          const titleMatch = source.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+          const titleText = titleMatch ? titleMatch[1].trim() : '';
+          const descMatch = source.match(/<meta[^>]*name\s*=\s*["']description["'][^>]*content\s*=\s*["']([^"']*)["']/i);
+          const isPlaceholderTitle = !titleText || /^(document|vite app|react app|index|untitled)$/i.test(titleText);
+          if (isPlaceholderTitle || !descMatch || !descMatch[1].trim()) {
+            addCheck(
+              'metadata-seo',
+              'metadata',
+              'অ্যাপ টাইটেল ও মেটা ডেসক্রিপশন',
+              'warn',
+              isPlaceholderTitle
+                ? `অর্থবহ <title> নেই (${titleText || 'খালি'})।`
+                : '<meta name="description"> পাওয়া যায়নি।',
+              'অ্যাপের আসল নামসহ <title> এবং সংক্ষিপ্ত <meta name="description"> যোগ করুন।',
+              '<title>আপনার অ্যাপের নাম</title>\n<meta name="description" content="অ্যাপের সংক্ষিপ্ত বিবরণ" />'
+            );
+          } else {
+            addCheck(
+              'metadata-seo',
+              'metadata',
+              'অ্যাপ টাইটেল ও মেটা ডেসক্রিপশন',
+              'pass',
+              `টাইটেল: "${titleText.slice(0, 60)}"`,
+              'সঠিক আছে।'
+            );
+          }
+
+          // 21. Charset & Language
+          const hasCharset = /<meta[^>]+charset\s*=\s*["']?utf-8["']?/i.test(source);
+          const hasLang = /<html[^>]+lang\s*=\s*["'][a-z]{2}/i.test(source);
+          if (!hasCharset || !hasLang) {
+            addCheck(
+              'charset-lang',
+              'metadata',
+              'UTF-8 চারসেট ও HTML ভাষা (lang)',
+              'warn',
+              `${!hasCharset ? 'UTF-8 charset পাওয়া যায়নি। ' : ''}${!hasLang ? '<html lang="..."> পাওয়া যায়নি।' : ''}`,
+              'বাংলা/আরবি ফন্ট সঠিকভাবে দেখাতে <meta charset="UTF-8" /> এবং <html lang="bn"> ব্যবহার করুন।'
+            );
+          } else {
+            addCheck(
+              'charset-lang',
+              'metadata',
+              'UTF-8 চারসেট ও HTML ভাষা',
+              'pass',
+              'UTF-8 ও ভাষা অ্যাট্রিবিউট ঠিক আছে।',
+              'সঠিক আছে।'
+            );
+          }
+
+          // 22. PWA Manifest, Icon & Offline Handling
+          const hasIcon = /<link[^>]+rel\s*=\s*["'](?:icon|shortcut icon|apple-touch-icon)["']/i.test(source);
+          const hasManifest = /<link[^>]+rel\s*=\s*["']manifest["']/i.test(source);
+          const hasOfflineHandling = /(navigator\.onLine|addEventListener\s*\(\s*["']offline["']|serviceWorker)/i.test(source);
+          if (!hasOfflineHandling || !hasIcon) {
+            addCheck(
+              'pwa-offline',
+              'metadata',
+              'অফলাইন এরর হ্যান্ডলিং ও অ্যাপ আইকন / TWA ম্যানিফেস্ট',
+              'warn',
+              `${!hasOfflineHandling ? 'অফলাইন এরর হ্যান্ডলিং নেই; ' : ''}${!hasIcon ? 'অ্যাপ আইকন নেই; ' : ''}${!hasManifest ? 'manifest.json লিংক নেই (TWA হলে প্রয়োজন)।' : ''}`,
+              'ইন্টারনেট না থাকলে Chromium-এর ERR_INTERNET_DISCONNECTED দেখালে Play Console "Broken App" বলে রিজেক্ট করতে পারে। কাস্টম অফলাইন মেসেজ ও favicon যুক্ত করুন।'
+            );
+          } else {
+            addCheck(
+              'pwa-offline',
+              'metadata',
+              'অফলাইন হ্যান্ডলিং ও PWA/আইকন সাপোর্ট',
+              'pass',
+              `অ্যাপ আইকন ও অফলাইন হ্যান্ডলিং পাওয়া গেছে${hasManifest ? ' (manifest যুক্ত)' : ''}।`,
+              'সঠিক আছে।'
+            );
+          }
+        }
+
+        // 23. Live Server Headers Check (when scanned via Live URL)
+        if (headers) {
+          const xfo = (headers.xFrameOptions || '').toUpperCase();
+          const csp = headers.csp || '';
+          const blocksFrame = xfo === 'DENY' || xfo === 'SAMEORIGIN' || /frame-ancestors\s+'none'/i.test(csp);
+          if (blocksFrame) {
+            addCheck(
+              'live-headers',
+              'webview',
+              'লাইভ সার্ভার Framing হেডার (X-Frame-Options / CSP)',
+              'warn',
+              `সার্ভার ${xfo || 'CSP frame-ancestors'} পাঠিয়েছে — ব্রাউজার iframe প্রিভিউ ব্লক হতে পারে।`,
+              'নেটিভ Android WebView বা TWA সরাসরি URL লোড করলে সমস্যা নেই, তবে iframe-এ এম্বেড করতে চাইলে এই হেডার পরিবর্তন করতে হবে।'
+            );
+          } else {
+            addCheck(
+              'live-headers',
+              'webview',
+              'লাইভ সার্ভার HTTP রেসপন্স ও হেডার',
+              'pass',
+              `HTTP ${meta.status || 200} OK · রেসপন্স সময় ${meta.latencyMs || 0} ms`,
+              'লিংকটি দ্রুত ও সঠিকভাবে লোড হয়েছে।'
+            );
+          }
+        }
+
+        return {
+          mode: meta.mode || 'code',
+          targetLabel: meta.targetLabel || 'পেস্ট করা HTML কোড',
+          url: urlStr,
+          sizeKb: (new Blob([source]).size / 1024).toFixed(1),
+          checks,
+          timestamp: Date.now(),
+        };
+      }
+
+      function renderReport(report) {
+        lastReport = report;
+        els.emptyResults.classList.add('hidden');
+        els.populatedResults.classList.remove('hidden');
+        els.btnCopyReport.disabled = false;
+
+        const criticalCount = report.checks.filter((c) => c.status === 'fail').length;
+        const warnCount = report.checks.filter((c) => c.status === 'warn').length;
+        const passCount = report.checks.filter((c) => c.status === 'pass').length;
+
+        els.statCritical.textContent = String(criticalCount);
+        els.statWarning.textContent = String(warnCount);
+        els.statPass.textContent = `${passCount}/${report.checks.length}`;
+        els.statSize.textContent = `${report.sizeKb} KB`;
+        els.resultTargetMeta.textContent = `${report.targetLabel} · মোট ${report.checks.length}টি চেক সম্পন্ন`;
+
+        if (criticalCount > 0) {
+          els.verdictHeadline.textContent = 'Play Console-এ রিজেক্ট হওয়ার ঝুঁকি আছে';
+          els.verdictHeadline.className = 'verdict-headline fail';
+          els.verdictSummary.textContent = `${criticalCount}টি ক্রিটিক্যাল ভুল এবং ${warnCount}টি সতর্কতা পাওয়া গেছে। আপলোডের আগে ক্রিটিক্যাল ভুলগুলো অবশ্যই ঠিক করুন।`;
+        } else if (warnCount > 0) {
+          els.verdictHeadline.textContent = 'মোটামুটি প্রস্তুত, তবে কিছু সতর্কতা রয়েছে';
+          els.verdictHeadline.className = 'verdict-headline warn';
+          els.verdictSummary.textContent = `কোনো বড় ব্লকার নেই, তবে ${warnCount}টি সতর্কতা ঠিক করলে অ্যাপটির মান আরও ভালো হবে।`;
+        } else {
+          els.verdictHeadline.textContent = 'Google Play Console-এর জন্য চমৎকার অবস্থায় আছে';
+          els.verdictHeadline.className = 'verdict-headline pass';
+          els.verdictSummary.textContent = 'সবগুলো পরীক্ষায় অ্যাপটি উত্তীর্ণ হয়েছে।';
+        }
+
+        renderFilteredList();
+      }
+
+      function renderFilteredList() {
+        if (!lastReport) return;
+        const q = searchQuery.trim().toLowerCase();
+        const filtered = lastReport.checks.filter((item) => {
+          if (activeFilter === 'issues' && item.status === 'pass') return false;
+          if (['policy', 'webview', 'security', 'metadata'].includes(activeFilter) && item.category !== activeFilter) {
+            return false;
+          }
+          if (q) {
+            const hay = `${item.title} ${item.evidence} ${item.fix}`.toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          els.auditList.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">এই ফিল্টারে কোনো ফলাফল পাওয়া যায়নি।</div>';
+          return;
+        }
+
+        const catNames = {
+          policy: 'নীতিমালা · Policy',
+          webview: 'WebView ও মোবাইল',
+          security: 'সিকিউরিটি',
+          metadata: 'PWA ও মেটাডেটা',
+        };
+
+        const statusMeta = {
+          fail: { label: 'রিজেক্ট ঝুঁকি', icon: '✕' },
+          warn: { label: 'সতর্কতা', icon: '!' },
+          pass: { label: 'পাস', icon: '✓' },
+        };
+
+        els.auditList.innerHTML = filtered
+          .map((item, idx) => {
+            const st = statusMeta[item.status];
+            const snippetHtml = item.snippet
+              ? `<div class="snippet-box">${escapeHtml(item.snippet)}</div>`
+              : '';
+            const actionHtml = item.snippet
+              ? `<button type="button" class="copy-mini btn-copy-snippet" data-idx="${idx}">ফিক্স কোড কপি</button>`
+              : '';
+
+            return `
+              <div class="audit-row">
+                <div class="status-col ${item.status}">
+                  <span class="tabular" aria-hidden="true">${st.icon}</span>
+                  <span>${st.label}</span>
+                </div>
+                <div>
+                  <h3 class="check-title">${escapeHtml(item.title)}</h3>
+                  <div class="check-meta">
+                    <span>${catNames[item.category] || item.category}</span>
+                  </div>
+                  <div class="check-evidence">${escapeHtml(item.evidence)}</div>
+                  <div class="check-fix">
+                    <strong>কেন ধরে ও সমাধান:</strong> ${escapeHtml(item.fix)}
+                    ${snippetHtml}
+                  </div>
+                </div>
+                <div>${actionHtml}</div>
+              </div>
+            `;
+          })
+          .join('');
+
+        Array.from(els.auditList.querySelectorAll('.btn-copy-snippet')).forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const item = filtered[Number(btn.dataset.idx)];
+            if (item && item.snippet) {
+              void copyToClipboard(item.snippet, 'সমাধান কোড ক্লিপবোর্ডে কপি হয়েছে!');
+            }
+          });
+        });
+      }
+
+      function saveHistory(report) {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const list = raw ? JSON.parse(raw) : [];
+          const entry = {
+            label: report.targetLabel,
+            pass: report.checks.filter((c) => c.status === 'pass').length,
+            total: report.checks.length,
+            fail: report.checks.filter((c) => c.status === 'fail').length,
+            mode: report.mode,
+            url: report.url || '',
+            time: new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' }),
+          };
+          const updated = [entry, ...list.filter((x) => x.label !== entry.label)].slice(0, 5);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+          renderHistory();
+        } catch {
+          // Ignore storage quota errors
+        }
+      }
+
+      function renderHistory() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const list = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(list) || list.length === 0) {
+            els.sectionHistory.classList.add('hidden');
+            return;
+          }
+          els.sectionHistory.classList.remove('hidden');
+          els.historyList.innerHTML = list
+            .map(
+              (item) => `
+                <button type="button" class="history-btn" data-url="${escapeHtml(item.url || '')}">
+                  <span>${escapeHtml(item.label)}</span>
+                  <span class="tabular" style="color: ${item.fail > 0 ? 'var(--fail-text)' : 'var(--pass-text)'};">
+                    ${item.pass}/${item.total}
+                  </span>
+                  <span style="color:var(--muted);">${escapeHtml(item.time)}</span>
+                </button>
+              `,
+            )
+            .join('');
+
+          Array.from(els.historyList.querySelectorAll('.history-btn')).forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const u = btn.dataset.url;
+              if (u) {
+                els.urlInput.value = u;
+                switchMode('url');
+                void runLiveUrlScan();
+              } else {
+                switchMode('code');
+              }
+            });
+          });
+        } catch {
+          els.sectionHistory.classList.add('hidden');
+        }
+      }
+
+      async function runLiveUrlScan() {
+        let rawUrl = els.urlInput.value.trim();
+        if (!rawUrl) {
+          showNotice('অনুগ্রহ করে একটি বৈধ ওয়েবসাইট বা অ্যাপের লিংক লিখুন।', 'warn');
+          return;
+        }
+        if (!/^https?:\/\//i.test(rawUrl)) {
+          rawUrl = 'https://' + rawUrl;
+          els.urlInput.value = rawUrl;
+        }
+
+        let parsed;
+        try {
+          parsed = new URL(rawUrl);
+        } catch {
+          showNotice('সঠিক URL ফরম্যাট নয় (যেমন: https://example.com)।', 'fail');
+          return;
+        }
+
+        els.btnRunUrl.disabled = true;
+        els.btnRunUrl.textContent = 'স্ক্যান হচ্ছে...';
+        els.urlHeadersWrap.classList.add('hidden');
+        lastScannedUrl = parsed.toString();
+
+        // Strategy 1: Local /api/fetch-url proxy (available inside AI Studio / full-stack Node host)
+        try {
+          const apiRes = await fetch('/api/fetch-url?url=' + encodeURIComponent(parsed.toString()));
+          if (apiRes.ok) {
+            const data = await apiRes.json();
+            if (data.ok && typeof data.html === 'string') {
+              lastScannedHtml = data.html;
+              els.textarea.value = data.html;
+              updateCodeMeta();
+              renderHeaders(data);
+              const report = runPlayConsoleAudit(data.html, {
+                mode: 'url',
+                url: data.finalUrl || parsed.toString(),
+                status: data.status,
+                latencyMs: data.latencyMs,
+                headers: data.headers,
+                targetLabel: parsed.hostname,
+              });
+              renderReport(report);
+              saveHistory(report);
+              showNotice(`সফলভাবে ${parsed.hostname} স্ক্যান করা হয়েছে (${data.latencyMs} ms)।`, 'pass');
+              els.btnRunUrl.disabled = false;
+              els.btnRunUrl.textContent = 'লিংক স্ক্যান করুন';
+              return;
+            }
+          }
+        } catch {
+          // Fall through to pure-browser CORS fetch
+        }
+
+        // Strategy 2: Direct browser fetch (works for CORS-enabled servers or same-origin)
+        try {
+          const started = performance.now();
+          const directRes = await fetch(parsed.toString(), { mode: 'cors' });
+          const latencyMs = Math.round(performance.now() - started);
+          const html = await directRes.text();
+          lastScannedHtml = html;
+          els.textarea.value = html;
+          updateCodeMeta();
+          renderHeaders({
+            status: directRes.status,
+            finalUrl: directRes.url || parsed.toString(),
+            latencyMs,
+            headers: {
+              xFrameOptions: directRes.headers.get('x-frame-options') || 'উপলব্ধ নয়',
+              csp: directRes.headers.get('content-security-policy') || 'উপলব্ধ নয়',
+            },
+          });
+          const report = runPlayConsoleAudit(html, {
+            mode: 'url',
+            url: directRes.url || parsed.toString(),
+            status: directRes.status,
+            latencyMs,
+            headers: {},
+            targetLabel: parsed.hostname,
+          });
+          renderReport(report);
+          saveHistory(report);
+          showNotice(`সরাসরি ${parsed.hostname} স্ক্যান সম্পন্ন হয়েছে।`, 'pass');
+          els.btnRunUrl.disabled = false;
+          els.btnRunUrl.textContent = 'লিংক স্ক্যান করুন';
+          return;
+        } catch {
+          // Fall through to no-cors reachability probe
+        }
+
+        // Strategy 3: Reachability probe when standalone HTML hits CORS block
+        try {
+          const started = performance.now();
+          await fetch(parsed.toString(), { mode: 'no-cors' });
+          const latencyMs = Math.round(performance.now() - started);
+          const partialReport = runPlayConsoleAudit('', {
+            mode: 'url',
+            url: parsed.toString(),
+            status: 200,
+            latencyMs,
+            headers: {},
+            targetLabel: `${parsed.hostname} (আংশিক লিংক স্ক্যান)`,
+          });
+          partialReport.checks.unshift({
+            id: 'cors-notice',
+            category: 'webview',
+            title: 'লিংকটি সচল আছে, তবে সার্ভারের CORS নীতির কারণে সম্পূর্ণ সোর্স কোড পড়া যায়নি',
+            status: 'warn',
+            evidence: `লিংকটি অনলাইন আছে ও রেসপন্স দিয়েছে (${latencyMs} ms), তবে এই ডোমেইন ব্রাউজার থেকে Cross-Origin HTML রিড ব্লক করে রেখেছে।`,
+            fix: 'পূর্ণ ২২টি চেকের জন্য "স্ক্রিন প্রিভিউ" ট্যাবে লিংকটি চোখে দেখে নিন অথবা সাইটের HTML কোড কপি করে "সোর্স কোড চেক" ট্যাবে পেস্ট করুন।',
+          });
+          renderReport(partialReport);
+          showNotice('লিংকটি সচল আছে! পূর্ণ ডিপ চেকের জন্য HTML কোড পেস্ট করুন বা প্রিভিউ দেখুন।', 'warn');
+        } catch {
+          showNotice('লিংকটিতে সংযোগ করা যায়নি। URL টি সঠিক ও অনলাইন আছে কিনা যাচাই করুন।', 'fail');
+        } finally {
+          els.btnRunUrl.disabled = false;
+          els.btnRunUrl.textContent = 'লিংক স্ক্যান করুন';
+        }
+      }
+
+      function renderHeaders(data) {
+        const h = data.headers || {};
+        const items = [
+          { k: 'HTTP স্ট্যাটাস', v: String(data.status || 200) },
+          { k: 'রেসপন্স সময়', v: `${data.latencyMs || 0} ms` },
+          { k: 'X-Frame-Options', v: h.xFrameOptions || 'নেই (ফ্রেম অনুমোদিত)' },
+          { k: 'HSTS (HTTPS Force)', v: h.hsts ? 'সক্রিয়' : 'নেই' },
+        ];
+        els.urlHeadersWrap.innerHTML = items
+          .map((item) => `<div class="header-kv"><div class="header-k">${escapeHtml(item.k)}</div><div class="header-v">${escapeHtml(item.v)}</div></div>`)
+          .join('');
+        els.urlHeadersWrap.classList.remove('hidden');
+      }
+
+      function handleCodeAudit() {
+        const code = els.textarea.value.trim();
+        if (!code) {
+          showNotice('আগে আপনার অ্যাপের HTML সোর্স কোড পেস্ট করুন অথবা একটি .html ফাইল আপলোড করুন।', 'warn');
+          return;
+        }
+        lastScannedHtml = code;
+        lastScannedUrl = '';
+        const titleMatch = code.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+        const label = titleMatch && titleMatch[1].trim() ? titleMatch[1].trim().slice(0, 40) : 'HTML সোর্স কোড';
+        const report = runPlayConsoleAudit(code, { mode: 'code', targetLabel: label });
+        renderReport(report);
+        saveHistory(report);
+        showNotice(`স্ক্যান সম্পন্ন: ${report.checks.filter((c) => c.status === 'fail').length}টি ক্রিটিক্যাল ভুল, ${report.checks.filter((c) => c.status === 'warn').length}টি সতর্কতা।`, report.checks.some((c) => c.status === 'fail') ? 'warn' : 'pass');
+      }
+
+      // Wire all interactive events
+      els.modeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+      });
+
+      els.textarea.addEventListener('input', updateCodeMeta);
+      els.btnRunCode.addEventListener('click', handleCodeAudit);
+      els.btnRunUrl.addEventListener('click', () => void runLiveUrlScan());
+
+      els.urlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          void runLiveUrlScan();
+        }
+      });
+
+      els.fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const text = await file.text();
+        els.textarea.value = text;
+        updateCodeMeta();
+        handleCodeAudit();
+        e.target.value = '';
+      });
+
+      els.btnSampleBuggy.addEventListener('click', () => {
+        els.textarea.value = SAMPLE_BUGGY_HTML;
+        updateCodeMeta();
+        handleCodeAudit();
+      });
+
+      els.btnSampleClean.addEventListener('click', () => {
+        els.textarea.value = SAMPLE_CLEAN_HTML;
+        updateCodeMeta();
+        handleCodeAudit();
+      });
+
+      els.btnEmptyDemo.addEventListener('click', () => {
+        switchMode('code');
+        els.textarea.value = SAMPLE_BUGGY_HTML;
+        updateCodeMeta();
+        handleCodeAudit();
+      });
+
+      els.btnClearCode.addEventListener('click', () => {
+        els.textarea.value = '';
+        updateCodeMeta();
+      });
+
+      els.filterTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          activeFilter = tab.dataset.filter;
+          els.filterTabs.forEach((t) => t.classList.toggle('active', t === tab));
+          renderFilteredList();
+        });
+      });
+
+      els.resultSearch.addEventListener('input', (e) => {
+        searchQuery = e.target.value || '';
+        renderFilteredList();
+      });
+
+      els.previewSizeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          els.deviceShell.classList.remove('mobile', 'large-mobile', 'desktop');
+          els.deviceShell.classList.add(btn.dataset.size);
+        });
+      });
+
+      els.btnToggleSafeArea.addEventListener('click', () => {
+        els.deviceShell.classList.toggle('show-safe-areas');
+      });
+
+      els.btnClearHistory.addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        renderHistory();
+      });
+
+      els.btnCopyReport.addEventListener('click', () => {
+        if (!lastReport) return;
+        const lines = [
+          `PlayReady Inspector — Google Play Console অডিট রিপোর্ট`,
+          `অ্যাপ: ${lastReport.targetLabel}`,
+          `পাস: ${lastReport.checks.filter((c) => c.status === 'pass').length}/${lastReport.checks.length} | ক্রিটিক্যাল: ${lastReport.checks.filter((c) => c.status === 'fail').length} | সতর্কতা: ${lastReport.checks.filter((c) => c.status === 'warn').length}`,
+          '----------------------------------------',
+          ...lastReport.checks.map((c) => {
+            const tag = c.status === 'fail' ? '[REJECT RISK]' : c.status === 'warn' ? '[WARNING]' : '[PASS]';
+            return `${tag} ${c.title}\n  পর্যবেক্ষণ: ${c.evidence}\n  সমাধান: ${c.fix}`;
+          }),
+        ];
+        void copyToClipboard(lines.join('\n\n'), 'সম্পূর্ণ অডিট রিপোর্ট কপি হয়েছে!');
+      });
+
+      updateCodeMeta();
+      renderHistory();
+    })();
+  </script>
+</body>
+</html>
