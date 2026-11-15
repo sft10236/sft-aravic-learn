@@ -48,7 +48,9 @@
         @keyframes liveBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .live-dot { animation: liveBlink 1.5s infinite ease-in-out; }
         .hidden { display: none !important; }
-    </style>
+    
+.pw-wrap{position:relative}.pw-input{padding-right:2.75rem!important}.pw-toggle{position:absolute;right:0.25rem;top:50%;transform:translateY(-50%);width:2.25rem;height:2.25rem;display:flex;align-items:center;justify-content:center;color:#9CA3AF;background:transparent;border:0;cursor:pointer}.pw-toggle:hover,.pw-toggle:focus{color:#00F5D4;outline:none}
+</style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-sftGreen selection:text-black custom-scrollbar pb-20 md:pb-0">
 
@@ -111,7 +113,7 @@
                     <button onclick="navigateTo('privacy'); toggleMobileDrawer(false)" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-gray-900 flex items-center gap-3"><i class="fa-solid fa-shield-halved text-sftBlue w-5"></i> প্রাইভেসি পলিসি</button>
                 </div>
             </div>
-            <div class="text-[11px] text-gray-500 border-t border-gray-800 pt-3 shrink-0">শিক্ষামূলক আরবি ভাষা শেখার অ্যাপ • v2.0</div>
+            <div class="text-[11px] text-gray-500 border-t border-gray-800 pt-3 shrink-0">শিক্ষামূলক আরবি ভাষা শেখার অ্যাপ • v1.0</div>
         </div>
     </div>
 
@@ -632,16 +634,7 @@
 
     </main>
 
-    <footer class="glassmorphism border-t border-gray-800/80 mt-8 py-5 px-4 mb-16 md:mb-0">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-3">
-            <div><span class="font-bold text-gradient-sft">SFT Arabic Express</span> &copy; 2026</div>
-            <div class="flex items-center space-x-3">
-                <button onclick="navigateTo('terms')" class="hover:text-sftPink">শর্তাবলি</button>
-                <span>•</span>
-                <button onclick="navigateTo('privacy')" class="hover:text-sftBlue">প্রাইভেসি পলিসি</button>
-            </div>
-        </div>
-    </footer>
+    
 
     <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 glassmorphism border-t border-gray-800 px-2 py-2 flex items-center justify-around text-[11px] font-semibold">
         <button onclick="navigateTo('home')" id="bnav-home" class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-sftGreen"><i class="fa-solid fa-house text-base"></i><span>হোম</span></button>
@@ -667,7 +660,7 @@
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল</label><input type="email" id="login-identifier" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com"></div>
                 <div>
                     <div class="flex justify-between items-center mb-1"><label class="text-xs font-semibold text-gray-400">পাসওয়ার্ড</label><button type="button" onclick="handleForgotPassword()" class="text-[11px] text-sftPink hover:underline">পাসওয়ার্ড ভুলে গেছেন?</button></div>
-                    <input type="password" id="login-password" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm">
+                    <div class="pw-wrap"><input type="password" id="login-password" required class="pw-input w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"><button type="button" onclick="togglePasswordVisibility('login-password', this)" aria-label="পাসওয়ার্ড দেখুন" class="pw-toggle"><i class="fa-solid fa-eye"></i></button></div>
                 </div>
                 <button type="submit" id="login-submit-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-sftPink to-sftBlue text-white font-bold text-sm">
                     <span id="login-btn-text">লগইন করুন</span> <i id="login-spinner" class="fa-solid fa-circle-notch fa-spin hidden"></i>
@@ -682,7 +675,7 @@
                 </div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">আপনার নাম</label><input type="text" id="signup-username" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="আপনার পূর্ণ নাম"></div>
                 <div><label class="block text-xs font-semibold text-gray-400 mb-1">ইমেইল</label><input type="email" id="signup-email" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" placeholder="example@gmail.com"></div>
-                <div><label class="block text-xs font-semibold text-gray-400 mb-1">পাসওয়ার্ড (কমপক্ষে ৬ ডিজিট)</label><input type="password" id="signup-password" required class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"></div>
+                <div><label class="block text-xs font-semibold text-gray-400 mb-1">পাসওয়ার্ড (কমপক্ষে ৬ ডিজিট)</label><div class="pw-wrap"><input type="password" id="signup-password" required class="pw-input w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm"><button type="button" onclick="togglePasswordVisibility('signup-password', this)" aria-label="পাসওয়ার্ড দেখুন" class="pw-toggle"><i class="fa-solid fa-eye"></i></button></div></div>
                 <div><label class="block text-xs font-semibold text-amber-400 mb-1">রেফারেল আইডি (ঐচ্ছিক)</label><input type="text" id="signup-ref-id" class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-amber-300 text-sm uppercase font-mono" placeholder="না থাকলে ফাঁকা রাখুন"></div>
                 <div class="flex items-start space-x-2">
                     <input type="checkbox" id="signup-terms-checkbox" required class="mt-1 w-4 h-4 rounded bg-gray-900 border-gray-700">
@@ -743,7 +736,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, verifyBeforeUpdateEmail, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, updateProfile, sendEmailVerification, verifyBeforeUpdateEmail, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, set, get, update, remove, onValue, push, runTransaction, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -1195,7 +1188,7 @@ onAuthStateChanged(auth, async (user) => {
                         if (user) {
                             const userRef = ref(db, 'users/' + user.uid);
                             const snapshot = await get(userRef);
-                            const generatedID = generateReferralID(user.uid);
+                            const generatedID = generateReferralID(user.uid); const isAdm = snapshot.exists() && snapshot.val().isAdmin === true; if (!user.emailVerified && !window.__pendingSignupName && !isAdm) { currentUser = null; updateHeaderNav(); await signOut(auth).catch(()=>{}); return; }
                             if (snapshot.exists()) {
                                 const val = snapshot.val();
                                 currentUser = { id: user.uid, referralID: generatedID, points: Number(val.points) || 0, ...val };
@@ -1205,15 +1198,15 @@ onAuthStateChanged(auth, async (user) => {
                                     patch.email = user.email;
                                     currentUser.email = user.email;
                                 }
-                                if (Object.keys(patch).length > 0) await update(userRef, patch);
+                                if (Object.keys(patch).length > 0) await update(userRef, patch); if (user.emailVerified && val.pendingReferrerId) { try { await set(ref(db, "referral_rewards/"+val.pendingReferrerId+"/"+user.uid), { bonus: 1000, newUserId: user.uid, newUserName: currentUser.username || "শিক্ষার্থী", timestamp: new Date().toISOString() }); await push(ref(db, "referrals_history"), { referrerId: val.pendingReferrerId, referrerName: val.pendingReferrerName || "ইউজার", newUserId: user.uid, newUserName: currentUser.username || "শিক্ষার্থী", newUserEmail: user.email, timestamp: new Date().toISOString() }); await update(userRef, { pendingReferrerId: null, pendingReferrerName: null }); } catch(e){} }
                             } else {
                                 currentUser = {
                                     id: user.uid, referralID: generatedID,
-                                    username: user.email.split('@')[0], email: user.email,
+                                    username: (window.__pendingSignupName || user.displayName || user.email.split('@')[0]), email: user.email,
                                     avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.email)}`,
                                     points: 3000, completedDays: [], referralsCount: 0, warningMessage: ""
                                 };
-                                await set(userRef, currentUser);
+                                if (!window.__pendingSignupName) await set(userRef, currentUser);
                             }
 
                             try {
@@ -1849,15 +1842,27 @@ onAuthStateChanged(auth, async (user) => {
             `;
         }
 
-        function setAuthError(formType, message) {
+        function setAuthError(formType, message, isSuccess = false) {
             const box = document.getElementById(formType === 'signup' ? 'signup-error-box' : 'login-error-box');
             const textEl = document.getElementById(formType === 'signup' ? 'signup-error-text' : 'login-error-text');
             if (!box || !textEl) return;
+            const iconEl = box.querySelector('i');
             if (message) {
                 textEl.textContent = message;
+                if (isSuccess) {
+                    box.style.backgroundColor = 'rgba(0, 245, 212, 0.12)';
+                    box.style.borderColor = 'rgba(0, 245, 212, 0.45)';
+                    box.style.color = '#6EE7B7';
+                    if (iconEl) iconEl.className = 'fa-solid fa-envelope-circle-check mt-0.5 shrink-0';
+                } else {
+                    box.style.backgroundColor = ''; box.style.borderColor = ''; box.style.color = '';
+                    if (iconEl) iconEl.className = 'fa-solid fa-circle-exclamation mt-0.5 shrink-0';
+                }
                 box.classList.remove('hidden');
             } else {
                 textEl.textContent = '';
+                box.style.backgroundColor = ''; box.style.borderColor = ''; box.style.color = '';
+                if (iconEl) iconEl.className = 'fa-solid fa-circle-exclamation mt-0.5 shrink-0';
                 box.classList.add('hidden');
             }
         }
@@ -1916,7 +1921,8 @@ onAuthStateChanged(auth, async (user) => {
             }
         }
 
-        async function handleLogin(e) {
+        function isValidRealEmail(em){ const re=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; if(!re.test(em)||em.includes(".."))return false; const sp=em.toLowerCase().split("@"); if(sp[0].length<2||sp[1].length<4)return false; const blk=new Set(["example.com","example.org","example.net","test.com","test.org","ok.com","fake.com","fakeinbox.com","mailinator.com","tempmail.com","temp-mail.org","10minutemail.com","guerrillamail.com","yopmail.com","trashmail.com","dispostable.com","sharklasers.com","getnada.com","maildrop.cc","mohmal.com"]); return !blk.has(sp[1]); }
+async function handleLogin(e) {
             e.preventDefault();
             setAuthError('login', '');
             const loginEmail = document.getElementById('login-identifier').value.trim();
@@ -1936,7 +1942,7 @@ onAuthStateChanged(auth, async (user) => {
             const submitBtn = document.getElementById('login-submit-btn'), btnText = document.getElementById('login-btn-text'), spinner = document.getElementById('login-spinner');
             submitBtn.disabled = true; btnText.textContent = "লগইন হচ্ছে..."; spinner.classList.remove('hidden');
             try {
-                await signInWithEmailAndPassword(auth, loginEmail, password);
+                const cred = await signInWithEmailAndPassword(auth, loginEmail, password); await cred.user.reload().catch(()=>{}); if(!cred.user.emailVerified){ const uS=await get(ref(db,"users/"+cred.user.uid)).catch(()=>null); const isAdm=uS&&uS.exists()&&uS.val().isAdmin===true; if(!isAdm){ await sendEmailVerification(cred.user).catch(()=>{}); await signOut(auth).catch(()=>{}); const msg="আপনার ইমেইল এখনো ভেরিফাই হয়নি! ইনবক্স (বা Spam) চেক করে ভেরিফিকেশন লিংকে ক্লিক করুন, তারপর আবার লগইন করুন।"; setAuthError("login",msg); showToast("ইমেইল ভেরিফাই করা হয়নি!","error"); return; } }
                 closeAuthModal();
                 showToast("সফলভাবে লগইন হয়েছে!", "success");
                 navigateTo('routine');
@@ -1968,8 +1974,8 @@ onAuthStateChanged(auth, async (user) => {
                 showToast(msg, "error");
                 return;
             }
-            if (!email || !email.includes('@')) {
-                const msg = "সঠিক ইমেইল অ্যাড্রেস দিন!";
+            if (!isValidRealEmail(email)) {
+                const msg = "দয়া করে একটি বৈধ ও সচল ইমেইল অ্যাড্রেস দিন (যেমন: yourname@gmail.com)!";
                 setAuthError('signup', msg);
                 showToast(msg, "error");
                 return;
@@ -1984,7 +1990,7 @@ onAuthStateChanged(auth, async (user) => {
             const submitBtn = document.getElementById('signup-submit-btn'), btnText = document.getElementById('signup-btn-text'), spinner = document.getElementById('signup-spinner');
             submitBtn.disabled = true; btnText.textContent = "তৈরি হচ্ছে..."; spinner.classList.remove('hidden');
             try {
-                const res = await createUserWithEmailAndPassword(auth, email, password);
+                window.__pendingSignupName = username; const res = await createUserWithEmailAndPassword(auth, email, password); await updateProfile(res.user, { displayName: username }).catch(()=>{});
                 const newUserId = res.user.uid;
                 const newRefID = generateReferralID(newUserId);
                 let initialPoints = 3000, referrerId = "", referrerUsername = "", usedReferralIdCode = "";
@@ -2007,30 +2013,25 @@ onAuthStateChanged(auth, async (user) => {
                 const newUser = {
                     id: newUserId, referralID: newRefID, referredBy: usedReferralIdCode || "সরাসরি",
                     username, email, avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(username)}`,
-                    points: initialPoints, completedDays: [], referralsCount: 0, warningMessage: ""
+                    points: initialPoints, completedDays: [], referralsCount: 0, warningMessage: "", pendingReferrerId: referrerId || null, pendingReferrerName: referrerUsername || null
                 };
                 await set(ref(db, 'users/' + newUserId), newUser);
                 await set(ref(db, 'referral_codes/' + newRefID), { uid: newUserId, username });
                 await syncPublicLeaderboard(newUser);
-                if (referrerId) {
-                    await set(ref(db, `referral_rewards/${referrerId}/${newUserId}`), {
-                        bonus: 1000,
-                        newUserId,
-                        newUserName: username,
-                        timestamp: new Date().toISOString()
-                    });
-                    await push(ref(db, 'referrals_history'), { referrerId, referrerName: referrerUsername, newUserId, newUserName: username, newUserEmail: email, timestamp: new Date().toISOString() });
-                }
-                currentUser = newUser;
-                closeAuthModal();
-                showToast("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!", "success");
-                navigateTo('routine');
+                await sendEmailVerification(res.user);
+                currentUser = null;
+                await signOut(auth).catch(()=>{});
+                window.__pendingSignupName = "";
+                switchAuthMode("login");
+                const li=document.getElementById("login-identifier"); if(li)li.value=email;
+                setAuthError("login", email+" ঠিকানায় ভেরিফিকেশন লিংক পাঠানো হয়েছে! ইনবক্স (বা Spam) থেকে লিংকে ক্লিক করে ভেরিফাই করুন, তারপর লগইন করুন।", true);
+                showToast("ভেরিফিকেশন লিংক ইমেইলে পাঠানো হয়েছে!","info");
             } catch (err) {
                 const msg = getFriendlyAuthError(err);
                 setAuthError('signup', msg);
                 showToast(msg, "error");
             } finally {
-                submitBtn.disabled = false; btnText.textContent = "অ্যাকাউন্ট তৈরি করুন"; spinner.classList.add('hidden');
+                window.__pendingSignupName = ""; submitBtn.disabled = false; btnText.textContent = "অ্যাকাউন্ট তৈরি করুন"; spinner.classList.add('hidden');
             }
         }
 
@@ -2082,7 +2083,7 @@ onAuthStateChanged(auth, async (user) => {
                 await update(ref(db, 'users/' + currentUser.id), { username: newUsername, avatar: newAvatar });
                 const newPwd = document.getElementById('profile-password').value.trim();
                 if (newPwd && auth.currentUser) await updatePassword(auth.currentUser, newPwd);
-                currentUser.username = newUsername;
+                currentUser.username = newUsername; if (auth.currentUser) await updateProfile(auth.currentUser, { displayName: newUsername }).catch(()=>{}); renderRoutineCertificateSection();
                 currentUser.avatar = newAvatar;
                 await syncPublicLeaderboard(currentUser);
                 showToast("প্রোফাইল আপডেট হয়েছে!", "success");
@@ -2529,5 +2530,6 @@ onAuthStateChanged(auth, async (user) => {
             toggleGlobalCertificate
         });
     </script>
+<script>window.togglePasswordVisibility=function(id,btn){var i=document.getElementById(id);if(!i)return;var ic=btn?btn.querySelector('i'):null;if(i.type==='password'){i.type='text';if(ic){ic.classList.remove('fa-eye');ic.classList.add('fa-eye-slash');}}else{i.type='password';if(ic){ic.classList.remove('fa-eye-slash');ic.classList.add('fa-eye');}}};document.addEventListener('click',function(e){if(e.target.closest('[onclick*="switchAuthMode"],[onclick*="closeAuthModal"],[onclick*="openAuthModal"]')){['login-password','signup-password'].forEach(function(id){var el=document.getElementById(id);if(el)el.type='password';});document.querySelectorAll('#auth-modal .pw-toggle i').forEach(function(ic){ic.classList.remove('fa-eye-slash');ic.classList.add('fa-eye');});}});</script>
 </body>
 </html>
