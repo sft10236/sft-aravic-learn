@@ -143,6 +143,13 @@
                     <h2 id="home-main-title" class="text-2xl md:text-5xl font-extrabold text-white leading-tight">
                         ৩০ দিনে সহজ বাংলা উচ্চারণে শিখুন আঞ্চলিক আরবি ভাষা!
                     </h2>
+                                <div id="home-guideline-wrap" class="pt-1 pb-1">
+                                    <a id="home-guideline-btn" href="#" target="_blank" rel="noopener noreferrer" onclick="return openGuidelineLink(event)" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 shadow-lg active:scale-95">
+                                        <i id="home-guideline-icon" class="fa-solid fa-book-open"></i>
+                                        <span id="home-guideline-text">Student Guideline</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+                                    </a>
+                                </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                         <div class="bg-black/40 p-4 rounded-xl border border-gray-800">
@@ -588,6 +595,56 @@
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1">মোটিভেশনাল টেক্সট</label>
                                 <textarea id="admin-motivation-input" rows="3" class="w-full p-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm" required></textarea>
+                            </div>
+                            <div class="pt-3 border-t border-gray-800 space-y-3">
+                                <h4 class="text-sm font-bold text-sftGreen">Student Guideline বাটন সেটিংস</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-gray-400 mb-1">বাটনের লেখা (Text)</label>
+                                        <input type="text" id="admin-guideline-text" placeholder="Student Guideline" class="w-full p-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-400 mb-1">বাটন দেখাবেন?</label>
+                                        <select id="admin-guideline-visible" class="w-full p-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-xs">
+                                            <option value="on">চালু (Show)</option>
+                                            <option value="off">বন্ধ (Hide)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">গাইডলাইন লিংক (HTTPS URL)</label>
+                                    <input type="text" id="admin-guideline-url" placeholder="https://example.com/guideline" class="w-full p-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-xs">
+                                </div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-gray-400 mb-1">বাটন ডিজাইন</label>
+                                        <select id="admin-guideline-style" class="w-full p-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-xs">
+                                            <option value="solid">Solid (রঙিন)</option>
+                                            <option value="gradient">Gradient (গ্রেডিয়েন্ট)</option>
+                                            <option value="outline">Outline (বর্ডার গ্লো)</option>
+                                            <option value="pill">Pill (গোল)</option>
+                                            <option value="glass">Glass (গ্লাস)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-400 mb-1">আইকন</label>
+                                        <select id="admin-guideline-icon" class="w-full p-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-xs">
+                                            <option value="fa-book-open">বই (Guideline)</option>
+                                            <option value="fa-circle-play">ভিডিও</option>
+                                            <option value="fa-circle-info">তথ্য (Info)</option>
+                                            <option value="fa-compass">নির্দেশনা</option>
+                                            <option value="fa-star">স্টার</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-400 mb-1">বাটন কালার</label>
+                                        <input type="color" id="admin-guideline-bg" value="#00F5D4" class="w-full h-10 p-1 rounded-xl bg-gray-900 border border-gray-700 cursor-pointer">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-400 mb-1">লেখার কালার</label>
+                                        <input type="color" id="admin-guideline-color" value="#0B0F19" class="w-full h-10 p-1 rounded-xl bg-gray-900 border border-gray-700 cursor-pointer">
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="px-5 py-2.5 bg-sftPink text-white font-bold rounded-xl text-xs">সেভ করুন</button>
                         </form>
@@ -1346,6 +1403,7 @@ onAuthStateChanged(auth, async (user) => {
         function renderHomePage() {
             document.getElementById('home-badge-text').textContent = homeBanner.badge || DEFAULT_HOME_BANNER.badge;
             document.getElementById('home-main-title').textContent = homeBanner.title || DEFAULT_HOME_BANNER.title;
+            renderGuidelineButton();
             document.getElementById('motivational-quote-display').textContent = `"${motivationalQuote}"`;
             renderHomeInfoArticles();
 
@@ -2178,6 +2236,15 @@ async function handleLogin(e) {
             document.getElementById('admin-home-badge-input').value = homeBanner.badge || DEFAULT_HOME_BANNER.badge;
             document.getElementById('admin-home-title-input').value = homeBanner.title || DEFAULT_HOME_BANNER.title;
             document.getElementById('admin-motivation-input').value = motivationalQuote;
+            if (document.getElementById('admin-guideline-text')) {
+                document.getElementById('admin-guideline-text').value = homeBanner.guidelineText || 'Student Guideline';
+                document.getElementById('admin-guideline-url').value = homeBanner.guidelineUrl || '';
+                document.getElementById('admin-guideline-style').value = homeBanner.guidelineStyle || 'solid';
+                document.getElementById('admin-guideline-icon').value = homeBanner.guidelineIcon || 'fa-book-open';
+                document.getElementById('admin-guideline-bg').value = homeBanner.guidelineBg || '#00F5D4';
+                document.getElementById('admin-guideline-color').value = homeBanner.guidelineColor || '#0B0F19';
+                document.getElementById('admin-guideline-visible').value = homeBanner.guidelineVisible === false ? 'off' : 'on';
+            }
 
             document.getElementById('admin-art-1-title').value = homeInfoArticles.art1Title || DEFAULT_HOME_INFO.art1Title;
             document.getElementById('admin-art-1-desc').value = homeInfoArticles.art1Desc || DEFAULT_HOME_INFO.art1Desc;
@@ -2328,15 +2395,76 @@ async function handleLogin(e) {
             });
         }
 
+        function normalizeGuidelineUrl(raw) {
+            const u = (raw || '').trim();
+            if (!u || /^javascript:/i.test(u) || /^data:/i.test(u)) return '';
+            return /^https?:\/\//i.test(u) ? u : 'https://' + u;
+        }
+        function renderGuidelineButton() {
+            const wrap = document.getElementById('home-guideline-wrap');
+            const btn = document.getElementById('home-guideline-btn');
+            const txt = document.getElementById('home-guideline-text');
+            const ico = document.getElementById('home-guideline-icon');
+            if (!wrap || !btn || !txt) return;
+            const visible = homeBanner.guidelineVisible !== false;
+            wrap.style.display = visible ? '' : 'none';
+            if (!visible) return;
+            txt.textContent = homeBanner.guidelineText || 'Student Guideline';
+            if (ico) ico.className = 'fa-solid ' + (homeBanner.guidelineIcon || 'fa-book-open');
+            const style = homeBanner.guidelineStyle || 'solid';
+            const bg = homeBanner.guidelineBg || '#00F5D4';
+            const fg = homeBanner.guidelineColor || '#0B0F19';
+            const url = normalizeGuidelineUrl(homeBanner.guidelineUrl);
+            btn.href = url || '#';
+            btn.style.background = '';
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+            btn.style.border = '';
+            btn.style.boxShadow = '';
+            btn.className = 'inline-flex items-center justify-center gap-2 px-5 py-2.5 font-bold text-sm transition-all duration-200 shadow-lg active:scale-95 ' + (style === 'pill' ? 'rounded-full' : 'rounded-xl');
+            if (style === 'gradient') {
+                btn.style.background = 'linear-gradient(135deg, #FF2E93 0%, #00B4D8 100%)';
+                btn.style.color = '#FFFFFF';
+            } else if (style === 'outline') {
+                btn.style.backgroundColor = 'transparent';
+                btn.style.color = bg;
+                btn.style.border = '2px solid ' + bg;
+                btn.style.boxShadow = '0 0 14px ' + bg + '44';
+            } else if (style === 'glass') {
+                btn.style.backgroundColor = 'rgba(255,255,255,0.08)';
+                btn.style.color = '#FFFFFF';
+                btn.style.border = '1px solid rgba(255,255,255,0.25)';
+            } else {
+                btn.style.backgroundColor = bg;
+                btn.style.color = fg;
+            }
+        }
+        window.openGuidelineLink = function(e) {
+            const url = normalizeGuidelineUrl(homeBanner.guidelineUrl);
+            if (!url) {
+                e.preventDefault();
+                if (typeof showToast === 'function') showToast('গাইডলাইন লিংক এখনো সেট করা হয়নি', 'info');
+                return false;
+            }
+            return true;
+        };
         async function handleSaveHomeBanner(e) {
             e.preventDefault();
             homeBanner = {
                 badge: document.getElementById('admin-home-badge-input').value.trim(),
-                title: document.getElementById('admin-home-title-input').value.trim()
+                title: document.getElementById('admin-home-title-input').value.trim(),
+                guidelineText: (document.getElementById('admin-guideline-text')?.value || '').trim() || 'Student Guideline',
+                guidelineUrl: (document.getElementById('admin-guideline-url')?.value || '').trim(),
+                guidelineStyle: document.getElementById('admin-guideline-style')?.value || 'solid',
+                guidelineIcon: document.getElementById('admin-guideline-icon')?.value || 'fa-book-open',
+                guidelineBg: document.getElementById('admin-guideline-bg')?.value || '#00F5D4',
+                guidelineColor: document.getElementById('admin-guideline-color')?.value || '#0B0F19',
+                guidelineVisible: (document.getElementById('admin-guideline-visible')?.value || 'on') !== 'off'
             };
             motivationalQuote = document.getElementById('admin-motivation-input').value.trim();
             await set(ref(db, 'settings/homeBanner'), homeBanner);
             await set(ref(db, 'settings/motivation'), motivationalQuote);
+            renderGuidelineButton();
             showToast("হোম ব্যানার ও মোটিভেশন সেভ হয়েছে!", "success");
         }
 
