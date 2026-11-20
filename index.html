@@ -948,6 +948,7 @@ const AudioFX = {
         }
 
         const DEFAULT_HOME_BANNER = {
+            guidelineUrl: "https://sft10236.github.io/sft-aravic-learn/student-guideline.html",
             badge: "৩০ দিনের স্পেশাল আরবি কোর্স",
             title: "৩০ দিনে সহজ বাংলা উচ্চারণে শিখুন আঞ্চলিক আরবি ভাষা!"
         };
@@ -2414,7 +2415,7 @@ async function handleLogin(e) {
             const style = homeBanner.guidelineStyle || 'solid';
             const bg = homeBanner.guidelineBg || '#00F5D4';
             const fg = homeBanner.guidelineColor || '#0B0F19';
-            const url = normalizeGuidelineUrl(homeBanner.guidelineUrl);
+            const url = normalizeGuidelineUrl(homeBanner.guidelineUrl !== undefined ? homeBanner.guidelineUrl : DEFAULT_HOME_BANNER.guidelineUrl);
             btn.href = url || '#';
             btn.style.background = '';
             btn.style.backgroundColor = '';
@@ -2440,7 +2441,7 @@ async function handleLogin(e) {
             }
         }
         window.openGuidelineLink = function(e) {
-            const url = normalizeGuidelineUrl(homeBanner.guidelineUrl);
+            const url = normalizeGuidelineUrl(homeBanner.guidelineUrl !== undefined ? homeBanner.guidelineUrl : DEFAULT_HOME_BANNER.guidelineUrl);
             if (!url) {
                 e.preventDefault();
                 if (typeof showToast === 'function') showToast('গাইডলাইন লিংক এখনো সেট করা হয়নি', 'info');

@@ -814,7 +814,7 @@
   <!-- Navbar -->
   <header class="navbar">
     <div class="nav-inner">
-      <a href="./" class="brand">
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="brand">
         <div class="brand-icon">ع</div>
         <div class="brand-text">
           <strong>SFT Arabic Express</strong>
@@ -826,7 +826,7 @@
         <a href="#xp-system" class="nav-link hide-sm">XP ও সার্টিফিকেট</a>
         <a href="#checklist" class="nav-link hide-sm">চেকলিস্ট</a>
         <a href="#faq" class="nav-link hide-sm">প্রশ্নোত্তর</a>
-        <a href="./" class="btn-primary-sm">অ্যাপে ফিরে যান</a>
+        <button type="button" onclick="returnToApp()" class="btn-primary-sm" style="border:0;cursor:pointer;">ট্যাব বন্ধ করে অ্যাপে ফিরুন</button>
       </nav>
     </div>
   </header>
@@ -1184,7 +1184,7 @@
   <footer class="footer">
     <strong>SFT Arabic Express</strong> — ৩০ দিনে সহজ বাংলা উচ্চারণে আঞ্চলিক আরবি শিক্ষা
     <div class="footer-links">
-      <a href="./">হোম অ্যাপ</a>
+      <a href="#" onclick="event.preventDefault();returnToApp();">ট্যাব বন্ধ করে অ্যাপে ফিরুন</a>
       <a href="./privacy-policy.html">প্রাইভেসি পলিসি</a>
       <a href="./delete-account.html">অ্যাকাউন্ট ডিলিট</a>
       <a href="mailto:informationamq10236@gmail.com">সাপোর্ট: informationamq10236@gmail.com</a>
@@ -1287,5 +1287,8 @@
       });
     });
   </script>
+
+<div id="retToast" style="display:none;position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99;max-width:92vw;background:#0f172a;color:#f1f5f9;border:1px solid rgba(52,211,153,.45);border-radius:14px;padding:12px 16px;font-size:13.5px;box-shadow:0 12px 30px rgba(0,0,0,.5);align-items:center;gap:12px;"><span>অ্যাপে ফিরতে ফোনের Back বোতাম চাপুন অথবা এই ট্যাবটি বন্ধ করুন।</span><button type="button" onclick="this.parentElement.style.display='none'" style="background:none;border:0;color:#34d399;font-weight:700;cursor:pointer;font-size:16px;">&#10005;</button></div>
+<script>function returnToApp(){try{window.close();}catch(e){}setTimeout(()=>{const t=document.getElementById("retToast");if(t)t.style.display="flex";},180);}</script>
 </body>
 </html>
