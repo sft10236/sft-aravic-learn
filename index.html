@@ -28,7 +28,7 @@
             font-family: 'Hind Siliguri', sans-serif;
             background-color: var(--color-bg);
             color: #F3F4F6;
-            overflow-x: hidden;
+            overflow-x: clip;
             -webkit-tap-highlight-color: transparent;
         }
         .glassmorphism {
@@ -93,6 +93,11 @@
             </div>
         </div>
     </header>
+    <div id="sft-sticky-banner-space" style="flex-shrink:0;display:none;position:sticky;top:60px;z-index:35;width:100%;height:64px;background:#0B0F19;border-bottom:1px solid rgba(55,65,81,0.45);align-items:center;justify-content:center;padding:7px 8px;box-sizing:border-box;">
+        <div id="sft-banner-preview-box" style="width:320px;max-width:100%;height:50px;border-radius:8px;border:1px dashed rgba(148,163,184,0.35);background:rgba(30,41,59,0.55);color:#94a3b8;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;letter-spacing:0.2px;">
+            AdMob Banner Space (320×50 Test)
+        </div>
+    </div>
 
     <div id="mobile-drawer" class="fixed inset-0 z-50 bg-black/75 hidden md:hidden" onclick="toggleMobileDrawer(false)">
         <div class="w-72 max-w-[85vw] h-full max-h-screen overflow-y-auto bg-gray-950 border-r border-gray-800 p-5 space-y-5 flex flex-col justify-between" onclick="event.stopPropagation()">
@@ -213,7 +218,9 @@
                     </div>
                 </div>
             </div>
-        </section>
+        
+<div id="home-dynamic-buttons-wrap" class="hidden space-y-3 mt-5"></div>
+</section>
 
         <!-- PAGE: TERMS -->
         <section id="page-terms" class="hidden max-w-4xl mx-auto space-y-6">
@@ -660,6 +667,73 @@
                             <div class="bg-gray-900 p-4 rounded-xl space-y-2"><input type="text" id="admin-art-4-title" class="w-full p-2 bg-gray-950 border border-gray-700 rounded-lg text-white text-xs" required><textarea id="admin-art-4-desc" rows="2" class="w-full p-2 bg-gray-950 border border-gray-700 rounded-lg text-white text-xs" required></textarea></div>
                             <button type="submit" class="px-5 py-2.5 bg-sftGreen text-gray-950 font-bold rounded-xl text-xs">হোম ইনফো সেভ করুন</button>
                         </form>
+<!-- HBTN_ADMIN_START -->
+<div style="border-top:1px solid #1f2937;padding-top:20px;margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
+    <div>
+      <h4 style="font-size:14px;font-weight:700;color:#fff;margin:0;">কার্ড ৪-এর নিচে ডাইনামিক বাটন</h4>
+      <p style="font-size:11px;color:#9ca3af;margin:2px 0 0;">গর্জিয়াস বাটন যোগ করুন অথবা নান (None) করে রাখুন</p>
+    </div>
+    <select id="admin-hbtns-mode" onchange="handleToggleHomeButtonsMode(this.value)" style="padding:10px 14px;border-radius:12px;background:#111827;border:1px solid #374151;color:#fff;font-size:12px;font-weight:700;">
+      <option value="on">চালু (বাটন দেখাবে)</option>
+      <option value="none">নান / বন্ধ (None)</option>
+    </select>
+  </div>
+  <form onsubmit="handleSaveHomeBottomButton(event)" style="background:#0f172a;padding:16px;border-radius:16px;border:1px solid #1e293b;display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span id="admin-hbtn-form-title" style="font-size:13px;font-weight:700;color:#22d3ee;">+ নতুন বাটন যোগ করুন</span>
+      <button type="button" id="admin-hbtn-cancel-edit" onclick="resetHomeBottomButtonForm()" style="display:none;background:#1e293b;color:#e2e8f0;border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">বাতিল করুন</button>
+    </div>
+    <input type="hidden" id="admin-hbtn-edit-id" value="">
+    <div>
+      <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px;">বাটনের নাম *</label>
+      <input type="text" id="admin-hbtn-label" oninput="updateAdminHbtnPreview()" placeholder="যেমন: হিসাব দেখুন" style="width:100%;padding:11px 12px;border-radius:12px;background:#090d16;border:1px solid #334155;color:#fff;font-size:13px;" required>
+    </div>
+    <div>
+      <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px;">ওয়েব পেজের লিংক (URL) *</label>
+      <input type="text" id="admin-hbtn-url" placeholder="https://example.com" style="width:100%;padding:11px 12px;border-radius:12px;background:#090d16;border:1px solid #334155;color:#fff;font-size:13px;" required>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px;">আইকন</label>
+        <select id="admin-hbtn-icon" onchange="updateAdminHbtnPreview()" style="width:100%;padding:10px;border-radius:12px;background:#090d16;border:1px solid #334155;color:#fff;font-size:12px;">
+          <option value="fa-globe">ওয়েবসাইট</option>
+          <option value="fa-book-open">গাইড / পড়া</option>
+          <option value="fa-circle-play">ভিডিও / ক্লাস</option>
+          <option value="fa-comments">সাপোর্ট</option>
+          <option value="fa-file-lines">নোটিশ / হিসাব</option>
+          <option value="fa-award">অ্যাওয়ার্ড</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px;">বাটন ডিজাইন</label>
+        <select id="admin-hbtn-style" onchange="updateAdminHbtnPreview()" style="width:100%;padding:10px;border-radius:12px;background:#090d16;border:1px solid #334155;color:#fff;font-size:12px;">
+          <option value="gradient">গর্জিয়াস গ্রেডিয়েন্ট</option>
+          <option value="glass">ডার্ক গ্লাস কার্ড</option>
+          <option value="solid">সলিড গ্লো</option>
+          <option value="outline">নিয়ন আউটলাইন</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px;">মূল রঙ (Color)</label>
+        <input type="color" id="admin-hbtn-bg" oninput="updateAdminHbtnPreview()" value="#0EA5E9" style="width:100%;height:42px;padding:3px;border-radius:12px;background:#090d16;border:1px solid #334155;cursor:pointer;">
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:#94a3b8;margin-bottom:4px;">লেখার রঙ (Text)</label>
+        <input type="color" id="admin-hbtn-color" oninput="updateAdminHbtnPreview()" value="#FFFFFF" style="width:100%;height:42px;padding:3px;border-radius:12px;background:#090d16;border:1px solid #334155;cursor:pointer;">
+      </div>
+    </div>
+    <div>
+      <span style="display:block;font-size:11px;color:#94a3b8;margin-bottom:6px;">লাইভ বাটন প্রিভিউ:</span>
+      <div id="admin-hbtn-live-preview"></div>
+    </div>
+    <button type="submit" id="admin-hbtn-submit-btn" style="width:100%;padding:13px 20px;border-radius:12px;border:none;background:linear-gradient(135deg,#06B6D4,#2563EB);color:#FFFFFF;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 6px 18px rgba(6,182,212,0.28);">+ বাটন যোগ করুন</button>
+  </form>
+  <div id="admin-hbtns-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+</div>
+<!-- HBTN_ADMIN_END -->
                     </div>
 
                     <!-- ADMIN: TERMS -->
@@ -1005,6 +1079,7 @@ const AudioFX = {
         let homeBanner = DEFAULT_HOME_BANNER;
         let motivationalQuote = DEFAULT_MOTIVATIONAL_QUOTE;
         let homeInfoArticles = DEFAULT_HOME_INFO;
+let homeBottomButtons = (() => { try { const c = localStorage.getItem('sft_home_bottom_buttons'); if (c) { const p = JSON.parse(c); return { mode: p.mode === 'none' ? 'none' : 'on', items: Array.isArray(p.items) ? p.items : [] }; } } catch (e) {} return { mode: 'on', items: [] }; })();
         let termsArticles = DEFAULT_TERMS_ARTICLES;
         let privacyArticles = DEFAULT_PRIVACY_ARTICLES;
         let themeColors = DEFAULT_THEME_COLORS;
@@ -1125,6 +1200,7 @@ const AudioFX = {
                     onValue(ref(db, 'settings/homeBanner'), (snap) => { if (snap.exists()) { homeBanner = snap.val(); if(activePage==='home') renderHomePage(); } });
                     onValue(ref(db, 'settings/motivation'), (snap) => { if (snap.exists()) { motivationalQuote = snap.val(); if(activePage==='home') renderHomePage(); } });
                     onValue(ref(db, 'settings/homeInfo'), (snap) => { if (snap.exists()) { homeInfoArticles = snap.val(); renderHomeInfoArticles(); } });
+onValue(ref(db, 'settings/homeButtons'), (snap) => { if (snap.exists()) { const v = snap.val() || {}; homeBottomButtons = { mode: v.mode === 'none' ? 'none' : 'on', items: Array.isArray(v.items) ? v.items : (v.items ? Object.values(v.items) : []) }; try { localStorage.setItem('sft_home_bottom_buttons', JSON.stringify(homeBottomButtons)); } catch (e) {} if (window.renderHomeBottomButtons) window.renderHomeBottomButtons(); if (window.renderAdminHomeBottomButtons) window.renderAdminHomeBottomButtons(); } });
                     onValue(ref(db, 'settings/terms'), (snap) => { if (snap.exists()) { termsArticles = snap.val(); renderTermsPage(); } });
                     onValue(ref(db, 'settings/privacy'), (snap) => { if (snap.exists()) { privacyArticles = snap.val(); renderPrivacyPage(); } });
                     onValue(ref(db, 'settings/theme'), (snap) => { if (snap.exists()) { themeColors = snap.val(); applyThemeColors(themeColors); } });
@@ -1307,6 +1383,63 @@ onAuthStateChanged(auth, async (user) => {
             });
         });
 
+        window.SftAdController = {
+            bannerPages: ['routine', 'lesson', 'leaderboard', 'certificate'],
+            lastInterstitialAt: 0,
+            cooldownMs: 60000,
+            syncPageBanner(pageId) {
+                const space = document.getElementById('sft-sticky-banner-space');
+                const preview = document.getElementById('sft-banner-preview-box');
+                const hdr = document.querySelector('header');
+                const show = this.bannerPages.includes(pageId);
+                if (space) {
+                    const hdrH = hdr ? Math.round(hdr.getBoundingClientRect().height) : 60;
+                    space.style.top = hdrH + 'px';
+                    space.style.display = show ? 'flex' : 'none';
+                    if (preview) {
+                        preview.style.display = (typeof window.AndroidAdMob !== 'undefined') ? 'none' : 'flex';
+                    }
+                }
+                if (typeof window.AndroidAdMob !== 'undefined') {
+                    try {
+                        if (show) {
+                            const hdrH = hdr ? Math.round(hdr.getBoundingClientRect().height) : 60;
+                            window.AndroidAdMob.showBannerAtTop(hdrH + 7);
+                        } else {
+                            window.AndroidAdMob.hideBanner();
+                        }
+                    } catch (e) {}
+                }
+            },
+            onLessonCompleted() {
+                const now = Date.now();
+                if (now - this.lastInterstitialAt < this.cooldownMs) return;
+                this.lastInterstitialAt = now;
+                if (typeof window.AndroidAdMob !== 'undefined') {
+                    try { window.AndroidAdMob.showInterstitialWithCooldown(); } catch (e) {}
+                } else {
+                    this.showBrowserInterstitialPreview();
+                }
+            },
+            showBrowserInterstitialPreview() {
+                let ov = document.getElementById('sft-browser-ad-preview');
+                if (!ov) {
+                    ov = document.createElement('div');
+                    ov.id = 'sft-browser-ad-preview';
+                    ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,0.92);display:flex;align-items:center;justify-content:center;padding:20px;';
+                    ov.innerHTML = '<div style="width:100%;max-width:340px;background:#111827;border:1px solid rgba(56,189,248,0.4);border-radius:18px;padding:20px;text-align:center;color:#f8fafc;box-shadow:0 20px 50px rgba(0,0,0,0.6);">'
+                        + '<div style="font-size:11px;font-weight:700;color:#38bdf8;letter-spacing:0.6px;margin-bottom:8px;">ADMOB TEST INTERSTITIAL (BROWSER PREVIEW)</div>'
+                        + '<div style="font-size:16px;font-weight:700;margin-bottom:8px;">এখানে পূর্ণ-স্ক্রিন AdMob অ্যাড দেখাবে</div>'
+                        + '<div style="font-size:12px;color:#94a3b8;line-height:1.5;margin-bottom:16px;">ব্রাউজারে আসল AdMob SDK চলে না। Android APK বিল্ড করে ফোনে চালালে এখানে Google-এর আসল টেস্ট অ্যাড পপ-আপ হবে (৬০ সেকেন্ড কুলডাউনসহ)।</div>'
+                        + '<button type="button" id="sft-close-ad-preview" style="width:100%;padding:10px 14px;border-radius:12px;border:0;background:linear-gradient(135deg,#00F5D4,#00B4D8);color:#06121f;font-weight:800;font-size:13px;cursor:pointer;">✕ বন্ধ করুন</button>'
+                        + '</div>';
+                    document.body.appendChild(ov);
+                    ov.querySelector('#sft-close-ad-preview').onclick = () => { ov.style.display = 'none'; };
+                }
+                ov.style.display = 'flex';
+            }
+        };
+
         function navigateTo(pageId, dayNum = 1, skipHistory = false) {
             if (!VALID_PAGES.includes(pageId)) pageId = 'home';
             activePage = pageId;
@@ -1339,6 +1472,7 @@ onAuthStateChanged(auth, async (user) => {
             if (activePage === 'profile') renderProfilePage();
             if (activePage === 'admin') renderAdminPage();
 
+            if (window.SftAdController) window.SftAdController.syncPageBanner(activePage);
             updateHeaderNav();
             window.scrollTo(0, 0);
         }
@@ -1405,6 +1539,7 @@ onAuthStateChanged(auth, async (user) => {
             document.getElementById('home-badge-text').textContent = homeBanner.badge || DEFAULT_HOME_BANNER.badge;
             document.getElementById('home-main-title').textContent = homeBanner.title || DEFAULT_HOME_BANNER.title;
             renderGuidelineButton();
+if (window.renderHomeBottomButtons) window.renderHomeBottomButtons();
             document.getElementById('motivational-quote-display').textContent = `"${motivationalQuote}"`;
             renderHomeInfoArticles();
 
@@ -1846,7 +1981,7 @@ onAuthStateChanged(auth, async (user) => {
         function showCompletionModal() {
             try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch(e){}
             showToast(`অভিনন্দন! দিন ${activeLessonDay} সম্পন্ন হয়েছে!`, "success");
-            setTimeout(() => navigateTo('routine'), 1600);
+            setTimeout(() => { navigateTo('routine'); if (window.SftAdController) window.SftAdController.onLessonCompleted(); }, 1600);
         }
 
         function renderLeaderboardPage() {
@@ -2255,6 +2390,7 @@ async function handleLogin(e) {
             document.getElementById('admin-art-3-desc').value = homeInfoArticles.art3Desc || DEFAULT_HOME_INFO.art3Desc;
             document.getElementById('admin-art-4-title').value = homeInfoArticles.art4Title || DEFAULT_HOME_INFO.art4Title;
             document.getElementById('admin-art-4-desc').value = homeInfoArticles.art4Desc || DEFAULT_HOME_INFO.art4Desc;
+if (window.renderAdminHomeBottomButtons) window.renderAdminHomeBottomButtons();
 
             document.getElementById('admin-terms-1-title').value = termsArticles.art1Title || DEFAULT_TERMS_ARTICLES.art1Title;
             document.getElementById('admin-terms-1-desc').value = termsArticles.art1Desc || DEFAULT_TERMS_ARTICLES.art1Desc;
@@ -2449,7 +2585,174 @@ async function handleLogin(e) {
             }
             return true;
         };
-        async function handleSaveHomeBanner(e) {
+        
+function normalizeSafeWebUrl(raw) {
+  const val = String(raw || '').trim();
+  if (!val) return '';
+  const lo = val.toLowerCase();
+  if (lo.startsWith('javascript:') || lo.startsWith('data:') || lo.startsWith('vbscript:')) return '';
+  const wp = /^https?:\/\//i.test(val) ? val : 'https://' + val;
+  try {
+    const u = new URL(wp);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return '';
+    if (u.pathname.toLowerCase().endsWith('.apk') || u.pathname.toLowerCase().endsWith('.aab')) return '';
+    return u.toString();
+  } catch (err) { return ''; }
+}
+function buildGorgeousButtonHtml(btn, isPreview) {
+  const bg = btn.bg || '#0EA5E9';
+  const color = btn.color || '#FFFFFF';
+  const st = btn.style || 'gradient';
+  const icon = btn.icon || 'fa-globe';
+  const label = (btn.label || '').trim() || 'বাটনের প্রিভিউ';
+  const url = isPreview ? '' : normalizeSafeWebUrl(btn.url);
+  let cardStyle = '';
+  let iconWrapStyle = '';
+  let arrowWrapStyle = '';
+  let textColor = color;
+  if (st === 'glass') {
+    cardStyle = 'background:linear-gradient(145deg,#172338,#101829);border:1px solid ' + bg + '66;box-shadow:0 10px 26px -10px ' + bg + '55;';
+    iconWrapStyle = 'background:' + bg + '26;color:' + bg + ';border:1px solid ' + bg + '44;';
+    arrowWrapStyle = 'background:rgba(255,255,255,0.07);color:' + bg + ';';
+    textColor = '#F8FAFC';
+  } else if (st === 'outline') {
+    cardStyle = 'background:#0D1524;border:1.5px solid ' + bg + ';box-shadow:0 8px 22px -10px ' + bg + '66;';
+    iconWrapStyle = 'background:' + bg + '22;color:' + bg + ';';
+    arrowWrapStyle = 'background:' + bg + '1F;color:' + bg + ';';
+    textColor = bg;
+  } else if (st === 'solid') {
+    cardStyle = 'background:' + bg + ';border:1px solid rgba(255,255,255,0.18);box-shadow:0 10px 24px -8px ' + bg + '88,inset 0 1px 0 rgba(255,255,255,0.28);';
+    iconWrapStyle = 'background:rgba(0,0,0,0.16);color:' + color + ';';
+    arrowWrapStyle = 'background:rgba(0,0,0,0.14);color:' + color + ';';
+  } else {
+    cardStyle = 'background:linear-gradient(135deg,' + bg + ' 0%,#2563EB 100%);border:1px solid rgba(255,255,255,0.22);box-shadow:0 12px 28px -8px ' + bg + '99,inset 0 1px 0 rgba(255,255,255,0.3);';
+    iconWrapStyle = 'background:rgba(255,255,255,0.18);color:' + color + ';backdrop-filter:blur(6px);';
+    arrowWrapStyle = 'background:rgba(255,255,255,0.18);color:' + color + ';';
+  }
+  const tagStart = isPreview
+    ? '<div'
+    : '<a href="' + escapeHtml(url || '#') + '" ' + (url ? 'target="_blank" rel="noopener noreferrer"' : '');
+  const tagEnd = isPreview ? '</div>' : '</a>';
+  return tagStart + ' style="width:100%;padding:14px 16px;border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;transition:transform 0.15s ease;' + cardStyle + '">' +
+    '<span style="display:flex;align-items:center;gap:12px;min-width:0;">' +
+      '<span style="width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;' + iconWrapStyle + '"><i class="fa-solid ' + escapeHtml(icon) + '"></i></span>' +
+      '<span style="font-size:15px;font-weight:700;color:' + textColor + ';line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escapeHtml(label) + '</span>' +
+    '</span>' +
+    '<span style="width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;' + arrowWrapStyle + '"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>' +
+  tagEnd;
+}
+function updateAdminHbtnPreview() {
+  const box = document.getElementById('admin-hbtn-live-preview');
+  if (!box) return;
+  box.innerHTML = buildGorgeousButtonHtml({
+    label: document.getElementById('admin-hbtn-label')?.value || 'বাটনের প্রিভিউ',
+    icon: document.getElementById('admin-hbtn-icon')?.value || 'fa-globe',
+    style: document.getElementById('admin-hbtn-style')?.value || 'gradient',
+    bg: document.getElementById('admin-hbtn-bg')?.value || '#0EA5E9',
+    color: document.getElementById('admin-hbtn-color')?.value || '#FFFFFF'
+  }, true);
+}
+function renderHomeBottomButtons() {
+  const wrap = document.getElementById('home-dynamic-buttons-wrap');
+  if (!wrap) return;
+  const active = (homeBottomButtons.items || []).filter(b => b && b.enabled !== false);
+  if (homeBottomButtons.mode === 'none' || active.length === 0) {
+    wrap.innerHTML = ''; wrap.style.display = 'none'; wrap.classList.add('hidden'); return;
+  }
+  wrap.classList.remove('hidden');
+  wrap.style.display = 'flex';
+  wrap.style.flexDirection = 'column';
+  wrap.style.gap = '12px';
+  wrap.style.marginTop = '16px';
+  wrap.innerHTML = active.map(btn => buildGorgeousButtonHtml(btn, false)).join('');
+}
+async function persistHomeBottomButtons() {
+  try { localStorage.setItem('sft_home_bottom_buttons', JSON.stringify(homeBottomButtons)); } catch (e) {}
+  renderHomeBottomButtons(); renderAdminHomeBottomButtons();
+  try { if (typeof firebaseConfigured !== 'undefined' && firebaseConfigured && typeof db !== 'undefined') await set(ref(db, 'settings/homeButtons'), homeBottomButtons); } catch (e) {}
+}
+function renderAdminHomeBottomButtons() {
+  const m = document.getElementById('admin-hbtns-mode');
+  if (m) m.value = homeBottomButtons.mode === 'none' ? 'none' : 'on';
+  updateAdminHbtnPreview();
+  const list = document.getElementById('admin-hbtns-list');
+  if (!list) return;
+  const items = homeBottomButtons.items || [];
+  if (items.length === 0) { list.innerHTML = '<div style="text-align:center;font-size:12px;color:#94a3b8;background:#0f172a;border:1px dashed #334155;border-radius:12px;padding:16px;">এখনো কোনো বাটন যোগ করা হয়নি।</div>'; return; }
+  list.innerHTML = items.map((btn, idx) => {
+    const on = btn.enabled !== false;
+    return '<div style="background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;">' +
+      '<div style="min-width:0;">' +
+        '<div style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (idx + 1) + '. ' + escapeHtml(btn.label || '') + ' <span style="color:' + (on ? '#34d399' : '#fbbf24') + ';">(' + (on ? 'চালু' : 'বন্ধ') + ')</span></div>' +
+        '<div style="font-size:11px;color:#38bdf8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;">' + escapeHtml(btn.url || '') + '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">' +
+        '<button type="button" onclick="moveHomeBottomButtonItem(' + idx + ',-1)" style="padding:7px 9px;border-radius:9px;background:#1e293b;color:#cbd5e1;border:none;font-size:12px;cursor:pointer;"><i class="fa-solid fa-arrow-up"></i></button>' +
+        '<button type="button" onclick="moveHomeBottomButtonItem(' + idx + ',1)" style="padding:7px 9px;border-radius:9px;background:#1e293b;color:#cbd5e1;border:none;font-size:12px;cursor:pointer;"><i class="fa-solid fa-arrow-down"></i></button>' +
+        '<button type="button" onclick="toggleHomeBottomButtonByIndex(' + idx + ')" style="padding:7px 9px;border-radius:9px;background:#1e293b;color:' + (on ? '#34d399' : '#fbbf24') + ';border:none;font-size:12px;cursor:pointer;"><i class="fa-solid ' + (on ? 'fa-eye' : 'fa-eye-slash') + '"></i></button>' +
+        '<button type="button" onclick="editHomeBottomButtonByIndex(' + idx + ')" style="padding:7px 10px;border-radius:9px;background:#1d4ed8;color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;">এডিট</button>' +
+        '<button type="button" onclick="deleteHomeBottomButtonByIndex(' + idx + ')" style="padding:7px 9px;border-radius:9px;background:#991b1b;color:#fecaca;border:none;font-size:12px;cursor:pointer;"><i class="fa-solid fa-trash"></i></button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+async function handleToggleHomeButtonsMode(v) {
+  homeBottomButtons.mode = v === 'none' ? 'none' : 'on';
+  await persistHomeBottomButtons();
+  if (typeof showToast === 'function') showToast(homeBottomButtons.mode === 'none' ? 'নান (None) করা হয়েছে' : 'চালু করা হয়েছে', 'success');
+}
+function resetHomeBottomButtonForm() {
+  ['admin-hbtn-edit-id','admin-hbtn-label','admin-hbtn-url'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('admin-hbtn-icon').value = 'fa-globe';
+  document.getElementById('admin-hbtn-style').value = 'gradient';
+  document.getElementById('admin-hbtn-bg').value = '#0EA5E9';
+  document.getElementById('admin-hbtn-color').value = '#FFFFFF';
+  document.getElementById('admin-hbtn-form-title').textContent = '+ নতুন বাটন যোগ করুন';
+  const sb = document.getElementById('admin-hbtn-submit-btn');
+  sb.textContent = '+ বাটন যোগ করুন';
+  sb.style.background = 'linear-gradient(135deg,#06B6D4,#2563EB)';
+  sb.style.color = '#FFFFFF';
+  document.getElementById('admin-hbtn-cancel-edit').style.display = 'none';
+  updateAdminHbtnPreview();
+}
+function editHomeBottomButtonByIndex(idx) {
+  const b = (homeBottomButtons.items || [])[idx]; if (!b) return;
+  document.getElementById('admin-hbtn-edit-id').value = b.id;
+  document.getElementById('admin-hbtn-label').value = b.label || '';
+  document.getElementById('admin-hbtn-url').value = b.url || '';
+  document.getElementById('admin-hbtn-icon').value = b.icon || 'fa-globe';
+  document.getElementById('admin-hbtn-style').value = b.style || 'gradient';
+  document.getElementById('admin-hbtn-bg').value = b.bg || '#0EA5E9';
+  document.getElementById('admin-hbtn-color').value = b.color || '#FFFFFF';
+  const titleEl = document.getElementById('admin-hbtn-form-title');
+  titleEl.textContent = 'বাটন এডিট ও আপডেট করুন';
+  const sb = document.getElementById('admin-hbtn-submit-btn');
+  sb.textContent = 'আপডেট সেভ করুন';
+  sb.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+  sb.style.color = '#FFFFFF';
+  document.getElementById('admin-hbtn-cancel-edit').style.display = 'inline-block';
+  updateAdminHbtnPreview();
+  titleEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+async function handleSaveHomeBottomButton(e) {
+  e.preventDefault();
+  const label = document.getElementById('admin-hbtn-label').value.trim();
+  const url = normalizeSafeWebUrl(document.getElementById('admin-hbtn-url').value);
+  if (!label || !url) { if (typeof showToast === 'function') showToast('সঠিক নাম ও নিরাপদ ওয়েব লিংক দিন', 'error'); return; }
+  const editId = document.getElementById('admin-hbtn-edit-id').value;
+  const payload = { id: editId || ('hbtn-' + Date.now()), label, url, icon: document.getElementById('admin-hbtn-icon').value, style: document.getElementById('admin-hbtn-style').value, bg: document.getElementById('admin-hbtn-bg').value, color: document.getElementById('admin-hbtn-color').value, enabled: true };
+  const items = [...(homeBottomButtons.items || [])];
+  if (editId) { const ix = items.findIndex(x => x.id === editId); if (ix !== -1) { payload.enabled = items[ix].enabled !== false; items[ix] = payload; } } else items.push(payload);
+  homeBottomButtons = { mode: 'on', items };
+  await persistHomeBottomButtons(); resetHomeBottomButtonForm();
+  if (typeof showToast === 'function') showToast(editId ? 'বাটন আপডেট হয়েছে!' : 'নতুন বাটন যোগ হয়েছে!', 'success');
+}
+async function toggleHomeBottomButtonByIndex(idx) { const items = [...(homeBottomButtons.items || [])]; if (!items[idx]) return; items[idx] = { ...items[idx], enabled: items[idx].enabled === false }; homeBottomButtons.items = items; await persistHomeBottomButtons(); }
+async function moveHomeBottomButtonItem(idx, d) { const items = [...(homeBottomButtons.items || [])]; const t = idx + d; if (t < 0 || t >= items.length) return; const [m] = items.splice(idx, 1); items.splice(t, 0, m); homeBottomButtons.items = items; await persistHomeBottomButtons(); }
+async function deleteHomeBottomButtonByIndex(idx) { homeBottomButtons.items = (homeBottomButtons.items || []).filter((_, i) => i !== idx); await persistHomeBottomButtons(); }
+Object.assign(window, { handleToggleHomeButtonsMode, handleSaveHomeBottomButton, editHomeBottomButtonByIndex, resetHomeBottomButtonForm, toggleHomeBottomButtonByIndex, moveHomeBottomButtonItem, deleteHomeBottomButtonByIndex, renderHomeBottomButtons, renderAdminHomeBottomButtons, updateAdminHbtnPreview });
+renderHomeBottomButtons();
+async function handleSaveHomeBanner(e) {
             e.preventDefault();
             homeBanner = {
                 badge: document.getElementById('admin-home-badge-input').value.trim(),
