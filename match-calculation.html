@@ -655,6 +655,8 @@
     const ledgerRef = ref(db, "mess_hisab/ledger");
     const authRef = ref(db, "mess_hisab/auth");
 
+    const EDITOR_CORRECTION_WINDOW_MS = 10 * 60 * 1000; // সদ্য লেখা এন্ট্রি ঠিক/ডিলিট করার জন্য ১০ মিনিট
+
     let ledger = {
       messName: "মেস হিসাব",
       members: [],
@@ -662,6 +664,7 @@
     };
     let authConfig = null;
     let currentRole = null; // 'admin' | 'editor' | null
+    const sessionEditorAddedIds = new Set(); // এই সেশনে এডিটর নিজে যেসব এন্ট্রি যোগ করেছে
     let memberFilter = "all";
     let searchQuery = "";
     let editingEntryId = null;
@@ -717,7 +720,17 @@
       return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     }
 
-    // Pure-JS SHA-256 fallback so hashing works even over local LAN HTTP (e.g. phone testing)
+    // এডিটর কেবল নিজের সদ্য যোগ করা (১০ মিনিটের মধ্যে) এন্ট্রিই ভুল হলে সংশোধন/ডিলিট করতে পারবে
+    function canUserModifyEntry(entry) {
+      if (currentRole === "admin") return true;
+      if (currentRole !== "editor") return false;
+      if (entry.addedByRole !== "editor") return false;
+      if (!sessionEditorAddedIds.has(entry.id)) return false;
+      const createdMs = Date.parse(entry.createdAt || "");
+      if (Number.isNaN(createdMs)) return false;
+      return Date.now() - createdMs <= EDITOR_CORRECTION_WINDOW_MS;
+    }
+
     function sha256Fallback(ascii) {
       const rightRotate = (value, amount) => (value >>> amount) | (value << (32 - amount));
       const mathPow = Math.pow;
@@ -816,13 +829,13 @@
           { id: "m_naim", name: "নাঈম" }
         ],
         entries: [
-          { id: "b_1", memberId: "m_rafi", items: "চাল, ডাল ও সয়াবিন তেল", amount: 1850, date: offsetISO(4), addedByRole: "admin", createdAt: new Date().toISOString() },
-          { id: "b_2", memberId: "m_tanvir", items: "মুরগি ও গরম মসলা", amount: 1600, date: offsetISO(3), addedByRole: "editor", createdAt: new Date().toISOString() },
-          { id: "b_3", memberId: "m_sakib", items: "আলু, পেঁয়াজ ও কাঁচাবাজার", amount: 1500, date: offsetISO(2), addedByRole: "editor", createdAt: new Date().toISOString() },
-          { id: "b_4", memberId: "m_mahin", items: "রুই মাছ ও ধনেপাতা", amount: 1100, date: offsetISO(1), addedByRole: "admin", createdAt: new Date().toISOString() },
-          { id: "b_5", memberId: "m_rafi", items: "ডিম, মাছ ও টমেটো", amount: 950, date: offsetISO(1), addedByRole: "editor", createdAt: new Date().toISOString() },
-          { id: "b_6", memberId: "m_naim", items: "গ্যাস ও চা-চিনি", amount: 900, date: todayISO(), addedByRole: "editor", createdAt: new Date().toISOString() },
-          { id: "b_7", memberId: "m_tanvir", items: "সকালের নাশতা বাজার", amount: 600, date: todayISO(), addedByRole: "admin", createdAt: new Date().toISOString() }
+          { id: "b_1", memberId: "m_rafi", items: "চাল, ডাল ও সয়াবিন তেল", amount: 1850, date: offsetISO(4), addedByRole: "admin", createdAt: new Date(Date.now() - 86400000).toISOString() },
+          { id: "b_2", memberId: "m_tanvir", items: "মুরগি ও গরম মসলা", amount: 1600, date: offsetISO(3), addedByRole: "editor", createdAt: new Date(Date.now() - 72000000).toISOString() },
+          { id: "b_3", memberId: "m_sakib", items: "আলু, পেঁয়াজ ও কাঁচাবাজার", amount: 1500, date: offsetISO(2), addedByRole: "editor", createdAt: new Date(Date.now() - 50000000).toISOString() },
+          { id: "b_4", memberId: "m_mahin", items: "রুই মাছ ও ধনেপাতা", amount: 1100, date: offsetISO(1), addedByRole: "admin", createdAt: new Date(Date.now() - 36000000).toISOString() },
+          { id: "b_5", memberId: "m_rafi", items: "ডিম, মাছ ও টমেটো", amount: 950, date: offsetISO(1), addedByRole: "editor", createdAt: new Date(Date.now() - 25000000).toISOString() },
+          { id: "b_6", memberId: "m_naim", items: "গ্যাস ও চা-চিনি", amount: 900, date: todayISO(), addedByRole: "editor", createdAt: new Date(Date.now() - 15000000).toISOString() },
+          { id: "b_7", memberId: "m_tanvir", items: "সকালের নাশতা বাজার", amount: 600, date: todayISO(), addedByRole: "admin", createdAt: new Date(Date.now() - 10000000).toISOString() }
         ]
       };
     }
@@ -881,6 +894,7 @@
         if ($("open-admin-btn")) $("open-admin-btn").onclick = openAdminModal;
         $("logout-btn").onclick = () => {
           currentRole = null;
+          sessionEditorAddedIds.clear();
           confirmDeleteEntryId = null;
           renderAll();
         };
@@ -983,12 +997,15 @@
         $("bazar-tbody").innerHTML = filtered.map((e) => {
           const mName = memberMap.get(e.memberId) || "অজানা সদস্য";
           const roleLabel = e.addedByRole === "admin" ? "অ্যাডমিন" : "এডিটর";
+          const modifiable = canUserModifyEntry(e);
           let actionTd = "";
           if (canEdit) {
-            if (confirmDeleteEntryId === e.id) {
+            if (!modifiable) {
+              actionTd = `<td class="text-right" style="font-size:12px; color:var(--muted); white-space:nowrap;">সংরক্ষিত</td>`;
+            } else if (confirmDeleteEntryId === e.id) {
               actionTd = `
                 <td class="text-right" style="white-space:nowrap;">
-                  <button type="button" class="btn btn-danger btn-sm confirm-del-entry" data-id="${escapeHtml(e.id)}">মুছুন</button>
+                  <button type="button" class="btn btn-danger btn-sm confirm-del-entry" data-id="${escapeHtml(e.id)}">নিশ্চিত মুছুন</button>
                   <button type="button" class="btn btn-outline btn-sm cancel-del-entry">না</button>
                 </td>
               `;
@@ -1016,13 +1033,17 @@
         document.querySelectorAll(".edit-entry-btn").forEach((btn) => {
           btn.onclick = () => {
             const entry = entries.find((x) => x.id === btn.getAttribute("data-id"));
-            if (entry) openBazarModal(entry);
+            if (entry && canUserModifyEntry(entry)) openBazarModal(entry);
           };
         });
         document.querySelectorAll(".del-entry-btn").forEach((btn) => {
           btn.onclick = () => {
-            confirmDeleteEntryId = btn.getAttribute("data-id");
-            renderAll();
+            const id = btn.getAttribute("data-id");
+            const entry = entries.find((x) => x.id === id);
+            if (entry && canUserModifyEntry(entry)) {
+              confirmDeleteEntryId = id;
+              renderAll();
+            }
           };
         });
         document.querySelectorAll(".cancel-del-entry").forEach((btn) => {
@@ -1031,9 +1052,15 @@
         document.querySelectorAll(".confirm-del-entry").forEach((btn) => {
           btn.onclick = async () => {
             const id = btn.getAttribute("data-id");
+            const entry = entries.find((x) => x.id === id);
+            if (!entry || !canUserModifyEntry(entry)) {
+              showGlobalAlert("এই এন্ট্রি ডিলিট করার অনুমতি নেই।");
+              return;
+            }
             try {
               const next = { ...ledger, entries: entries.filter((x) => x.id !== id) };
               await saveLedger(next);
+              sessionEditorAddedIds.delete(id);
               confirmDeleteEntryId = null;
             } catch (err) {
               showGlobalAlert(err.message || "এন্ট্রিটি মুছে ফেলা যায়নি।");
@@ -1148,12 +1175,14 @@
           try {
             if (username === (authConfig.adminUsername || "").toLowerCase() && await verifyPassword(password, authConfig.adminPassHash)) {
               currentRole = "admin";
+              sessionEditorAddedIds.clear();
               $("auth-modal").classList.remove("open");
               renderAll();
               return;
             }
             if (username === (authConfig.editorUsername || "").toLowerCase() && await verifyPassword(password, authConfig.editorPassHash)) {
               currentRole = "editor";
+              sessionEditorAddedIds.clear();
               $("auth-modal").classList.remove("open");
               renderAll();
               return;
@@ -1201,12 +1230,19 @@
         const currentEntries = normalizeList(ledger.entries);
         let nextEntries;
         if (editingEntryId) {
+          const target = currentEntries.find((x) => x.id === editingEntryId);
+          if (!target || !canUserModifyEntry(target)) {
+            errEl.textContent = "এই এন্ট্রি সম্পাদনা করার অনুমতি নেই।";
+            errEl.style.display = "flex";
+            return;
+          }
           nextEntries = currentEntries.map((item) =>
             item.id === editingEntryId ? { ...item, memberId, items, amount: Math.round(amount * 100) / 100, date } : item
           );
         } else {
+          const newId = "b_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
           const newEntry = {
-            id: "b_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7),
+            id: newId,
             memberId,
             items,
             amount: Math.round(amount * 100) / 100,
@@ -1214,6 +1250,9 @@
             addedByRole: currentRole || "editor",
             createdAt: new Date().toISOString()
           };
+          if (currentRole === "editor") {
+            sessionEditorAddedIds.add(newId);
+          }
           nextEntries = [newEntry, ...currentEntries];
         }
         await saveLedger({ ...ledger, entries: nextEntries });
@@ -1232,6 +1271,7 @@
     }
 
     function openAdminModal() {
+      if (currentRole !== "admin") return;
       $("admin-feedback").style.display = "none";
       confirmResetMonth = false;
       confirmDeleteMemberId = null;
