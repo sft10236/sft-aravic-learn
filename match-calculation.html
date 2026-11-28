@@ -45,7 +45,6 @@
       padding: 0 18px;
     }
 
-    /* Header */
     header {
       position: sticky;
       top: 0;
@@ -60,7 +59,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 20px;
     }
 
     .brand {
@@ -94,7 +93,6 @@
       .nav-links { display: none; }
     }
 
-    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -122,7 +120,6 @@
     .btn-sm { padding: 6px 11px; font-size: 12.5px; border-radius: 8px; }
     .btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
-    /* Layout Sections */
     main { padding: 28px 0 56px; display: grid; gap: 32px; }
 
     .hero {
@@ -158,7 +155,6 @@
       font-size: 13.5px;
     }
 
-    /* KPI Strip */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -186,7 +182,6 @@
     .text-emerald { color: var(--emerald); }
     .text-rose { color: var(--rose); }
 
-    /* Section Header */
     .sec-head {
       display: flex;
       flex-wrap: wrap;
@@ -199,7 +194,6 @@
     .sec-head h2 { margin: 0; font-size: 19px; font-weight: 700; }
     .sec-head p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
 
-    /* Ledger Cards & Tables */
     .ledger-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -262,7 +256,6 @@
     .member-link:hover { color: var(--primary); }
     .member-count { font-size: 12px; font-weight: 400; color: var(--muted); }
 
-    /* Filters */
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -290,7 +283,6 @@
     .filters .input { width: 220px; }
     .filters select { width: auto; min-width: 145px; }
 
-    /* Alert Banner */
     .alert {
       padding: 12px 16px;
       border-radius: 12px;
@@ -312,7 +304,6 @@
       font-size: 14px;
     }
 
-    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -465,12 +456,11 @@
   <main class="container">
     <div id="global-alert" style="display:none;"></div>
 
-    <!-- Summary & KPI -->
     <section id="summary">
       <div class="hero">
         <div>
           <h1 id="hero-title">মেস হিসাব — বাজার ও খরচের খাতা</h1>
-          <div class="meta-line" id="hero-meta">লোড হচ্ছে...</div>
+          <div class="meta-line" id="hero-meta">ফায়ারবেস Realtime Database থেকে ডেটা লোড হচ্ছে...</div>
         </div>
         <div class="role-bar" id="role-bar"></div>
       </div>
@@ -499,7 +489,6 @@
       </div>
     </section>
 
-    <!-- Member Settlement Table -->
     <section id="members">
       <div class="sec-head">
         <div>
@@ -529,7 +518,6 @@
       </div>
     </section>
 
-    <!-- Bazar Log -->
     <section id="bazar-log">
       <div class="sec-head">
         <div>
@@ -575,7 +563,7 @@
     </div>
   </footer>
 
-  <!-- Auth Modal (First-Run Setup or Username+Password Login) -->
+  <!-- Auth Modal -->
   <div class="modal-backdrop" id="auth-modal">
     <div class="modal">
       <div class="modal-head">
@@ -643,16 +631,17 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import {
-      getFirestore,
-      doc,
-      getDoc,
-      setDoc,
-      onSnapshot
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+      getDatabase,
+      ref,
+      get,
+      set,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB9I6hpSjl1Yr89TntJnN_DJMSiybMFuRw",
       authDomain: "match-calculation-dd369.firebaseapp.com",
+      databaseURL: "https://match-calculation-dd369-default-rtdb.firebaseio.com",
       projectId: "match-calculation-dd369",
       storageBucket: "match-calculation-dd369.firebasestorage.app",
       messagingSenderId: "213400837527",
@@ -661,10 +650,10 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const db = getDatabase(app);
 
-    const ledgerRef = doc(db, "mess_hisab", "ledger");
-    const authRef = doc(db, "mess_hisab", "auth");
+    const ledgerRef = ref(db, "mess_hisab/ledger");
+    const authRef = ref(db, "mess_hisab/auth");
 
     let ledger = {
       messName: "মেস হিসাব",
@@ -672,7 +661,7 @@
       entries: []
     };
     let authConfig = null;
-    let currentRole = null; // 'admin' | 'editor' | null (held only in memory)
+    let currentRole = null; // 'admin' | 'editor' | null
     let memberFilter = "all";
     let searchQuery = "";
     let editingEntryId = null;
@@ -682,6 +671,13 @@
     let confirmDeleteMemberId = null;
 
     const $ = (id) => document.getElementById(id);
+
+    function normalizeList(val) {
+      if (!val) return [];
+      if (Array.isArray(val)) return val.filter(Boolean);
+      if (typeof val === "object") return Object.values(val).filter(Boolean);
+      return [];
+    }
 
     function escapeHtml(str) {
       return String(str)
@@ -721,17 +717,74 @@
       return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     }
 
-    async function sha256Hex(text) {
-      if (!window.crypto || !window.crypto.subtle) {
-        throw new Error("নিরাপদ হ্যাশিংয়ের জন্য অ্যাপটি localhost বা HTTPS দিয়ে চালু করুন।");
+    // Pure-JS SHA-256 fallback so hashing works even over local LAN HTTP (e.g. phone testing)
+    function sha256Fallback(ascii) {
+      const rightRotate = (value, amount) => (value >>> amount) | (value << (32 - amount));
+      const mathPow = Math.pow;
+      const maxWord = mathPow(2, 32);
+      let result = "";
+      const words = [];
+      const asciiBitLength = ascii.length * 8;
+      const hash = [];
+      const k = [];
+      let primeCounter = 0;
+      const isComposite = {};
+      for (let candidate = 2; primeCounter < 64; candidate++) {
+        if (!isComposite[candidate]) {
+          for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+          hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+          k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+        }
       }
-      const data = new TextEncoder().encode(text);
-      const hashBuf = await crypto.subtle.digest("SHA-256", data);
-      return Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+      ascii += "\x80";
+      while ((ascii.length % 64) - 56) ascii += "\x00";
+      for (let i = 0; i < ascii.length; i++) {
+        const j = ascii.charCodeAt(i);
+        words[i >> 2] |= j << (((3 - i) % 4) * 8);
+      }
+      words[words.length] = (asciiBitLength / maxWord) | 0;
+      words[words.length] = asciiBitLength;
+      for (let j = 0; j < words.length;) {
+        const w = words.slice(j, (j += 16));
+        const oldHash = hash.slice(0);
+        for (let i = 0; i < 64; i++) {
+          const w15 = w[i - 15], w2 = w[i - 2];
+          const a = hash[0], e = hash[4];
+          const temp1 = hash[7] + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) + ((e & hash[5]) ^ (~e & hash[6])) + k[i] +
+            (w[i] = i < 16 ? w[i] : (w[i - 16] + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) | 0);
+          const temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+          hash.unshift((temp1 + temp2) | 0);
+          hash[4] = (hash[4] + temp1) | 0;
+          hash.pop();
+        }
+        for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+      }
+      for (let i = 0; i < 8; i++) {
+        for (let j = 3; j + 1; j--) {
+          const b = (hash[i] >> (j * 8)) & 255;
+          result += (b < 16 ? 0 : "") + b.toString(16);
+        }
+      }
+      return result;
+    }
+
+    async function sha256Hex(text) {
+      if (window.crypto && window.crypto.subtle) {
+        const data = new TextEncoder().encode(text);
+        const hashBuf = await crypto.subtle.digest("SHA-256", data);
+        return Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+      const utf8 = unescape(encodeURIComponent(text));
+      return sha256Fallback(utf8);
     }
 
     async function hashPassword(password) {
-      const saltBytes = crypto.getRandomValues(new Uint8Array(12));
+      const saltBytes = new Uint8Array(12);
+      if (window.crypto && window.crypto.getRandomValues) {
+        crypto.getRandomValues(saltBytes);
+      } else {
+        for (let i = 0; i < 12; i++) saltBytes[i] = Math.floor(Math.random() * 256);
+      }
       const salt = Array.from(saltBytes).map((b) => b.toString(16).padStart(2, "0")).join("");
       const digest = await sha256Hex(salt + ":" + password);
       return salt + ":" + digest;
@@ -775,21 +828,26 @@
     }
 
     async function saveLedger(nextLedger) {
-      await setDoc(ledgerRef, nextLedger);
+      await set(ledgerRef, {
+        messName: nextLedger.messName || "মেস হিসাব",
+        members: normalizeList(nextLedger.members),
+        entries: normalizeList(nextLedger.entries)
+      });
     }
 
     function renderAll() {
-      const members = ledger.members || [];
-      const entries = ledger.entries || [];
+      const members = normalizeList(ledger.members);
+      const entries = normalizeList(ledger.entries);
       const memberMap = new Map(members.map((m) => [m.id, m.name]));
       const spentMap = new Map(members.map((m) => [m.id, 0]));
       const countMap = new Map(members.map((m) => [m.id, 0]));
 
       let grandTotal = 0;
       for (const e of entries) {
-        grandTotal += Number(e.amount) || 0;
+        const amt = Number(e.amount) || 0;
+        grandTotal += amt;
         if (spentMap.has(e.memberId)) {
-          spentMap.set(e.memberId, spentMap.get(e.memberId) + (Number(e.amount) || 0));
+          spentMap.set(e.memberId, spentMap.get(e.memberId) + amt);
           countMap.set(e.memberId, countMap.get(e.memberId) + 1);
         }
       }
@@ -805,13 +863,11 @@
         return { member: m, spent, count: countMap.get(m.id) || 0, diff };
       });
 
-      // Brand & Hero
       $("nav-brand").textContent = ledger.messName || "মেস হিসাব";
       $("hero-title").textContent = `${ledger.messName || "মেস হিসাব"} — বাজার ও খরচের খাতা`;
       $("foot-brand").textContent = `${ledger.messName || "মেস হিসাব"} · স্বচ্ছ ও সহজ মাসিক বাজার খাতা`;
       $("hero-meta").textContent = `${members.length} জন সদস্য · ${entries.length} টি বাজার এন্ট্রি · সবার জন্য উন্মুক্ত হিসাব`;
 
-      // Topbar & Role Controls
       const canEdit = currentRole === "admin" || currentRole === "editor";
       if (canEdit) {
         $("topbar-action").innerHTML = `<button type="button" class="btn btn-primary" id="top-add-btn">+ বাজার যোগ করুন</button>`;
@@ -844,7 +900,6 @@
         : "";
       if ($("sec-member-btn")) $("sec-member-btn").onclick = () => { adminActiveTab = "members"; openAdminModal(); };
 
-      // KPI Strip
       $("kpi-total").textContent = `৳ ${formatMoney(grandTotal)}`;
       $("kpi-entries-sub").textContent = `মোট ${entries.length} টি বাজারের যোগফল`;
       $("kpi-share").textContent = `৳ ${formatMoney(share)}`;
@@ -854,7 +909,6 @@
       $("kpi-pay").textContent = `৳ ${formatMoney(totalPay)}`;
       $("kpi-pay-sub").textContent = `${payCount} জন কম বাজার করেছেন`;
 
-      // Members Table
       if (stats.length === 0) {
         $("members-tbody").innerHTML = `<tr><td colspan="4" class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</td></tr>`;
         $("members-tfoot").style.display = "none";
@@ -902,13 +956,11 @@
         `;
       }
 
-      // Member filter select options
       const currentFilter = memberFilter;
       $("member-filter").innerHTML = `<option value="all">সকল সদস্য</option>` +
         members.map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`).join("");
       $("member-filter").value = members.some((m) => m.id === currentFilter) ? currentFilter : "all";
 
-      // Filtered Bazar Entries
       const q = searchQuery.trim().toLowerCase();
       const filtered = entries
         .filter((e) => {
@@ -980,7 +1032,7 @@
           btn.onclick = async () => {
             const id = btn.getAttribute("data-id");
             try {
-              const next = { ...ledger, entries: ledger.entries.filter((x) => x.id !== id) };
+              const next = { ...ledger, entries: entries.filter((x) => x.id !== id) };
               await saveLedger(next);
               confirmDeleteEntryId = null;
             } catch (err) {
@@ -1000,7 +1052,6 @@
       }
     }
 
-    /* Auth Modal (First-Run Setup or Username+Password Login) */
     function openAuthModal() {
       const body = $("auth-modal-body");
       if (!authConfig) {
@@ -1054,13 +1105,13 @@
               editorUsername: editorUser,
               editorPassHash: await hashPassword(editorPass)
             };
-            await setDoc(authRef, nextAuth);
+            await set(authRef, nextAuth);
             authConfig = nextAuth;
             currentRole = "admin";
             $("auth-modal").classList.remove("open");
             renderAll();
           } catch (err) {
-            errEl.textContent = err.message || "সেটআপ সেভ করা যায়নি। Firestore Rules চেক করুন।";
+            errEl.textContent = err.message || "সেটআপ সেভ করা যায়নি। Realtime Database Rules চেক করুন।";
             errEl.style.display = "flex";
           }
         };
@@ -1118,12 +1169,12 @@
       $("auth-modal").classList.add("open");
     }
 
-    /* Bazar Modal */
     function openBazarModal(entry) {
+      const members = normalizeList(ledger.members);
       editingEntryId = entry ? entry.id : null;
       $("bazar-modal-title").textContent = entry ? "বাজারের হিসাব সম্পাদনা" : "নতুন বাজার যোগ করুন";
-      $("bazar-member").innerHTML = (ledger.members || []).map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`).join("");
-      $("bazar-member").value = entry ? entry.memberId : (ledger.members[0]?.id || "");
+      $("bazar-member").innerHTML = members.map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`).join("");
+      $("bazar-member").value = entry ? entry.memberId : (members[0]?.id || "");
       $("bazar-items").value = entry ? entry.items : "";
       $("bazar-amount").value = entry ? entry.amount : "";
       $("bazar-date").value = entry ? entry.date : todayISO();
@@ -1147,9 +1198,10 @@
       }
 
       try {
+        const currentEntries = normalizeList(ledger.entries);
         let nextEntries;
         if (editingEntryId) {
-          nextEntries = ledger.entries.map((item) =>
+          nextEntries = currentEntries.map((item) =>
             item.id === editingEntryId ? { ...item, memberId, items, amount: Math.round(amount * 100) / 100, date } : item
           );
         } else {
@@ -1162,7 +1214,7 @@
             addedByRole: currentRole || "editor",
             createdAt: new Date().toISOString()
           };
-          nextEntries = [newEntry, ...ledger.entries];
+          nextEntries = [newEntry, ...currentEntries];
         }
         await saveLedger({ ...ledger, entries: nextEntries });
         $("bazar-modal").classList.remove("open");
@@ -1172,7 +1224,6 @@
       }
     };
 
-    /* Admin Modal */
     function showAdminFeedback(msg, kind = "ok") {
       const el = $("admin-feedback");
       el.className = "alert " + (kind === "ok" ? "alert-ok" : "alert-error");
@@ -1193,9 +1244,11 @@
         btn.classList.toggle("active", btn.getAttribute("data-tab") === adminActiveTab);
       });
       const content = $("admin-tab-content");
+      const members = normalizeList(ledger.members);
+      const entries = normalizeList(ledger.entries);
 
       if (adminActiveTab === "members") {
-        const rows = (ledger.members || []).map((m, idx) => {
+        const rows = members.map((m, idx) => {
           const isDel = confirmDeleteMemberId === m.id;
           return `
             <div class="member-row">
@@ -1204,7 +1257,7 @@
                 ${isDel
                   ? `<button type="button" class="btn btn-danger btn-sm confirm-del-mem" data-id="${escapeHtml(m.id)}">নিশ্চিত বাদ দিন</button>
                      <button type="button" class="btn btn-outline btn-sm cancel-del-mem">না</button>`
-                  : `<button type="button" class="btn btn-outline btn-sm del-mem-btn" data-id="${escapeHtml(m.id)}" ${ledger.members.length <= 1 ? "disabled" : ""} style="color:var(--rose);">বাদ দিন</button>`
+                  : `<button type="button" class="btn btn-outline btn-sm del-mem-btn" data-id="${escapeHtml(m.id)}" ${members.length <= 1 ? "disabled" : ""} style="color:var(--rose);">বাদ দিন</button>`
                 }
               </div>
             </div>
@@ -1225,16 +1278,15 @@
           e.preventDefault();
           const name = $("new-member-name").value.trim();
           if (!name) return;
-          if (ledger.members.some((m) => m.name.toLowerCase() === name.toLowerCase())) {
+          if (members.some((m) => m.name.toLowerCase() === name.toLowerCase())) {
             showAdminFeedback("এই নামের সদস্য ইতিমধ্যেই আছেন।", "error");
             return;
           }
           try {
-            const next = {
+            await saveLedger({
               ...ledger,
-              members: [...ledger.members, { id: "m_" + Date.now(), name }]
-            };
-            await saveLedger(next);
+              members: [...members, { id: "m_" + Date.now(), name }]
+            });
             $("new-member-name").value = "";
             showAdminFeedback("নতুন সদস্য যোগ করা হয়েছে।");
             renderAdminTab();
@@ -1253,12 +1305,11 @@
           b.onclick = async () => {
             const id = b.getAttribute("data-id");
             try {
-              const next = {
+              await saveLedger({
                 ...ledger,
-                members: ledger.members.filter((m) => m.id !== id),
-                entries: ledger.entries.filter((e) => e.memberId !== id)
-              };
-              await saveLedger(next);
+                members: members.filter((m) => m.id !== id),
+                entries: entries.filter((e) => e.memberId !== id)
+              });
               confirmDeleteMemberId = null;
               showAdminFeedback("সদস্য এবং তাঁর এন্ট্রি তালিকা থেকে সরানো হয়েছে।");
               renderAdminTab();
@@ -1306,7 +1357,7 @@
               editorUsername: newUser,
               editorPassHash: newPass ? await hashPassword(newPass) : authConfig.editorPassHash
             };
-            await setDoc(authRef, nextAuth);
+            await set(authRef, nextAuth);
             authConfig = nextAuth;
             $("upd-editor-pass").value = "";
             showAdminFeedback("এডিটর ইউজারনেম/পাসওয়ার্ড আপডেট হয়েছে।");
@@ -1329,7 +1380,7 @@
               adminUsername: newUser,
               adminPassHash: newPass ? await hashPassword(newPass) : authConfig.adminPassHash
             };
-            await setDoc(authRef, nextAuth);
+            await set(authRef, nextAuth);
             authConfig = nextAuth;
             $("upd-admin-pass").value = "";
             showAdminFeedback("অ্যাডমিন ইউজারনেম/পাসওয়ার্ড আপডেট হয়েছে।");
@@ -1401,7 +1452,6 @@
       };
     });
 
-    // Modal & Filter Events
     $("close-auth-modal").onclick = () => $("auth-modal").classList.remove("open");
     $("close-bazar-modal").onclick = () => $("bazar-modal").classList.remove("open");
     $("cancel-bazar-btn").onclick = () => $("bazar-modal").classList.remove("open");
@@ -1410,42 +1460,42 @@
     $("search-input").oninput = (e) => { searchQuery = e.target.value; renderAll(); };
     $("member-filter").onchange = (e) => { memberFilter = e.target.value; renderAll(); };
 
-    // Initialize Real-Time Firestore Listeners
     async function initApp() {
       try {
-        const authSnap = await getDoc(authRef);
-        authConfig = authSnap.exists() ? authSnap.data() : null;
+        const authSnap = await get(authRef);
+        authConfig = authSnap.exists() ? authSnap.val() : null;
       } catch (err) {
-        showGlobalAlert("ফায়ারবেস সংযোগ করা যায়নি: " + (err.message || "Firestore Database ও Rules চেক করুন।"));
+        showGlobalAlert("ফায়ারবেস Realtime Database সংযোগ হয়নি: " + (err.message || "Database Rules চেক করুন।"));
       }
 
-      onSnapshot(
-        authRef,
-        (snap) => {
-          authConfig = snap.exists() ? snap.data() : null;
-          renderAll();
-        },
-        () => {}
-      );
+      onValue(authRef, (snap) => {
+        authConfig = snap.exists() ? snap.val() : null;
+        renderAll();
+      });
 
-      onSnapshot(
+      onValue(
         ledgerRef,
         async (snap) => {
           if (!snap.exists()) {
             try {
               const seed = createInitialLedger();
-              await setDoc(ledgerRef, seed);
+              await saveLedger(seed);
               ledger = seed;
             } catch (err) {
-              showGlobalAlert("Firestore-এ প্রাথমিক ডেটা লেখা যায়নি: " + (err.message || "Firestore Rules চেক করুন।"));
+              showGlobalAlert("Realtime Database-এ প্রাথমিক ডেটা লেখা যায়নি: " + (err.message || "Rules চেক করুন।"));
             }
           } else {
-            ledger = snap.data();
+            const val = snap.val();
+            ledger = {
+              messName: val.messName || "মেস হিসাব",
+              members: normalizeList(val.members),
+              entries: normalizeList(val.entries)
+            };
           }
           renderAll();
         },
         (err) => {
-          showGlobalAlert("Firestore রিড এরর: " + (err.message || "Firestore Database চালু আছে কিনা দেখুন।"));
+          showGlobalAlert("Realtime Database রিড এরর: " + (err.message || "Rules-এ .read অনুমোদন আছে কিনা দেখুন।"));
         }
       );
     }
