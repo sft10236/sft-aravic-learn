@@ -24,11 +24,12 @@
       --emerald-bg: #ecfdf5;
       --rose: #be123c;
       --rose-bg: #fff1f2;
+      --amber: #b45309;
+      --amber-bg: #fffbeb;
       --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 14px rgba(15, 23, 42, 0.03);
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -47,7 +48,7 @@
 
     .container {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 20px;
     }
@@ -81,7 +82,7 @@
 
     .nav-links {
       display: flex;
-      gap: 26px;
+      gap: 24px;
       font-size: 14px;
       font-weight: 500;
     }
@@ -131,7 +132,7 @@
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* Main Flow */
-    main { padding: 24px 0 56px; display: grid; gap: 30px; }
+    main { padding: 24px 0 56px; display: grid; gap: 32px; }
 
     .hero {
       display: flex;
@@ -187,12 +188,13 @@
     }
 
     .kpi-label { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .kpi-val { font-size: clamp(20px, 2.4vw, 26px); font-weight: 700; line-height: 1.2; }
+    .kpi-val { font-size: clamp(20px, 2.4vw, 25px); font-weight: 700; line-height: 1.2; }
     .kpi-sub { font-size: 12px; color: var(--muted); }
 
     .text-teal { color: var(--primary); }
     .text-emerald { color: var(--emerald); }
     .text-rose { color: var(--rose); }
+    .text-amber { color: var(--amber); }
 
     /* Section Header */
     .sec-head {
@@ -216,7 +218,6 @@
       overflow: hidden;
     }
 
-    /* Desktop Table */
     .desktop-only { display: block; }
     .mobile-only { display: none; }
 
@@ -228,7 +229,7 @@
     }
 
     th {
-      padding: 13px 20px;
+      padding: 13px 16px;
       font-size: 12.5px;
       font-weight: 600;
       color: var(--muted);
@@ -238,16 +239,17 @@
     }
 
     td {
-      padding: 14px 20px;
+      padding: 13px 16px;
       border-bottom: 1px solid var(--surface-muted);
       vertical-align: middle;
     }
 
     tbody tr:hover { background: var(--surface-soft); }
     tbody tr.active-filter { background: var(--primary-tint); }
+    tbody tr.is-stopped { background: #fafafa; }
 
     tfoot td {
-      padding: 14px 20px;
+      padding: 14px 16px;
       background: var(--surface-soft);
       border-top: 1px solid var(--border);
       border-bottom: none;
@@ -273,6 +275,9 @@
     .member-link:hover { color: var(--primary); }
     .member-count { font-size: 12px; font-weight: 400; color: var(--muted); }
 
+    .status-text-on { color: var(--emerald); font-weight: 600; font-size: 12.5px; }
+    .status-text-off { color: var(--amber); font-weight: 600; font-size: 12.5px; }
+
     /* Mobile Stacked Cards */
     .mobile-card {
       padding: 15px 16px;
@@ -282,6 +287,7 @@
     }
 
     .mobile-card.active-filter { background: var(--primary-tint); }
+    .mobile-card.is-stopped { background: #fafafa; }
     .mobile-card:last-child { border-bottom: none; }
 
     .mobile-card-top {
@@ -293,9 +299,10 @@
 
     .mobile-card-sub {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px 12px;
       font-size: 12.5px;
       color: var(--muted);
     }
@@ -340,6 +347,38 @@
     .filters .input { width: 220px; font-size: 14px; }
     .filters select { width: auto; min-width: 145px; font-size: 14px; }
 
+    /* History Archive Accordion */
+    .history-list { display: grid; gap: 14px; }
+    .history-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .history-head {
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface);
+    }
+    .history-body {
+      border-top: 1px solid var(--border);
+      background: var(--surface-soft);
+      padding: 16px 20px;
+      display: grid;
+      gap: 16px;
+    }
+    .history-sub-table {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
     /* Alerts & Empty States */
     .alert {
       padding: 12px 16px;
@@ -356,7 +395,7 @@
     .alert-ok { background: var(--emerald-bg); border-color: #a7f3d0; color: var(--emerald); }
 
     .empty-state {
-      padding: 40px 20px;
+      padding: 36px 20px;
       text-align: center;
       color: var(--muted);
       font-size: 14px;
@@ -379,7 +418,7 @@
 
     .modal {
       width: 100%;
-      max-width: 470px;
+      max-width: 480px;
       max-height: 90dvh;
       background: #fff;
       border: 1px solid var(--border);
@@ -390,7 +429,7 @@
       flex-direction: column;
     }
 
-    .modal.wide { max-width: 560px; }
+    .modal.wide { max-width: 600px; }
 
     .modal-head {
       padding: 16px 20px;
@@ -466,10 +505,11 @@
 
     .member-row {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 11px 14px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--surface-muted);
     }
     .member-row:last-child { border-bottom: none; }
@@ -481,6 +521,25 @@
       background: var(--surface-soft);
       display: grid;
       gap: 10px;
+    }
+
+    .split-check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 10px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .split-check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      cursor: pointer;
+      user-select: none;
     }
 
     footer {
@@ -498,7 +557,6 @@
       gap: 8px;
     }
 
-    /* Responsive Breakpoints */
     @media (max-width: 900px) {
       .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -516,6 +574,8 @@
       .filters .input { width: 100%; flex: 1 1 100%; }
       .filters select { flex: 1; min-width: 0; }
       .grid-2 { grid-template-columns: 1fr; }
+      .history-head { padding: 14px 16px; }
+      .history-body { padding: 14px; }
       .modal-backdrop { align-items: flex-end; padding: 0; }
       .modal {
         max-width: 100%;
@@ -535,6 +595,7 @@
         <a href="#summary">সারসংক্ষেপ</a>
         <a href="#members">সদস্য হিসাব</a>
         <a href="#bazar-log">বাজার খাতা</a>
+        <a href="#history">মাসিক হিস্ট্রি</a>
       </nav>
       <div id="topbar-action"></div>
     </div>
@@ -547,7 +608,7 @@
     <section id="summary">
       <div class="hero">
         <div>
-          <h1 id="hero-title">মেস হিসাব — বাজার ও খরচের খাতা</h1>
+          <h1 id="hero-title">মেস হিসাব — চলতি মাসের খাতা</h1>
           <div class="meta-line" id="hero-meta">ডেটা লোড হচ্ছে...</div>
         </div>
         <div class="role-bar" id="role-bar"></div>
@@ -555,24 +616,24 @@
 
       <div class="kpi-grid">
         <div class="kpi-card">
-          <span class="kpi-label">সর্বমোট বাজার</span>
+          <span class="kpi-label">চলতি মাসের মোট বাজার</span>
           <span class="kpi-val font-num" id="kpi-total">৳ 0</span>
           <span class="kpi-sub" id="kpi-entries-sub">০ টি বাজারের যোগফল</span>
         </div>
         <div class="kpi-card">
-          <span class="kpi-label">জনপ্রতি খরচ (ভাগে)</span>
-          <span class="kpi-val font-num text-teal" id="kpi-share">৳ 0</span>
-          <span class="kpi-sub" id="kpi-members-sub">০ জন সদস্যের সমান ভাগ</span>
+          <span class="kpi-label">সদস্য অবস্থা (স্টার্ট / স্টপ)</span>
+          <span class="kpi-val font-num text-teal" id="kpi-active">0 / 0 জন</span>
+          <span class="kpi-sub" id="kpi-active-sub">সক্রিয় সদস্যদের হারে বাজার ভাগ হচ্ছে</span>
         </div>
         <div class="kpi-card">
-          <span class="kpi-label">ব্যাক পাবেন</span>
+          <span class="kpi-label">মোট ব্যাক পাবেন</span>
           <span class="kpi-val font-num text-emerald" id="kpi-receive">৳ 0</span>
-          <span class="kpi-sub" id="kpi-receive-sub">০ জন বেশি বাজার করেছেন</span>
+          <span class="kpi-sub" id="kpi-receive-sub">আগের মাস ও চলতি হিসাবসহ</span>
         </div>
         <div class="kpi-card">
-          <span class="kpi-label">আরো ভরতে হবে</span>
+          <span class="kpi-label">মোট ভরতে হবে</span>
           <span class="kpi-val font-num text-rose" id="kpi-pay">৳ 0</span>
-          <span class="kpi-sub" id="kpi-pay-sub">০ জন কম বাজার করেছেন</span>
+          <span class="kpi-sub" id="kpi-pay-sub">আগের মাস ও চলতি হিসাবসহ</span>
         </div>
       </div>
     </section>
@@ -581,8 +642,8 @@
     <section id="members">
       <div class="sec-head">
         <div>
-          <h2>সদস্য ভিত্তিক হিসাব (কে ব্যাক পাবে / ভরতে হবে)</h2>
-          <p>যেকোনো সদস্যের নামে ট্যাপ করলে নিচে তাঁর বাজারের তালিকা ফিল্টার হবে।</p>
+          <h2>সদস্য ভিত্তিক হিসাব (স্টার্ট/স্টপ ও চূড়ান্ত ব্যালেন্স)</h2>
+          <p>যখন যে কয়জন সদস্য স্টার্ট থাকে, নতুন বাজার ঠিক তাদের মধ্যেই সমানভাবে ভাগ হয়।</p>
         </div>
         <div id="member-sec-actions"></div>
       </div>
@@ -592,14 +653,16 @@
           <table>
             <thead>
               <tr>
-                <th>সদস্যের নাম</th>
-                <th class="text-right">মোট বাজার করেছে</th>
-                <th class="text-right">জনপ্রতি ভাগ</th>
+                <th>সদস্য ও অবস্থা</th>
+                <th class="text-right">আগের মাস (পাওনা/ঋণ)</th>
+                <th class="text-right">এই মাসে বাজার</th>
+                <th class="text-right">সক্রিয় ভাগে খরচ</th>
                 <th class="text-right">চূড়ান্ত হিসাব (পাবে / ভরতে হবে)</th>
+                <th class="text-right" id="member-ctrl-head" style="display:none;">স্টার্ট / স্টপ</th>
               </tr>
             </thead>
             <tbody id="members-desktop-tbody">
-              <tr><td colspan="4" class="empty-state">ডেটা লোড হচ্ছে...</td></tr>
+              <tr><td colspan="6" class="empty-state">ডেটা লোড হচ্ছে...</td></tr>
             </tbody>
             <tfoot id="members-desktop-tfoot" style="display:none;"></tfoot>
           </table>
@@ -615,7 +678,7 @@
       <div class="sec-head">
         <div>
           <h2>দৈনিক বাজার খাতা</h2>
-          <p>কে, কবে, কী বাজার করেছেন এবং কত টাকা খরচ হয়েছে তার সম্পূর্ণ বিবরণ।</p>
+          <p>প্রতিটি বাজার কোন কোন সক্রিয় সদস্যের ভাগে পড়েছে তা এখানে দেখতে পারবেন।</p>
         </div>
         <div class="filters">
           <input type="text" id="search-input" class="input" placeholder="বাজার বা নাম খুঁজুন..." />
@@ -632,9 +695,9 @@
             <thead>
               <tr>
                 <th>তারিখ</th>
-                <th>সদস্য</th>
+                <th>বাজারকারী</th>
                 <th>কী বাজার করা হয়েছে</th>
-                <th>লিখেছেন</th>
+                <th>ভাগ হয়েছে</th>
                 <th class="text-right">টাকার পরিমাণ</th>
                 <th class="text-right" id="action-col-head" style="display:none;">অ্যাকশন</th>
               </tr>
@@ -650,12 +713,25 @@
         </div>
       </div>
     </section>
+
+    <!-- Monthly History Archive -->
+    <section id="history">
+      <div class="sec-head">
+        <div>
+          <h2>পুরনো মাসের হিস্ট্রি (আর্কাইভ)</h2>
+          <p>কোন মাসে কে কত বাজার করেছে এবং কে কত পাবে বা ঋণী ছিল তার সম্পূর্ণ রেকর্ড।</p>
+        </div>
+      </div>
+      <div id="history-container" class="history-list">
+        <div class="ledger-box"><div class="empty-state">লোড হচ্ছে...</div></div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div class="container foot-inner">
       <span id="foot-brand">মেস হিসাব · স্বচ্ছ ও সহজ মাসিক বাজার খাতা</span>
-      <span>সদস্যদের সমান ভাগে স্বয়ংক্রিয় হিসাব নির্ণয়</span>
+      <span>সক্রিয় সদস্য অনুপাতে স্বয়ংক্রিয় হিসাব ও মাসিক আর্কাইভ</span>
     </div>
   </footer>
 
@@ -696,6 +772,10 @@
             <input type="date" id="bazar-date" class="input font-num" required />
           </div>
         </div>
+        <div class="field">
+          <label id="bazar-split-label">কোন কোন সদস্যের ভাগে যোগ হবে?</label>
+          <div id="bazar-split-box" class="split-check-grid"></div>
+        </div>
         <div id="bazar-form-err" class="alert alert-error" style="display:none;"></div>
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:4px;">
           <button type="button" class="btn btn-outline" id="cancel-bazar-btn">বাতিল</button>
@@ -714,9 +794,9 @@
       </div>
       <div class="modal-body">
         <div class="tabs">
-          <button type="button" class="tab-btn active" data-tab="members">সদস্য</button>
+          <button type="button" class="tab-btn active" data-tab="members">সদস্য ও স্টার্ট/স্টপ</button>
           <button type="button" class="tab-btn" data-tab="credentials">ইউজার ও পাসওয়ার্ড</button>
-          <button type="button" class="tab-btn" data-tab="settings">মেস ও রিসেট</button>
+          <button type="button" class="tab-btn" data-tab="settings">মাস ক্লোজ ও সেটিংস</button>
         </div>
         <div id="admin-feedback" style="display:none;"></div>
         <div id="admin-tab-content"></div>
@@ -752,19 +832,35 @@
     const authRef = ref(db, "mess_hisab/auth");
     const EDITOR_CORRECTION_WINDOW_MS = 10 * 60 * 1000;
 
-    let ledger = { messName: "মেস হিসাব", members: [], entries: [] };
+    let ledger = {
+      messName: "মেস হিসাব",
+      currentMonth: currentMonthLabel(),
+      members: [],
+      entries: [],
+      history: []
+    };
     let authConfig = null;
-    let currentRole = null;
+    let currentRole = null; // 'admin' | 'editor' | null
     const sessionEditorAddedIds = new Set();
     let memberFilter = "all";
     let searchQuery = "";
     let editingEntryId = null;
     let confirmDeleteEntryId = null;
     let adminActiveTab = "members";
-    let confirmResetMonth = false;
     let confirmDeleteMemberId = null;
+    const expandedHistoryIds = new Set();
 
     const $ = (id) => document.getElementById(id);
+
+    function currentMonthLabel() {
+      return new Intl.DateTimeFormat("bn-BD", { month: "long", year: "numeric" }).format(new Date());
+    }
+
+    function nextMonthDefault() {
+      const d = new Date();
+      d.setMonth(d.getMonth() + 1);
+      return new Intl.DateTimeFormat("bn-BD", { month: "long", year: "numeric" }).format(d);
+    }
 
     function normalizeList(val) {
       if (!val) return [];
@@ -783,7 +879,7 @@
     }
 
     function formatMoney(n) {
-      const r = Math.round(n * 100) / 100;
+      const r = Math.round((Number(n) || 0) * 100) / 100;
       return r.toLocaleString("en-US", {
         minimumFractionDigits: Number.isInteger(r) ? 0 : 2,
         maximumFractionDigits: 2
@@ -792,7 +888,7 @@
 
     function formatDateBn(dateStr) {
       const d = new Date(dateStr + "T00:00:00");
-      if (isNaN(d.getTime())) return dateStr;
+      if (isNaN(d.getTime())) return dateStr || "";
       return new Intl.DateTimeFormat("bn-BD", {
         day: "numeric",
         month: "short",
@@ -809,6 +905,10 @@
       const d = new Date();
       d.setDate(d.getDate() - daysAgo);
       return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+
+    function isMemberActive(m) {
+      return m.active !== false;
     }
 
     function canUserModifyEntry(entry) {
@@ -877,8 +977,7 @@
         const hashBuf = await crypto.subtle.digest("SHA-256", data);
         return Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
       }
-      const utf8 = unescape(encodeURIComponent(text));
-      return sha256Fallback(utf8);
+      return sha256Fallback(unescape(encodeURIComponent(text)));
     }
 
     async function hashPassword(password) {
@@ -909,76 +1008,156 @@
     }
 
     function createInitialLedger() {
+      const allIds = ["m_rafi", "m_tanvir", "m_sakib", "m_mahin", "m_naim"];
       return {
         messName: "মেস হিসাব",
+        currentMonth: currentMonthLabel(),
         members: [
-          { id: "m_rafi", name: "রাফি" },
-          { id: "m_tanvir", name: "তানভীর" },
-          { id: "m_sakib", name: "সাকিব" },
-          { id: "m_mahin", name: "মাহিন" },
-          { id: "m_naim", name: "নাঈম" }
+          { id: "m_rafi", name: "রাফি", active: true, previousBalance: 0 },
+          { id: "m_tanvir", name: "তানভীর", active: true, previousBalance: 0 },
+          { id: "m_sakib", name: "সাকিব", active: true, previousBalance: 0 },
+          { id: "m_mahin", name: "মাহিন", active: true, previousBalance: 0 },
+          { id: "m_naim", name: "নাঈম", active: true, previousBalance: 0 }
         ],
         entries: [
-          { id: "b_1", memberId: "m_rafi", items: "চাল, ডাল ও সয়াবিন তেল", amount: 1850, date: offsetISO(4), addedByRole: "admin", createdAt: new Date(Date.now() - 86400000).toISOString() },
-          { id: "b_2", memberId: "m_tanvir", items: "মুরগি ও গরম মসলা", amount: 1600, date: offsetISO(3), addedByRole: "editor", createdAt: new Date(Date.now() - 72000000).toISOString() },
-          { id: "b_3", memberId: "m_sakib", items: "আলু, পেঁয়াজ ও কাঁচাবাজার", amount: 1500, date: offsetISO(2), addedByRole: "editor", createdAt: new Date(Date.now() - 50000000).toISOString() },
-          { id: "b_4", memberId: "m_mahin", items: "রুই মাছ ও ধনেপাতা", amount: 1100, date: offsetISO(1), addedByRole: "admin", createdAt: new Date(Date.now() - 36000000).toISOString() },
-          { id: "b_5", memberId: "m_rafi", items: "ডিম, মাছ ও টমেটো", amount: 950, date: offsetISO(1), addedByRole: "editor", createdAt: new Date(Date.now() - 25000000).toISOString() },
-          { id: "b_6", memberId: "m_naim", items: "গ্যাস ও চা-চিনি", amount: 900, date: todayISO(), addedByRole: "editor", createdAt: new Date(Date.now() - 15000000).toISOString() },
-          { id: "b_7", memberId: "m_tanvir", items: "সকালের নাশতা বাজার", amount: 600, date: todayISO(), addedByRole: "admin", createdAt: new Date(Date.now() - 10000000).toISOString() }
-        ]
+          { id: "b_1", memberId: "m_rafi", items: "চাল, ডাল ও সয়াবিন তেল", amount: 1850, date: offsetISO(4), splitMemberIds: allIds, addedByRole: "admin", createdAt: new Date(Date.now() - 86400000).toISOString() },
+          { id: "b_2", memberId: "m_tanvir", items: "মুরগি ও গরম মসলা", amount: 1600, date: offsetISO(3), splitMemberIds: allIds, addedByRole: "editor", createdAt: new Date(Date.now() - 72000000).toISOString() },
+          { id: "b_3", memberId: "m_sakib", items: "আলু, পেঁয়াজ ও কাঁচাবাজার", amount: 1500, date: offsetISO(2), splitMemberIds: allIds, addedByRole: "editor", createdAt: new Date(Date.now() - 50000000).toISOString() },
+          { id: "b_4", memberId: "m_mahin", items: "রুই মাছ ও ধনেপাতা", amount: 1100, date: offsetISO(1), splitMemberIds: allIds, addedByRole: "admin", createdAt: new Date(Date.now() - 36000000).toISOString() },
+          { id: "b_5", memberId: "m_rafi", items: "ডিম, মাছ ও টমেটো", amount: 950, date: offsetISO(1), splitMemberIds: allIds, addedByRole: "editor", createdAt: new Date(Date.now() - 25000000).toISOString() },
+          { id: "b_6", memberId: "m_naim", items: "গ্যাস ও চা-চিনি", amount: 900, date: todayISO(), splitMemberIds: allIds, addedByRole: "editor", createdAt: new Date(Date.now() - 15000000).toISOString() },
+          { id: "b_7", memberId: "m_tanvir", items: "সকালের নাশতা বাজার", amount: 600, date: todayISO(), splitMemberIds: allIds, addedByRole: "admin", createdAt: new Date(Date.now() - 10000000).toISOString() }
+        ],
+        history: []
       };
     }
 
     async function saveLedger(nextLedger) {
       await set(ledgerRef, {
         messName: nextLedger.messName || "মেস হিসাব",
+        currentMonth: nextLedger.currentMonth || currentMonthLabel(),
         members: normalizeList(nextLedger.members),
-        entries: normalizeList(nextLedger.entries)
+        entries: normalizeList(nextLedger.entries),
+        history: normalizeList(nextLedger.history)
       });
     }
 
-    function renderAll() {
-      const members = normalizeList(ledger.members);
-      const entries = normalizeList(ledger.entries);
+    function computeMemberStats(members, entries) {
       const memberMap = new Map(members.map((m) => [m.id, m.name]));
       const spentMap = new Map(members.map((m) => [m.id, 0]));
+      const shareMap = new Map(members.map((m) => [m.id, 0]));
       const countMap = new Map(members.map((m) => [m.id, 0]));
+      const allMemberIds = members.map((m) => m.id);
 
       let grandTotal = 0;
       for (const e of entries) {
         const amt = Number(e.amount) || 0;
         grandTotal += amt;
+
         if (spentMap.has(e.memberId)) {
           spentMap.set(e.memberId, spentMap.get(e.memberId) + amt);
           countMap.set(e.memberId, countMap.get(e.memberId) + 1);
         }
+
+        const rawSplit = normalizeList(e.splitMemberIds).filter((id) => memberMap.has(id));
+        const targets = rawSplit.length > 0 ? rawSplit : allMemberIds;
+        if (targets.length > 0) {
+          const perHead = amt / targets.length;
+          for (const uid of targets) {
+            shareMap.set(uid, (shareMap.get(uid) || 0) + perHead);
+          }
+        }
       }
 
-      const share = members.length > 0 ? grandTotal / members.length : 0;
       let receiveCount = 0, payCount = 0, totalReceive = 0, totalPay = 0;
+      let totalPrevious = 0, totalShare = 0;
 
       const stats = members.map((m) => {
+        const previousBalance = Number(m.previousBalance) || 0;
         const spent = spentMap.get(m.id) || 0;
-        const diff = spent - share;
-        if (diff > 0.5) { receiveCount++; totalReceive += diff; }
-        else if (diff < -0.5) { payCount++; totalPay += Math.abs(diff); }
-        return { member: m, spent, count: countMap.get(m.id) || 0, diff };
+        const share = shareMap.get(m.id) || 0;
+        const netBalance = previousBalance + (spent - share);
+
+        totalPrevious += previousBalance;
+        totalShare += share;
+
+        if (netBalance > 0.5) { receiveCount++; totalReceive += netBalance; }
+        else if (netBalance < -0.5) { payCount++; totalPay += Math.abs(netBalance); }
+
+        return {
+          member: m,
+          active: isMemberActive(m),
+          previousBalance,
+          spent,
+          share,
+          count: countMap.get(m.id) || 0,
+          netBalance
+        };
       });
 
+      return {
+        memberMap,
+        grandTotal,
+        totalShare,
+        totalPrevious,
+        receiveCount,
+        payCount,
+        totalReceive,
+        totalPay,
+        stats
+      };
+    }
+
+    async function toggleMemberActive(memberId) {
+      if (currentRole !== "admin") return;
+      const members = normalizeList(ledger.members);
+      const nextMembers = members.map((m) =>
+        m.id === memberId ? { ...m, active: !isMemberActive(m) } : m
+      );
+      try {
+        await saveLedger({ ...ledger, members: nextMembers });
+      } catch (err) {
+        showGlobalAlert(err.message || "সদস্যের অবস্থা পরিবর্তন করা যায়নি।");
+      }
+    }
+
+    function formatCarry(val) {
+      if (val > 0.5) return `<span class="text-emerald font-num">+৳ ${formatMoney(val)}</span>`;
+      if (val < -0.5) return `<span class="text-rose font-num">-৳ ${formatMoney(Math.abs(val))}</span>`;
+      return `<span class="font-num" style="color:var(--muted);">৳ 0</span>`;
+    }
+
+    function formatNetBalance(diff) {
+      if (diff > 0.5) return `<span class="text-emerald" style="font-weight:700;">ব্যাক পাবে · <span class="font-num">৳ ${formatMoney(diff)}</span></span>`;
+      if (diff < -0.5) return `<span class="text-rose" style="font-weight:700;">ভরতে হবে · <span class="font-num">৳ ${formatMoney(Math.abs(diff))}</span></span>`;
+      return `<span style="color:var(--muted);">হিসাব সমান · <span class="font-num">৳ 0</span></span>`;
+    }
+
+    function renderAll() {
+      const members = normalizeList(ledger.members);
+      const entries = normalizeList(ledger.entries);
+      const history = normalizeList(ledger.history);
+      const monthName = ledger.currentMonth || currentMonthLabel();
+
+      const calc = computeMemberStats(members, entries);
+      const activeCount = members.filter(isMemberActive).length;
+      const stoppedCount = members.length - activeCount;
+
       $("nav-brand").textContent = ledger.messName || "মেস হিসাব";
-      $("hero-title").textContent = `${ledger.messName || "মেস হিসাব"} — বাজার ও খরচের খাতা`;
+      $("hero-title").textContent = `${ledger.messName || "মেস হিসাব"} — ${monthName}`;
       $("foot-brand").textContent = `${ledger.messName || "মেস হিসাব"} · স্বচ্ছ ও সহজ মাসিক বাজার খাতা`;
-      $("hero-meta").textContent = `${members.length} জন সদস্য · ${entries.length} টি বাজার এন্ট্রি · সবার জন্য উন্মুক্ত`;
+      $("hero-meta").textContent = `${activeCount} জন স্টার্ট · ${stoppedCount} জন স্টপ · ${entries.length} টি বাজার এন্ট্রি`;
 
       const canEdit = currentRole === "admin" || currentRole === "editor";
+      const isAdmin = currentRole === "admin";
+
       if (canEdit) {
         $("topbar-action").innerHTML = `<button type="button" class="btn btn-primary" id="top-add-btn">+ বাজার যোগ করুন</button>`;
         $("top-add-btn").onclick = () => openBazarModal(null);
 
         $("role-bar").innerHTML = `
-          <span class="text-teal" style="font-weight:600;">${currentRole === "admin" ? "অ্যাডমিন মোড" : "এডিটর মোড"}</span>
-          ${currentRole === "admin" ? `<button type="button" class="btn btn-outline btn-sm" id="open-admin-btn">সদস্য ও পাসওয়ার্ড</button>` : ""}
+          <span class="text-teal" style="font-weight:600;">${isAdmin ? "অ্যাডমিন মোড" : "এডিটর মোড"}</span>
+          ${isAdmin ? `<button type="button" class="btn btn-outline btn-sm" id="open-admin-btn">অ্যাডমিন প্যানেল</button>` : ""}
           <button type="button" class="btn btn-outline btn-sm" id="logout-btn">লগআউট</button>
         `;
         if ($("open-admin-btn")) $("open-admin-btn").onclick = openAdminModal;
@@ -999,45 +1178,58 @@
         $("bazar-add-wrap").innerHTML = "";
       }
 
-      $("member-sec-actions").innerHTML = currentRole === "admin"
-        ? `<button type="button" class="btn btn-outline btn-sm" id="sec-member-btn">+ সদস্য যোগ / পরিচালনা</button>`
+      $("member-sec-actions").innerHTML = isAdmin
+        ? `<button type="button" class="btn btn-outline btn-sm" id="sec-member-btn">+ সদস্য ও মাস ক্লোজ</button>`
         : "";
       if ($("sec-member-btn")) $("sec-member-btn").onclick = () => { adminActiveTab = "members"; openAdminModal(); };
 
-      $("kpi-total").textContent = `৳ ${formatMoney(grandTotal)}`;
+      // KPI Cards
+      $("kpi-total").textContent = `৳ ${formatMoney(calc.grandTotal)}`;
       $("kpi-entries-sub").textContent = `মোট ${entries.length} টি বাজারের যোগফল`;
-      $("kpi-share").textContent = `৳ ${formatMoney(share)}`;
-      $("kpi-members-sub").textContent = `${members.length} জন সদস্যের সমান ভাগ`;
-      $("kpi-receive").textContent = `৳ ${formatMoney(totalReceive)}`;
-      $("kpi-receive-sub").textContent = `${receiveCount} জন বেশি বাজার করেছেন`;
-      $("kpi-pay").textContent = `৳ ${formatMoney(totalPay)}`;
-      $("kpi-pay-sub").textContent = `${payCount} জন কম বাজার করেছেন`;
+      $("kpi-active").textContent = `${activeCount} / ${members.length} জন`;
+      $("kpi-active-sub").textContent = stoppedCount > 0 ? `${stoppedCount} জন স্টপ অবস্থায় আছেন` : "সব সদস্য সক্রিয় (স্টার্ট) আছেন";
+      $("kpi-receive").textContent = `৳ ${formatMoney(calc.totalReceive)}`;
+      $("kpi-receive-sub").textContent = `${calc.receiveCount} জন পাবেন (আগের মাসসহ)`;
+      $("kpi-pay").textContent = `৳ ${formatMoney(calc.totalPay)}`;
+      $("kpi-pay-sub").textContent = `${calc.payCount} জন দেবেন (আগের মাসসহ)`;
 
-      // Members Desktop & Mobile Views
-      if (stats.length === 0) {
-        $("members-desktop-tbody").innerHTML = `<tr><td colspan="4" class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</td></tr>`;
+      // Members Table & Mobile Cards
+      $("member-ctrl-head").style.display = isAdmin ? "" : "none";
+
+      if (calc.stats.length === 0) {
+        $("members-desktop-tbody").innerHTML = `<tr><td colspan="${isAdmin ? 6 : 5}" class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</td></tr>`;
         $("members-desktop-tfoot").style.display = "none";
         $("members-mobile-list").innerHTML = `<div class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</div>`;
       } else {
-        const formatBalance = (diff) => {
-          if (diff > 0.5) return `<span class="text-emerald" style="font-weight:700;">ব্যাক পাবে · <span class="font-num">৳ ${formatMoney(diff)}</span></span>`;
-          if (diff < -0.5) return `<span class="text-rose" style="font-weight:700;">ভরতে হবে · <span class="font-num">৳ ${formatMoney(Math.abs(diff))}</span></span>`;
-          return `<span style="color:var(--muted);">হিসাব সমান · <span class="font-num">৳ 0</span></span>`;
-        };
+        $("members-desktop-tbody").innerHTML = calc.stats.map((row) => {
+          const activeCls = memberFilter === row.member.id ? "active-filter" : (!row.active ? "is-stopped" : "");
+          const statusLabel = row.active
+            ? `<span class="status-text-on">স্টার্ট</span>`
+            : `<span class="status-text-off">স্টপ</span>`;
 
-        $("members-desktop-tbody").innerHTML = stats.map((row) => {
-          const activeCls = memberFilter === row.member.id ? "active-filter" : "";
+          const ctrlTd = isAdmin
+            ? `<td class="text-right">
+                 <button type="button" class="btn btn-sm ${row.active ? "btn-outline" : "btn-primary"} toggle-active-btn" data-id="${escapeHtml(row.member.id)}" style="${row.active ? "color:var(--amber);" : ""}">
+                   ${row.active ? "স্টপ করুন" : "স্টার্ট করুন"}
+                 </button>
+               </td>`
+            : "";
+
           return `
             <tr class="${activeCls}">
               <td>
                 <button type="button" class="member-link" data-member-id="${escapeHtml(row.member.id)}">
                   <span>${escapeHtml(row.member.name)}</span>
-                  <span class="member-count font-num">${row.count}টি বাজার</span>
+                  <span aria-hidden="true">·</span>
+                  ${statusLabel}
+                  <span class="member-count font-num">(${row.count}টি)</span>
                 </button>
               </td>
+              <td class="text-right">${formatCarry(row.previousBalance)}</td>
               <td class="text-right font-num" style="font-weight:600;">৳ ${formatMoney(row.spent)}</td>
-              <td class="text-right font-num" style="color:var(--muted);">৳ ${formatMoney(share)}</td>
-              <td class="text-right">${formatBalance(row.diff)}</td>
+              <td class="text-right font-num" style="color:var(--text-soft);">৳ ${formatMoney(row.share)}</td>
+              <td class="text-right">${formatNetBalance(row.netBalance)}</td>
+              ${ctrlTd}
             </tr>
           `;
         }).join("");
@@ -1046,33 +1238,51 @@
         $("members-desktop-tfoot").innerHTML = `
           <tr>
             <td>সর্বমোট (${members.length} জন)</td>
-            <td class="text-right font-num">৳ ${formatMoney(grandTotal)}</td>
-            <td class="text-right font-num">৳ ${formatMoney(grandTotal)}</td>
+            <td class="text-right font-num" style="color:var(--muted);">৳ 0</td>
+            <td class="text-right font-num">৳ ${formatMoney(calc.grandTotal)}</td>
+            <td class="text-right font-num">৳ ${formatMoney(calc.totalShare)}</td>
             <td class="text-right font-num" style="color:var(--muted);">সমান (৳ 0)</td>
+            ${isAdmin ? "<td></td>" : ""}
           </tr>
         `;
 
-        $("members-mobile-list").innerHTML = stats.map((row) => {
-          const activeCls = memberFilter === row.member.id ? "active-filter" : "";
+        $("members-mobile-list").innerHTML = calc.stats.map((row) => {
+          const activeCls = memberFilter === row.member.id ? "active-filter" : (!row.active ? "is-stopped" : "");
+          const statusLabel = row.active
+            ? `<span class="status-text-on">স্টার্ট</span>`
+            : `<span class="status-text-off">স্টপ</span>`;
+          const prevText = Math.abs(row.previousBalance) > 0.5
+            ? `<span>আগের মাস: ${formatCarry(row.previousBalance)}</span>`
+            : "";
+
           return `
             <div class="mobile-card ${activeCls}">
               <div class="mobile-card-top">
                 <button type="button" class="member-link" data-member-id="${escapeHtml(row.member.id)}">
                   <span style="font-size:15.5px;">${escapeHtml(row.member.name)}</span>
-                  <span class="member-count font-num">${row.count}টি বাজার</span>
+                  <span aria-hidden="true">·</span>
+                  ${statusLabel}
                 </button>
-                <div style="font-size:13px; text-align:right;">${formatBalance(row.diff)}</div>
+                <div style="font-size:13px; text-align:right;">${formatNetBalance(row.netBalance)}</div>
               </div>
               <div class="mobile-card-sub">
                 <span>বাজার করেছে: <strong class="font-num" style="color:var(--text);">৳ ${formatMoney(row.spent)}</strong></span>
-                <span>জনপ্রতি ভাগ: <strong class="font-num" style="color:var(--text-soft);">৳ ${formatMoney(share)}</strong></span>
+                <span>ভাগে পড়েছে: <strong class="font-num" style="color:var(--text-soft);">৳ ${formatMoney(row.share)}</strong></span>
+                ${prevText}
               </div>
+              ${isAdmin ? `
+                <div style="display:flex; justify-content:flex-end; padding-top:2px;">
+                  <button type="button" class="btn btn-sm ${row.active ? "btn-outline" : "btn-primary"} toggle-active-btn" data-id="${escapeHtml(row.member.id)}" style="${row.active ? "color:var(--amber);" : ""}">
+                    ${row.active ? "স্টপ করুন" : "স্টার্ট করুন"}
+                  </button>
+                </div>
+              ` : ""}
             </div>
           `;
         }).join("") + `
           <div class="mobile-total-bar">
-            <span>সর্বমোট (${members.length} জন)</span>
-            <span class="font-num">৳ ${formatMoney(grandTotal)}</span>
+            <span>চলতি মাসের মোট বাজার</span>
+            <span class="font-num">৳ ${formatMoney(calc.grandTotal)}</span>
           </div>
         `;
 
@@ -1084,21 +1294,25 @@
             renderAll();
           };
         });
+
+        document.querySelectorAll(".toggle-active-btn").forEach((btn) => {
+          btn.onclick = () => toggleMemberActive(btn.getAttribute("data-id"));
+        });
       }
 
-      // Member filter select options
+      // Member filter options
       const currentFilter = memberFilter;
       $("member-filter").innerHTML = `<option value="all">সকল সদস্য</option>` +
         members.map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`).join("");
       $("member-filter").value = members.some((m) => m.id === currentFilter) ? currentFilter : "all";
 
-      // Bazar Entries Desktop & Mobile Views
+      // Bazar Log
       const q = searchQuery.trim().toLowerCase();
       const filtered = entries
         .filter((e) => {
           if (memberFilter !== "all" && e.memberId !== memberFilter) return false;
           if (q) {
-            const mName = (memberMap.get(e.memberId) || "").toLowerCase();
+            const mName = (calc.memberMap.get(e.memberId) || "").toLowerCase();
             return (e.items || "").toLowerCase().includes(q) || mName.includes(q);
           }
           return true;
@@ -1106,6 +1320,15 @@
         .sort((a, b) => (a.date === b.date ? (b.createdAt || "").localeCompare(a.createdAt || "") : b.date.localeCompare(a.date)));
 
       $("action-col-head").style.display = canEdit ? "" : "none";
+
+      const getSplitSummary = (e) => {
+        const splitIds = normalizeList(e.splitMemberIds).filter((id) => calc.memberMap.has(id));
+        const count = splitIds.length > 0 ? splitIds.length : members.length;
+        const perHead = count > 0 ? (Number(e.amount) || 0) / count : 0;
+        const names = splitIds.map((id) => calc.memberMap.get(id)).filter(Boolean);
+        const titleText = names.length > 0 ? names.join(", ") : "সকল সদস্য";
+        return { count, perHead, titleText };
+      };
 
       if (filtered.length === 0) {
         $("bazar-desktop-tbody").innerHTML = `<tr><td colspan="${canEdit ? 6 : 5}" class="empty-state">কোনো বাজারের হিসাব পাওয়া যায়নি।</td></tr>`;
@@ -1115,9 +1338,11 @@
         const filteredSum = filtered.reduce((s, e) => s + (Number(e.amount) || 0), 0);
 
         $("bazar-desktop-tbody").innerHTML = filtered.map((e) => {
-          const mName = memberMap.get(e.memberId) || "অজানা সদস্য";
+          const mName = calc.memberMap.get(e.memberId) || "অজানা সদস্য";
           const roleLabel = e.addedByRole === "admin" ? "অ্যাডমিন" : "এডিটর";
+          const split = getSplitSummary(e);
           const modifiable = canUserModifyEntry(e);
+
           let actionTd = "";
           if (canEdit) {
             if (!modifiable) {
@@ -1138,12 +1363,18 @@
               `;
             }
           }
+
           return `
             <tr>
               <td class="font-num" style="font-size:12.5px; color:var(--muted); white-space:nowrap;">${escapeHtml(formatDateBn(e.date))}</td>
-              <td style="font-weight:600; white-space:nowrap;">${escapeHtml(mName)}</td>
+              <td style="font-weight:600; white-space:nowrap;">
+                <div>${escapeHtml(mName)}</div>
+                <div style="font-size:11.5px; font-weight:400; color:var(--muted);">${roleLabel}</div>
+              </td>
               <td>${escapeHtml(e.items)}</td>
-              <td style="font-size:12.5px; color:var(--muted); white-space:nowrap;">${roleLabel}</td>
+              <td title="${escapeHtml(split.titleText)}" style="font-size:12.5px; color:var(--muted); white-space:nowrap;">
+                ${split.count} জনের ভাগ · <span class="font-num">৳ ${formatMoney(split.perHead)}</span>
+              </td>
               <td class="text-right font-num" style="font-weight:600; white-space:nowrap;">৳ ${formatMoney(e.amount)}</td>
               ${actionTd}
             </tr>
@@ -1160,9 +1391,11 @@
         `;
 
         $("bazar-mobile-list").innerHTML = filtered.map((e) => {
-          const mName = memberMap.get(e.memberId) || "অজানা সদস্য";
+          const mName = calc.memberMap.get(e.memberId) || "অজানা সদস্য";
           const roleLabel = e.addedByRole === "admin" ? "অ্যাডমিন" : "এডিটর";
+          const split = getSplitSummary(e);
           const modifiable = canUserModifyEntry(e);
+
           let mobileActions = "";
           if (canEdit && modifiable) {
             if (confirmDeleteEntryId === e.id) {
@@ -1181,12 +1414,13 @@
               `;
             }
           }
+
           return `
             <div class="mobile-card">
               <div class="mobile-card-top">
                 <div>
                   <div style="font-weight:700; font-size:15px;">${escapeHtml(mName)}</div>
-                  <div style="font-size:12px; color:var(--muted);">${escapeHtml(formatDateBn(e.date))} · ${roleLabel}</div>
+                  <div style="font-size:12px; color:var(--muted);">${escapeHtml(formatDateBn(e.date))} · ${roleLabel} · ${split.count} জনের ভাগ</div>
                 </div>
                 <div class="font-num" style="font-weight:700; font-size:16px;">৳ ${formatMoney(e.amount)}</div>
               </div>
@@ -1239,6 +1473,94 @@
           };
         });
       }
+
+      // Render Monthly History Archive
+      renderHistory(history);
+    }
+
+    function renderHistory(history) {
+      const container = $("history-container");
+      if (history.length === 0) {
+        container.innerHTML = `<div class="ledger-box"><div class="empty-state">এখনও কোনো পুরনো মাস ক্লোজ করা হয়নি। মাস শেষে অ্যাডমিন প্যানেল থেকে মাস ক্লোজ করলে পুরো মাসের হিস্ট্রি এখানে জমা থাকবে।</div></div>`;
+        return;
+      }
+
+      container.innerHTML = history.map((h) => {
+        const isOpen = expandedHistoryIds.has(h.id);
+        const summaries = normalizeList(h.memberSummaries);
+        const hEntries = normalizeList(h.entries);
+
+        let bodyHtml = "";
+        if (isOpen) {
+          const sumRows = summaries.map((s) => `
+            <div class="member-row" style="font-size:13.5px;">
+              <div>
+                <strong>${escapeHtml(s.memberName)}</strong>
+                <div style="font-size:12px; color:var(--muted);">
+                  বাজার: <span class="font-num">৳ ${formatMoney(s.spent)}</span> ·
+                  ভাগ: <span class="font-num">৳ ${formatMoney(s.share)}</span>
+                  ${Math.abs(s.previousBalance || 0) > 0.5 ? ` · আগের মাস: ${formatCarry(s.previousBalance)}` : ""}
+                </div>
+              </div>
+              <div style="font-size:13px;">${formatNetBalance(s.netBalance)}</div>
+            </div>
+          `).join("");
+
+          const entryRows = hEntries.length === 0
+            ? `<div class="empty-state" style="padding:20px;">এই মাসে কোনো বাজার ছিল না।</div>`
+            : hEntries.map((e) => `
+                <div class="member-row" style="font-size:13px;">
+                  <div>
+                    <strong>${escapeHtml(e.memberName || "সদস্য")}</strong>
+                    <span style="color:var(--muted); margin-left:6px;">${escapeHtml(formatDateBn(e.date))}</span>
+                    <div style="color:var(--text-soft);">${escapeHtml(e.items)}</div>
+                  </div>
+                  <div class="font-num" style="font-weight:700;">৳ ${formatMoney(e.amount)}</div>
+                </div>
+              `).join("");
+
+          bodyHtml = `
+            <div class="history-body">
+              <div>
+                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">সদস্যদের চূড়ান্ত হিসাব (${escapeHtml(h.monthLabel)})</div>
+                <div class="history-sub-table">${sumRows}</div>
+              </div>
+              <div>
+                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">বাজারের বিস্তারিত (${hEntries.length} টি)</div>
+                <div class="history-sub-table">${entryRows}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="history-card">
+            <div class="history-head">
+              <div>
+                <div style="font-size:16px; font-weight:700;">${escapeHtml(h.monthLabel)}</div>
+                <div style="font-size:12.5px; color:var(--muted);">
+                  মোট বাজার: <strong class="font-num" style="color:var(--text);">৳ ${formatMoney(h.totalBazar)}</strong> ·
+                  ${hEntries.length} টি এন্ট্রি ·
+                  ক্লোজ: ${escapeHtml(formatDateBn((h.closedAt || "").slice(0, 10)))}
+                </div>
+              </div>
+              <button type="button" class="btn btn-outline btn-sm toggle-history-btn" data-id="${escapeHtml(h.id)}">
+                ${isOpen ? "বিস্তারিত লুকান" : "বিস্তারিত দেখুন"}
+              </button>
+            </div>
+            ${bodyHtml}
+          </div>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".toggle-history-btn").forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.getAttribute("data-id");
+          if (expandedHistoryIds.has(id)) expandedHistoryIds.delete(id);
+          else expandedHistoryIds.add(id);
+          renderHistory(history);
+        };
+      });
     }
 
     function openAuthModal() {
@@ -1364,12 +1686,33 @@
       const members = normalizeList(ledger.members);
       editingEntryId = entry ? entry.id : null;
       $("bazar-modal-title").textContent = entry ? "বাজারের হিসাব সম্পাদনা" : "নতুন বাজার যোগ করুন";
-      $("bazar-member").innerHTML = members.map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`).join("");
-      $("bazar-member").value = entry ? entry.memberId : (members[0]?.id || "");
+      $("bazar-member").innerHTML = members.map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}${isMemberActive(m) ? "" : " (স্টপ)"}</option>`).join("");
+      $("bazar-member").value = entry ? entry.memberId : (members.find(isMemberActive)?.id || members[0]?.id || "");
       $("bazar-items").value = entry ? entry.items : "";
       $("bazar-amount").value = entry ? entry.amount : "";
       $("bazar-date").value = entry ? entry.date : todayISO();
       $("bazar-form-err").style.display = "none";
+
+      const presetSplit = entry
+        ? new Set(normalizeList(entry.splitMemberIds))
+        : new Set(members.filter(isMemberActive).map((m) => m.id));
+
+      const canPickSplit = currentRole === "admin";
+      $("bazar-split-label").textContent = canPickSplit
+        ? "কোন কোন সদস্যের ভাগে যোগ হবে? (স্টার্ট সদস্য স্বয়ংক্রিয়ভাবে নির্বাচিত)"
+        : `বর্তমানে স্টার্ট (${presetSplit.size} জন) সদস্যের ভাগে সমানভাবে যোগ হবে:`;
+
+      $("bazar-split-box").innerHTML = members.map((m) => {
+        const checked = presetSplit.has(m.id) ? "checked" : "";
+        const disabled = canPickSplit ? "" : "disabled";
+        return `
+          <label class="split-check-item">
+            <input type="checkbox" class="split-member-cb" value="${escapeHtml(m.id)}" ${checked} ${disabled} />
+            <span>${escapeHtml(m.name)} ${isMemberActive(m) ? "" : "(স্টপ)"}</span>
+          </label>
+        `;
+      }).join("");
+
       $("bazar-modal").classList.add("open");
     }
 
@@ -1382,8 +1725,17 @@
       const amount = Number($("bazar-amount").value);
       const date = $("bazar-date").value;
 
+      const selectedSplitIds = Array.from(document.querySelectorAll(".split-member-cb"))
+        .filter((cb) => cb.checked)
+        .map((cb) => cb.value);
+
       if (!memberId || !items || !Number.isFinite(amount) || amount <= 0 || !date) {
         errEl.textContent = "সব তথ্য সঠিকভাবে পূরণ করুন।";
+        errEl.style.display = "flex";
+        return;
+      }
+      if (selectedSplitIds.length === 0) {
+        errEl.textContent = "কমপক্ষে ১ জন সক্রিয় (স্টার্ট) সদস্য থাকতে হবে।";
         errEl.style.display = "flex";
         return;
       }
@@ -1399,7 +1751,9 @@
             return;
           }
           nextEntries = currentEntries.map((item) =>
-            item.id === editingEntryId ? { ...item, memberId, items, amount: Math.round(amount * 100) / 100, date } : item
+            item.id === editingEntryId
+              ? { ...item, memberId, items, amount: Math.round(amount * 100) / 100, date, splitMemberIds: selectedSplitIds }
+              : item
           );
         } else {
           const newId = "b_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
@@ -1409,6 +1763,7 @@
             items,
             amount: Math.round(amount * 100) / 100,
             date,
+            splitMemberIds: selectedSplitIds,
             addedByRole: currentRole || "editor",
             createdAt: new Date().toISOString()
           };
@@ -1433,7 +1788,6 @@
     function openAdminModal() {
       if (currentRole !== "admin") return;
       $("admin-feedback").style.display = "none";
-      confirmResetMonth = false;
       confirmDeleteMemberId = null;
       renderAdminTab();
       $("admin-modal").classList.add("open");
@@ -1446,14 +1800,25 @@
       const content = $("admin-tab-content");
       const members = normalizeList(ledger.members);
       const entries = normalizeList(ledger.entries);
+      const history = normalizeList(ledger.history);
 
       if (adminActiveTab === "members") {
         const rows = members.map((m, idx) => {
+          const active = isMemberActive(m);
           const isDel = confirmDeleteMemberId === m.id;
           return `
             <div class="member-row">
-              <span><strong class="font-num" style="color:var(--muted); margin-right:8px;">${idx + 1}.</strong><strong>${escapeHtml(m.name)}</strong></span>
-              <div style="display:flex; gap:6px;">
+              <div>
+                <strong class="font-num" style="color:var(--muted); margin-right:6px;">${idx + 1}.</strong>
+                <strong>${escapeHtml(m.name)}</strong>
+                <span style="margin-left:8px;" class="${active ? "status-text-on" : "status-text-off"}">${active ? "স্টার্ট" : "স্টপ"}</span>
+                ${Math.abs(Number(m.previousBalance) || 0) > 0.5 ? `<div style="font-size:12px; color:var(--muted);">আগের মাস: ${formatCarry(Number(m.previousBalance))}</div>` : ""}
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                <button type="button" class="btn btn-sm ${active ? "btn-outline" : "btn-primary"} adm-toggle-btn" data-id="${escapeHtml(m.id)}" style="${active ? "color:var(--amber);" : ""}">
+                  ${active ? "স্টপ করুন" : "স্টার্ট করুন"}
+                </button>
+                ${Math.abs(Number(m.previousBalance) || 0) > 0.5 ? `<button type="button" class="btn btn-outline btn-sm adm-clear-prev" data-id="${escapeHtml(m.id)}">আগের পাওনা ০ করুন</button>` : ""}
                 ${isDel
                   ? `<button type="button" class="btn btn-danger btn-sm confirm-del-mem" data-id="${escapeHtml(m.id)}">নিশ্চিত বাদ দিন</button>
                      <button type="button" class="btn btn-outline btn-sm cancel-del-mem">না</button>`
@@ -1470,6 +1835,9 @@
               <input id="new-member-name" class="input" required maxlength="60" placeholder="নতুন সদস্যের নাম লিখুন..." />
               <button type="submit" class="btn btn-primary">+ যোগ</button>
             </form>
+            <p style="margin:0; font-size:12.5px; color:var(--muted);">
+              কোনো সদস্য চলে গেলে <strong>স্টপ করুন</strong> চাপুন—তাহলে পরের বাজার তাঁর ভাগে ঢুকবে না। আবার ফিরে এলে <strong>স্টার্ট করুন</strong> চাপুন।
+            </p>
             <div style="border:1px solid var(--border); border-radius:12px; overflow:hidden;">${rows}</div>
           </div>
         `;
@@ -1485,16 +1853,37 @@
           try {
             await saveLedger({
               ...ledger,
-              members: [...members, { id: "m_" + Date.now(), name }]
+              members: [...members, { id: "m_" + Date.now(), name, active: true, previousBalance: 0 }]
             });
             $("new-member-name").value = "";
-            showAdminFeedback("নতুন সদস্য যোগ করা হয়েছে।");
+            showAdminFeedback("নতুন সদস্য স্টার্ট অবস্থায় যোগ করা হয়েছে।");
             renderAdminTab();
           } catch (err) {
             showAdminFeedback(err.message, "error");
           }
         };
 
+        document.querySelectorAll(".adm-toggle-btn").forEach((b) => {
+          b.onclick = async () => {
+            await toggleMemberActive(b.getAttribute("data-id"));
+            renderAdminTab();
+          };
+        });
+        document.querySelectorAll(".adm-clear-prev").forEach((b) => {
+          b.onclick = async () => {
+            const id = b.getAttribute("data-id");
+            try {
+              await saveLedger({
+                ...ledger,
+                members: members.map((m) => m.id === id ? { ...m, previousBalance: 0 } : m)
+              });
+              showAdminFeedback("আগের মাসের বকেয়া/পাওনা পরিশোধ হিসেবে ০ করা হয়েছে।");
+              renderAdminTab();
+            } catch (err) {
+              showAdminFeedback(err.message, "error");
+            }
+          };
+        });
         document.querySelectorAll(".del-mem-btn").forEach((b) => {
           b.onclick = () => { confirmDeleteMemberId = b.getAttribute("data-id"); renderAdminTab(); };
         });
@@ -1511,7 +1900,7 @@
                 entries: entries.filter((e) => e.memberId !== id)
               });
               confirmDeleteMemberId = null;
-              showAdminFeedback("সদস্য এবং তাঁর এন্ট্রি তালিকা থেকে সরানো হয়েছে।");
+              showAdminFeedback("সদস্য তালিকা থেকে সরানো হয়েছে।");
               renderAdminTab();
             } catch (err) {
               showAdminFeedback(err.message, "error");
@@ -1594,53 +1983,95 @@
         content.innerHTML = `
           <div style="display:grid; gap:14px;">
             <form id="rename-mess-form" class="sub-box">
-              <strong style="font-size:14px;">মেসের নাম পরিবর্তন</strong>
-              <div style="display:flex; gap:8px;">
-                <input id="mess-name-input" class="input" required maxlength="80" value="${escapeHtml(ledger.messName || "মেস হিসাব")}" />
-                <button type="submit" class="btn btn-primary">আপডেট</button>
+              <strong style="font-size:14px;">মেসের ও চলতি মাসের নাম</strong>
+              <div class="grid-2">
+                <div class="field"><label>মেসের নাম</label><input id="mess-name-input" class="input" required maxlength="80" value="${escapeHtml(ledger.messName || "মেস হিসাব")}" /></div>
+                <div class="field"><label>চলতি মাসের নাম</label><input id="curr-month-input" class="input" required maxlength="60" value="${escapeHtml(ledger.currentMonth || currentMonthLabel())}" /></div>
               </div>
+              <button type="submit" class="btn btn-primary btn-sm" style="justify-self:start;">নাম আপডেট করুন</button>
             </form>
 
-            <div class="sub-box" style="background:var(--rose-bg); border-color:#fecdd3;">
-              <strong style="font-size:14px; color:var(--rose);">নতুন মাস শুরু (সব বাজার এন্ট্রি রিসেট)</strong>
-              <p style="margin:0; font-size:12.5px; color:#881337;">সদস্যদের তালিকা ঠিক থাকবে, তবে আগের সব বাজারের হিসাব মুছে ০ টাকা থেকে শুরু হবে।</p>
-              <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                ${confirmResetMonth
-                  ? `<button type="button" class="btn btn-danger btn-sm" id="confirm-reset-btn">হ্যাঁ, সব বাজার মুছে ফেলুন</button>
-                     <button type="button" class="btn btn-outline btn-sm" id="cancel-reset-btn">বাতিল</button>`
-                  : `<button type="button" class="btn btn-outline btn-sm" id="start-reset-btn" style="color:var(--rose); border-color:#fda4af;">নতুন মাস শুরু করুন</button>`
-                }
+            <form id="close-month-form" class="sub-box" style="background:var(--primary-tint); border-color:#99f6e4;">
+              <strong style="font-size:14.5px; color:var(--primary);">মাস ক্লোজ করে নতুন মাস শুরু করুন</strong>
+              <p style="margin:0; font-size:12.5px; color:var(--text-soft);">
+                চলতি মাসের সব বাজার ও হিসাব হিস্ট্রিতে সেভ হবে এবং কে কত পাবে বা ঋণী আছে তা নতুন মাসে স্বয়ংক্রিয়ভাবে চলে আসবে।
+              </p>
+              <div class="grid-2">
+                <div class="field"><label>ক্লোজ করা মাসের নাম (হিস্ট্রিতে থাকবে)</label><input id="close-month-label" class="input" required value="${escapeHtml(ledger.currentMonth || currentMonthLabel())}" /></div>
+                <div class="field"><label>নতুন মাসের নাম</label><input id="next-month-label" class="input" required value="${escapeHtml(nextMonthDefault())}" /></div>
               </div>
-            </div>
+              <label class="split-check-item">
+                <input type="checkbox" id="carry-forward-cb" checked />
+                <span>পুরনো মাসের পাওনা / বকেয়া নতুন মাসে নিয়ে যান</span>
+              </label>
+              <button type="submit" class="btn btn-primary">মাস ক্লোজ ও নতুন মাস শুরু করুন</button>
+            </form>
           </div>
         `;
 
         $("rename-mess-form").onsubmit = async (e) => {
           e.preventDefault();
-          const name = $("mess-name-input").value.trim();
-          if (!name) return;
+          const messName = $("mess-name-input").value.trim();
+          const currentMonth = $("curr-month-input").value.trim();
+          if (!messName || !currentMonth) return;
           try {
-            await saveLedger({ ...ledger, messName: name });
-            showAdminFeedback("মেসের নাম আপডেট হয়েছে।");
+            await saveLedger({ ...ledger, messName, currentMonth });
+            showAdminFeedback("মেস ও মাসের নাম আপডেট হয়েছে।");
           } catch (err) {
             showAdminFeedback(err.message, "error");
           }
         };
 
-        if ($("start-reset-btn")) $("start-reset-btn").onclick = () => { confirmResetMonth = true; renderAdminTab(); };
-        if ($("cancel-reset-btn")) $("cancel-reset-btn").onclick = () => { confirmResetMonth = false; renderAdminTab(); };
-        if ($("confirm-reset-btn")) {
-          $("confirm-reset-btn").onclick = async () => {
-            try {
-              await saveLedger({ ...ledger, entries: [] });
-              confirmResetMonth = false;
-              showAdminFeedback("সব বাজারের হিসাব রিসেট করা হয়েছে।");
-              renderAdminTab();
-            } catch (err) {
-              showAdminFeedback(err.message, "error");
-            }
+        $("close-month-form").onsubmit = async (e) => {
+          e.preventDefault();
+          const closingLabel = $("close-month-label").value.trim();
+          const nextLabel = $("next-month-label").value.trim();
+          const carryForward = $("carry-forward-cb").checked;
+
+          const calc = computeMemberStats(members, entries);
+          const archivedEntries = entries.map((item) => ({
+            ...item,
+            memberName: calc.memberMap.get(item.memberId) || "অজানা সদস্য"
+          }));
+
+          const archivedSummaries = calc.stats.map((row) => ({
+            memberId: row.member.id,
+            memberName: row.member.name,
+            previousBalance: Math.round(row.previousBalance * 100) / 100,
+            spent: Math.round(row.spent * 100) / 100,
+            share: Math.round(row.share * 100) / 100,
+            netBalance: Math.round(row.netBalance * 100) / 100
+          }));
+
+          const archiveRecord = {
+            id: "hist_" + Date.now(),
+            monthLabel: closingLabel,
+            closedAt: new Date().toISOString(),
+            totalBazar: Math.round(calc.grandTotal * 100) / 100,
+            entries: archivedEntries,
+            memberSummaries: archivedSummaries
           };
-        }
+
+          const nextMembers = members.map((m) => {
+            const found = calc.stats.find((s) => s.member.id === m.id);
+            const nextPrev = carryForward && found ? Math.round(found.netBalance * 100) / 100 : 0;
+            return { ...m, previousBalance: nextPrev };
+          });
+
+          try {
+            await saveLedger({
+              ...ledger,
+              currentMonth: nextLabel,
+              members: nextMembers,
+              entries: [],
+              history: [archiveRecord, ...history]
+            });
+            showAdminFeedback(`"${closingLabel}" হিস্ট্রিতে সেভ হয়েছে এবং "${nextLabel}" শুরু হয়েছে!`);
+            renderAdminTab();
+          } catch (err) {
+            showAdminFeedback(err.message, "error");
+          }
+        };
       }
     }
 
@@ -1688,8 +2119,10 @@
             const val = snap.val();
             ledger = {
               messName: val.messName || "মেস হিসাব",
+              currentMonth: val.currentMonth || currentMonthLabel(),
               members: normalizeList(val.members),
-              entries: normalizeList(val.entries)
+              entries: normalizeList(val.entries),
+              history: normalizeList(val.history)
             };
           }
           renderAll();
