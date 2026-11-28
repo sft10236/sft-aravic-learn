@@ -9,21 +9,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #f4f7f9;
       --surface: #ffffff;
-      --surface-muted: #f1f5f9;
+      --surface-soft: #f8fafc;
+      --surface-muted: #eef2f6;
       --border: #e2e8f0;
       --text: #0f172a;
+      --text-soft: #334155;
       --muted: #64748b;
       --primary: #0f766e;
       --primary-hover: #115e59;
+      --primary-tint: #f0fdfa;
       --emerald: #047857;
+      --emerald-bg: #ecfdf5;
       --rose: #be123c;
       --rose-bg: #fff1f2;
-      --emerald-bg: #ecfdf5;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 14px rgba(15, 23, 42, 0.03);
     }
 
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -31,7 +37,7 @@
       color: var(--text);
       font-family: 'Hind Siliguri', system-ui, -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .font-num {
@@ -40,22 +46,24 @@
     }
 
     .container {
+      width: 100%;
       max-width: 1120px;
       margin: 0 auto;
-      padding: 0 18px;
+      padding: 0 20px;
     }
 
+    /* Sticky Top Navigation */
     header {
       position: sticky;
       top: 0;
       z-index: 30;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
 
     .topbar {
-      height: 64px;
+      height: 62px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -63,16 +71,17 @@
     }
 
     .brand {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
       color: var(--text);
       text-decoration: none;
       white-space: nowrap;
+      letter-spacing: -0.01em;
     }
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 26px;
       font-size: 14px;
       font-weight: 500;
     }
@@ -81,60 +90,63 @@
       color: var(--muted);
       text-decoration: none;
       white-space: nowrap;
+      transition: color 0.15s ease;
     }
 
     .nav-links a:hover {
       color: var(--text);
       text-decoration: underline;
-      text-underline-offset: 4px;
+      text-underline-offset: 5px;
     }
 
-    @media (max-width: 720px) {
-      .nav-links { display: none; }
-    }
-
+    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 9px 16px;
-      border-radius: 10px;
+      min-height: 40px;
+      padding: 8px 16px;
+      border-radius: 11px;
       font-family: inherit;
       font-size: 13.5px;
       font-weight: 600;
       border: 1px solid transparent;
       cursor: pointer;
       white-space: nowrap;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      touch-action: manipulation;
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
     }
 
+    .btn:active { transform: scale(0.985); }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-primary:hover { background: var(--primary-hover); }
     .btn-dark { background: #0f172a; color: #fff; }
     .btn-dark:hover { background: #1e293b; }
     .btn-outline { background: #fff; color: var(--text); border-color: var(--border); }
-    .btn-outline:hover { background: var(--surface-muted); }
+    .btn-outline:hover { background: var(--surface-soft); border-color: #cbd5e1; }
     .btn-danger { background: var(--rose); color: #fff; }
     .btn-danger:hover { background: #9f1239; }
-    .btn-sm { padding: 6px 11px; font-size: 12.5px; border-radius: 8px; }
-    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-sm { min-height: 34px; padding: 6px 12px; font-size: 12.5px; border-radius: 9px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    main { padding: 28px 0 56px; display: grid; gap: 32px; }
+    /* Main Flow */
+    main { padding: 24px 0 56px; display: grid; gap: 30px; }
 
     .hero {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: clamp(22px, 3vw, 28px);
+      font-size: clamp(21px, 3vw, 28px);
       font-weight: 700;
       line-height: 1.25;
+      color: var(--text);
     }
 
     .meta-line {
@@ -151,18 +163,16 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-size: 13.5px;
     }
 
+    /* 4-Card KPI Strip */
     .kpi-grid {
+      margin-top: 18px;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    @media (max-width: 900px) {
-      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      gap: 14px;
     }
 
     .kpi-card {
@@ -170,38 +180,45 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .kpi-label { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .kpi-val { font-size: 24px; font-weight: 700; }
+    .kpi-val { font-size: clamp(20px, 2.4vw, 26px); font-weight: 700; line-height: 1.2; }
     .kpi-sub { font-size: 12px; color: var(--muted); }
+
     .text-teal { color: var(--primary); }
     .text-emerald { color: var(--emerald); }
     .text-rose { color: var(--rose); }
 
+    /* Section Header */
     .sec-head {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 14px;
     }
 
-    .sec-head h2 { margin: 0; font-size: 19px; font-weight: 700; }
+    .sec-head h2 { margin: 0; font-size: clamp(18px, 2.2vw, 20px); font-weight: 700; }
     .sec-head p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
 
+    /* Ledger Container */
     .ledger-box {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
+      box-shadow: var(--shadow-sm);
       overflow: hidden;
     }
 
-    .table-wrap { width: 100%; overflow-x: auto; }
+    /* Desktop Table */
+    .desktop-only { display: block; }
+    .mobile-only { display: none; }
 
     table {
       width: 100%;
@@ -215,23 +232,23 @@
       font-size: 12.5px;
       font-weight: 600;
       color: var(--muted);
-      background: #f8fafc;
+      background: var(--surface-soft);
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
     }
 
     td {
-      padding: 13px 20px;
-      border-bottom: 1px solid #f1f5f9;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--surface-muted);
       vertical-align: middle;
     }
 
-    tbody tr:hover { background: #f8fafc; }
-    tbody tr.active-filter { background: #f0fdfa; }
+    tbody tr:hover { background: var(--surface-soft); }
+    tbody tr.active-filter { background: var(--primary-tint); }
 
     tfoot td {
       padding: 14px 20px;
-      background: #f8fafc;
+      background: var(--surface-soft);
       border-top: 1px solid var(--border);
       border-bottom: none;
       font-weight: 700;
@@ -256,6 +273,45 @@
     .member-link:hover { color: var(--primary); }
     .member-count { font-size: 12px; font-weight: 400; color: var(--muted); }
 
+    /* Mobile Stacked Cards */
+    .mobile-card {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--surface-muted);
+      display: grid;
+      gap: 8px;
+    }
+
+    .mobile-card.active-filter { background: var(--primary-tint); }
+    .mobile-card:last-child { border-bottom: none; }
+
+    .mobile-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mobile-card-sub {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .mobile-total-bar {
+      padding: 14px 16px;
+      background: var(--surface-soft);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* Filter Toolbar */
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -265,13 +321,14 @@
 
     .input, select {
       width: 100%;
+      min-height: 42px;
       padding: 9px 13px;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 11px;
       background: #fff;
       color: var(--text);
       font-family: inherit;
-      font-size: 13.5px;
+      font-size: 15px;
       outline: none;
     }
 
@@ -280,9 +337,10 @@
       box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
     }
 
-    .filters .input { width: 220px; }
-    .filters select { width: auto; min-width: 145px; }
+    .filters .input { width: 220px; font-size: 14px; }
+    .filters select { width: auto; min-width: 145px; font-size: 14px; }
 
+    /* Alerts & Empty States */
     .alert {
       padding: 12px 16px;
       border-radius: 12px;
@@ -304,12 +362,13 @@
       font-size: 14px;
     }
 
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
       z-index: 60;
-      background: rgba(15, 23, 42, 0.52);
-      backdrop-filter: blur(2px);
+      background: rgba(15, 23, 42, 0.54);
+      backdrop-filter: blur(3px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -320,12 +379,12 @@
 
     .modal {
       width: 100%;
-      max-width: 480px;
-      max-height: 90vh;
+      max-width: 470px;
+      max-height: 90dvh;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 18px;
-      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -347,11 +406,11 @@
       background: transparent;
       border: none;
       color: var(--muted);
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -371,11 +430,10 @@
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 6px;
-      color: #334155;
+      color: var(--text-soft);
     }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } }
 
     .tabs {
       display: grid;
@@ -383,19 +441,21 @@
       gap: 4px;
       background: var(--surface-muted);
       padding: 4px;
-      border-radius: 10px;
+      border-radius: 11px;
     }
 
     .tab-btn {
       border: none;
       background: transparent;
-      padding: 8px;
+      min-height: 36px;
+      padding: 7px 6px;
       border-radius: 8px;
       font-family: inherit;
       font-size: 13px;
       font-weight: 600;
       color: var(--muted);
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .tab-btn.active {
@@ -409,7 +469,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 10px 14px;
+      padding: 11px 14px;
       border-bottom: 1px solid var(--surface-muted);
     }
     .member-row:last-child { border-bottom: none; }
@@ -418,7 +478,7 @@
       padding: 14px;
       border: 1px solid var(--border);
       border-radius: 12px;
-      background: #f8fafc;
+      background: var(--surface-soft);
       display: grid;
       gap: 10px;
     }
@@ -436,6 +496,33 @@
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 8px;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 0 14px; }
+      .topbar { height: 58px; }
+      .nav-links { display: none; }
+      main { padding: 18px 0 42px; gap: 24px; }
+      .kpi-grid { gap: 10px; }
+      .kpi-card { padding: 14px 15px; border-radius: 14px; }
+      .desktop-only { display: none; }
+      .mobile-only { display: block; }
+      .filters { width: 100%; }
+      .filters .input { width: 100%; flex: 1 1 100%; }
+      .filters select { flex: 1; min-width: 0; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .modal-backdrop { align-items: flex-end; padding: 0; }
+      .modal {
+        max-width: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        max-height: 92dvh;
+      }
     }
   </style>
 </head>
@@ -456,16 +543,17 @@
   <main class="container">
     <div id="global-alert" style="display:none;"></div>
 
+    <!-- Summary & KPI -->
     <section id="summary">
       <div class="hero">
         <div>
           <h1 id="hero-title">মেস হিসাব — বাজার ও খরচের খাতা</h1>
-          <div class="meta-line" id="hero-meta">ফায়ারবেস Realtime Database থেকে ডেটা লোড হচ্ছে...</div>
+          <div class="meta-line" id="hero-meta">ডেটা লোড হচ্ছে...</div>
         </div>
         <div class="role-bar" id="role-bar"></div>
       </div>
 
-      <div class="kpi-grid" style="margin-top: 20px;">
+      <div class="kpi-grid">
         <div class="kpi-card">
           <span class="kpi-label">সর্বমোট বাজার</span>
           <span class="kpi-val font-num" id="kpi-total">৳ 0</span>
@@ -489,17 +577,18 @@
       </div>
     </section>
 
+    <!-- Member Settlement -->
     <section id="members">
       <div class="sec-head">
         <div>
           <h2>সদস্য ভিত্তিক হিসাব (কে ব্যাক পাবে / ভরতে হবে)</h2>
-          <p>যেকোনো সদস্যের নামে ক্লিক করলে নিচে তাঁর বাজারের তালিকা ফিল্টার হবে।</p>
+          <p>যেকোনো সদস্যের নামে ট্যাপ করলে নিচে তাঁর বাজারের তালিকা ফিল্টার হবে।</p>
         </div>
         <div id="member-sec-actions"></div>
       </div>
 
       <div class="ledger-box">
-        <div class="table-wrap">
+        <div class="desktop-only">
           <table>
             <thead>
               <tr>
@@ -509,15 +598,19 @@
                 <th class="text-right">চূড়ান্ত হিসাব (পাবে / ভরতে হবে)</th>
               </tr>
             </thead>
-            <tbody id="members-tbody">
+            <tbody id="members-desktop-tbody">
               <tr><td colspan="4" class="empty-state">ডেটা লোড হচ্ছে...</td></tr>
             </tbody>
-            <tfoot id="members-tfoot" style="display:none;"></tfoot>
+            <tfoot id="members-desktop-tfoot" style="display:none;"></tfoot>
           </table>
+        </div>
+        <div class="mobile-only" id="members-mobile-list">
+          <div class="empty-state">ডেটা লোড হচ্ছে...</div>
         </div>
       </div>
     </section>
 
+    <!-- Bazar Log -->
     <section id="bazar-log">
       <div class="sec-head">
         <div>
@@ -534,7 +627,7 @@
       </div>
 
       <div class="ledger-box">
-        <div class="table-wrap">
+        <div class="desktop-only">
           <table>
             <thead>
               <tr>
@@ -546,11 +639,14 @@
                 <th class="text-right" id="action-col-head" style="display:none;">অ্যাকশন</th>
               </tr>
             </thead>
-            <tbody id="bazar-tbody">
+            <tbody id="bazar-desktop-tbody">
               <tr><td colspan="6" class="empty-state">ডেটা লোড হচ্ছে...</td></tr>
             </tbody>
-            <tfoot id="bazar-tfoot" style="display:none;"></tfoot>
+            <tfoot id="bazar-desktop-tfoot" style="display:none;"></tfoot>
           </table>
+        </div>
+        <div class="mobile-only" id="bazar-mobile-list">
+          <div class="empty-state">ডেটা লোড হচ্ছে...</div>
         </div>
       </div>
     </section>
@@ -654,17 +750,12 @@
 
     const ledgerRef = ref(db, "mess_hisab/ledger");
     const authRef = ref(db, "mess_hisab/auth");
+    const EDITOR_CORRECTION_WINDOW_MS = 10 * 60 * 1000;
 
-    const EDITOR_CORRECTION_WINDOW_MS = 10 * 60 * 1000; // সদ্য লেখা এন্ট্রি ঠিক/ডিলিট করার জন্য ১০ মিনিট
-
-    let ledger = {
-      messName: "মেস হিসাব",
-      members: [],
-      entries: []
-    };
+    let ledger = { messName: "মেস হিসাব", members: [], entries: [] };
     let authConfig = null;
-    let currentRole = null; // 'admin' | 'editor' | null
-    const sessionEditorAddedIds = new Set(); // এই সেশনে এডিটর নিজে যেসব এন্ট্রি যোগ করেছে
+    let currentRole = null;
+    const sessionEditorAddedIds = new Set();
     let memberFilter = "all";
     let searchQuery = "";
     let editingEntryId = null;
@@ -720,7 +811,6 @@
       return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     }
 
-    // এডিটর কেবল নিজের সদ্য যোগ করা (১০ মিনিটের মধ্যে) এন্ট্রিই ভুল হলে সংশোধন/ডিলিট করতে পারবে
     function canUserModifyEntry(entry) {
       if (currentRole === "admin") return true;
       if (currentRole !== "editor") return false;
@@ -879,7 +969,7 @@
       $("nav-brand").textContent = ledger.messName || "মেস হিসাব";
       $("hero-title").textContent = `${ledger.messName || "মেস হিসাব"} — বাজার ও খরচের খাতা`;
       $("foot-brand").textContent = `${ledger.messName || "মেস হিসাব"} · স্বচ্ছ ও সহজ মাসিক বাজার খাতা`;
-      $("hero-meta").textContent = `${members.length} জন সদস্য · ${entries.length} টি বাজার এন্ট্রি · সবার জন্য উন্মুক্ত হিসাব`;
+      $("hero-meta").textContent = `${members.length} জন সদস্য · ${entries.length} টি বাজার এন্ট্রি · সবার জন্য উন্মুক্ত`;
 
       const canEdit = currentRole === "admin" || currentRole === "editor";
       if (canEdit) {
@@ -887,7 +977,7 @@
         $("top-add-btn").onclick = () => openBazarModal(null);
 
         $("role-bar").innerHTML = `
-          <span class="text-teal" style="font-weight:600;">${currentRole === "admin" ? "অ্যাডমিন হিসেবে লগইন আছেন" : "এডিটর হিসেবে লগইন আছেন"}</span>
+          <span class="text-teal" style="font-weight:600;">${currentRole === "admin" ? "অ্যাডমিন মোড" : "এডিটর মোড"}</span>
           ${currentRole === "admin" ? `<button type="button" class="btn btn-outline btn-sm" id="open-admin-btn">সদস্য ও পাসওয়ার্ড</button>` : ""}
           <button type="button" class="btn btn-outline btn-sm" id="logout-btn">লগআউট</button>
         `;
@@ -901,10 +991,10 @@
         $("bazar-add-wrap").innerHTML = `<button type="button" class="btn btn-primary" id="sec-add-btn">+ নতুন বাজার</button>`;
         $("sec-add-btn").onclick = () => openBazarModal(null);
       } else {
-        const setupLabel = authConfig ? "লগইন" : "প্রথম সেটআপ ও লগইন";
+        const setupLabel = authConfig ? "লগইন" : "সেটআপ ও লগইন";
         $("topbar-action").innerHTML = `<button type="button" class="btn btn-dark" id="top-login-btn">${setupLabel}</button>`;
         $("top-login-btn").onclick = openAuthModal;
-        $("role-bar").innerHTML = `<span>হিসাব যোগ করতে <button type="button" class="btn btn-outline btn-sm" id="inline-login-btn">${setupLabel}</button></span>`;
+        $("role-bar").innerHTML = `<span>হিসাব যোগ করতে</span><button type="button" class="btn btn-outline btn-sm" id="inline-login-btn">${setupLabel}</button>`;
         $("inline-login-btn").onclick = openAuthModal;
         $("bazar-add-wrap").innerHTML = "";
       }
@@ -923,17 +1013,19 @@
       $("kpi-pay").textContent = `৳ ${formatMoney(totalPay)}`;
       $("kpi-pay-sub").textContent = `${payCount} জন কম বাজার করেছেন`;
 
+      // Members Desktop & Mobile Views
       if (stats.length === 0) {
-        $("members-tbody").innerHTML = `<tr><td colspan="4" class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</td></tr>`;
-        $("members-tfoot").style.display = "none";
+        $("members-desktop-tbody").innerHTML = `<tr><td colspan="4" class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</td></tr>`;
+        $("members-desktop-tfoot").style.display = "none";
+        $("members-mobile-list").innerHTML = `<div class="empty-state">কোনো সদস্য নেই। অ্যাডমিন প্যানেল থেকে সদস্য যোগ করুন।</div>`;
       } else {
-        $("members-tbody").innerHTML = stats.map((row) => {
-          let balanceHtml = `<span style="color:var(--muted);">হিসাব সমান · <span class="font-num">৳ 0</span></span>`;
-          if (row.diff > 0.5) {
-            balanceHtml = `<span class="text-emerald" style="font-weight:700;">ব্যাক পাবে · <span class="font-num">৳ ${formatMoney(row.diff)}</span></span>`;
-          } else if (row.diff < -0.5) {
-            balanceHtml = `<span class="text-rose" style="font-weight:700;">ভরতে হবে · <span class="font-num">৳ ${formatMoney(Math.abs(row.diff))}</span></span>`;
-          }
+        const formatBalance = (diff) => {
+          if (diff > 0.5) return `<span class="text-emerald" style="font-weight:700;">ব্যাক পাবে · <span class="font-num">৳ ${formatMoney(diff)}</span></span>`;
+          if (diff < -0.5) return `<span class="text-rose" style="font-weight:700;">ভরতে হবে · <span class="font-num">৳ ${formatMoney(Math.abs(diff))}</span></span>`;
+          return `<span style="color:var(--muted);">হিসাব সমান · <span class="font-num">৳ 0</span></span>`;
+        };
+
+        $("members-desktop-tbody").innerHTML = stats.map((row) => {
           const activeCls = memberFilter === row.member.id ? "active-filter" : "";
           return `
             <tr class="${activeCls}">
@@ -945,10 +1037,44 @@
               </td>
               <td class="text-right font-num" style="font-weight:600;">৳ ${formatMoney(row.spent)}</td>
               <td class="text-right font-num" style="color:var(--muted);">৳ ${formatMoney(share)}</td>
-              <td class="text-right">${balanceHtml}</td>
+              <td class="text-right">${formatBalance(row.diff)}</td>
             </tr>
           `;
         }).join("");
+
+        $("members-desktop-tfoot").style.display = "";
+        $("members-desktop-tfoot").innerHTML = `
+          <tr>
+            <td>সর্বমোট (${members.length} জন)</td>
+            <td class="text-right font-num">৳ ${formatMoney(grandTotal)}</td>
+            <td class="text-right font-num">৳ ${formatMoney(grandTotal)}</td>
+            <td class="text-right font-num" style="color:var(--muted);">সমান (৳ 0)</td>
+          </tr>
+        `;
+
+        $("members-mobile-list").innerHTML = stats.map((row) => {
+          const activeCls = memberFilter === row.member.id ? "active-filter" : "";
+          return `
+            <div class="mobile-card ${activeCls}">
+              <div class="mobile-card-top">
+                <button type="button" class="member-link" data-member-id="${escapeHtml(row.member.id)}">
+                  <span style="font-size:15.5px;">${escapeHtml(row.member.name)}</span>
+                  <span class="member-count font-num">${row.count}টি বাজার</span>
+                </button>
+                <div style="font-size:13px; text-align:right;">${formatBalance(row.diff)}</div>
+              </div>
+              <div class="mobile-card-sub">
+                <span>বাজার করেছে: <strong class="font-num" style="color:var(--text);">৳ ${formatMoney(row.spent)}</strong></span>
+                <span>জনপ্রতি ভাগ: <strong class="font-num" style="color:var(--text-soft);">৳ ${formatMoney(share)}</strong></span>
+              </div>
+            </div>
+          `;
+        }).join("") + `
+          <div class="mobile-total-bar">
+            <span>সর্বমোট (${members.length} জন)</span>
+            <span class="font-num">৳ ${formatMoney(grandTotal)}</span>
+          </div>
+        `;
 
         document.querySelectorAll(".member-link").forEach((btn) => {
           btn.onclick = () => {
@@ -958,23 +1084,15 @@
             renderAll();
           };
         });
-
-        $("members-tfoot").style.display = "";
-        $("members-tfoot").innerHTML = `
-          <tr>
-            <td>সর্বমোট (${members.length} জন)</td>
-            <td class="text-right font-num">৳ ${formatMoney(grandTotal)}</td>
-            <td class="text-right font-num">৳ ${formatMoney(grandTotal)}</td>
-            <td class="text-right font-num" style="color:var(--muted);">সমান (৳ 0)</td>
-          </tr>
-        `;
       }
 
+      // Member filter select options
       const currentFilter = memberFilter;
       $("member-filter").innerHTML = `<option value="all">সকল সদস্য</option>` +
         members.map((m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`).join("");
       $("member-filter").value = members.some((m) => m.id === currentFilter) ? currentFilter : "all";
 
+      // Bazar Entries Desktop & Mobile Views
       const q = searchQuery.trim().toLowerCase();
       const filtered = entries
         .filter((e) => {
@@ -990,11 +1108,13 @@
       $("action-col-head").style.display = canEdit ? "" : "none";
 
       if (filtered.length === 0) {
-        $("bazar-tbody").innerHTML = `<tr><td colspan="${canEdit ? 6 : 5}" class="empty-state">কোনো বাজারের হিসাব পাওয়া যায়নি।</td></tr>`;
-        $("bazar-tfoot").style.display = "none";
+        $("bazar-desktop-tbody").innerHTML = `<tr><td colspan="${canEdit ? 6 : 5}" class="empty-state">কোনো বাজারের হিসাব পাওয়া যায়নি।</td></tr>`;
+        $("bazar-desktop-tfoot").style.display = "none";
+        $("bazar-mobile-list").innerHTML = `<div class="empty-state">কোনো বাজারের হিসাব পাওয়া যায়নি।</div>`;
       } else {
         const filteredSum = filtered.reduce((s, e) => s + (Number(e.amount) || 0), 0);
-        $("bazar-tbody").innerHTML = filtered.map((e) => {
+
+        $("bazar-desktop-tbody").innerHTML = filtered.map((e) => {
           const mName = memberMap.get(e.memberId) || "অজানা সদস্য";
           const roleLabel = e.addedByRole === "admin" ? "অ্যাডমিন" : "এডিটর";
           const modifiable = canUserModifyEntry(e);
@@ -1029,6 +1149,57 @@
             </tr>
           `;
         }).join("");
+
+        $("bazar-desktop-tfoot").style.display = "";
+        $("bazar-desktop-tfoot").innerHTML = `
+          <tr>
+            <td colspan="4">প্রদর্শিত ${filtered.length} টি বাজারের মোট</td>
+            <td class="text-right font-num">৳ ${formatMoney(filteredSum)}</td>
+            ${canEdit ? "<td></td>" : ""}
+          </tr>
+        `;
+
+        $("bazar-mobile-list").innerHTML = filtered.map((e) => {
+          const mName = memberMap.get(e.memberId) || "অজানা সদস্য";
+          const roleLabel = e.addedByRole === "admin" ? "অ্যাডমিন" : "এডিটর";
+          const modifiable = canUserModifyEntry(e);
+          let mobileActions = "";
+          if (canEdit && modifiable) {
+            if (confirmDeleteEntryId === e.id) {
+              mobileActions = `
+                <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:4px;">
+                  <button type="button" class="btn btn-danger btn-sm confirm-del-entry" data-id="${escapeHtml(e.id)}">নিশ্চিত মুছুন</button>
+                  <button type="button" class="btn btn-outline btn-sm cancel-del-entry">না</button>
+                </div>
+              `;
+            } else {
+              mobileActions = `
+                <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:4px;">
+                  <button type="button" class="btn btn-outline btn-sm edit-entry-btn" data-id="${escapeHtml(e.id)}">এডিট</button>
+                  <button type="button" class="btn btn-outline btn-sm del-entry-btn" data-id="${escapeHtml(e.id)}" style="color:var(--rose);">মুছুন</button>
+                </div>
+              `;
+            }
+          }
+          return `
+            <div class="mobile-card">
+              <div class="mobile-card-top">
+                <div>
+                  <div style="font-weight:700; font-size:15px;">${escapeHtml(mName)}</div>
+                  <div style="font-size:12px; color:var(--muted);">${escapeHtml(formatDateBn(e.date))} · ${roleLabel}</div>
+                </div>
+                <div class="font-num" style="font-weight:700; font-size:16px;">৳ ${formatMoney(e.amount)}</div>
+              </div>
+              <div style="font-size:14px; color:var(--text-soft); word-break:break-word;">${escapeHtml(e.items)}</div>
+              ${mobileActions}
+            </div>
+          `;
+        }).join("") + `
+          <div class="mobile-total-bar">
+            <span>মোট (${filtered.length} টি বাজার)</span>
+            <span class="font-num">৳ ${formatMoney(filteredSum)}</span>
+          </div>
+        `;
 
         document.querySelectorAll(".edit-entry-btn").forEach((btn) => {
           btn.onclick = () => {
@@ -1067,15 +1238,6 @@
             }
           };
         });
-
-        $("bazar-tfoot").style.display = "";
-        $("bazar-tfoot").innerHTML = `
-          <tr>
-            <td colspan="4">প্রদর্শিত ${filtered.length} টি বাজারের মোট</td>
-            <td class="text-right font-num">৳ ${formatMoney(filteredSum)}</td>
-            ${canEdit ? "<td></td>" : ""}
-          </tr>
-        `;
       }
     }
 
@@ -1250,9 +1412,7 @@
             addedByRole: currentRole || "editor",
             createdAt: new Date().toISOString()
           };
-          if (currentRole === "editor") {
-            sessionEditorAddedIds.add(newId);
-          }
+          if (currentRole === "editor") sessionEditorAddedIds.add(newId);
           nextEntries = [newEntry, ...currentEntries];
         }
         await saveLedger({ ...ledger, entries: nextEntries });
@@ -1308,7 +1468,7 @@
           <div style="display:grid; gap:14px;">
             <form id="add-member-form" style="display:flex; gap:8px;">
               <input id="new-member-name" class="input" required maxlength="60" placeholder="নতুন সদস্যের নাম লিখুন..." />
-              <button type="submit" class="btn btn-primary">+ যোগ করুন</button>
+              <button type="submit" class="btn btn-primary">+ যোগ</button>
             </form>
             <div style="border:1px solid var(--border); border-radius:12px; overflow:hidden;">${rows}</div>
           </div>
@@ -1367,7 +1527,7 @@
               <strong style="font-size:14px;">এডিটর ইউজারনেম ও পাসওয়ার্ড পরিবর্তন</strong>
               <div class="grid-2">
                 <div class="field"><label>এডিটর ইউজারনেম</label><input id="upd-editor-user" class="input" required value="${escapeHtml(authConfig?.editorUsername || "")}" /></div>
-                <div class="field"><label>নতুন এডিটর পাসওয়ার্ড (ঐচ্ছিক)</label><input id="upd-editor-pass" type="password" class="input" minlength="4" placeholder="পরিবর্তন না করলে ফাঁকা রাখুন" /></div>
+                <div class="field"><label>নতুন এডিটর পাসওয়ার্ড (ঐচ্ছিক)</label><input id="upd-editor-pass" type="password" class="input" minlength="4" placeholder="ফাঁকা রাখলে আগেরটাই থাকবে" /></div>
               </div>
               <button type="submit" class="btn btn-dark btn-sm" style="justify-self:start;">এডিটর তথ্য সেভ করুন</button>
             </form>
@@ -1376,7 +1536,7 @@
               <strong style="font-size:14px;">অ্যাডমিন ইউজারনেম ও পাসওয়ার্ড পরিবর্তন</strong>
               <div class="grid-2">
                 <div class="field"><label>অ্যাডমিন ইউজারনেম</label><input id="upd-admin-user" class="input" required value="${escapeHtml(authConfig?.adminUsername || "")}" /></div>
-                <div class="field"><label>নতুন অ্যাডমিন পাসওয়ার্ড (ঐচ্ছিক)</label><input id="upd-admin-pass" type="password" class="input" minlength="4" placeholder="পরিবর্তন না করলে ফাঁকা রাখুন" /></div>
+                <div class="field"><label>নতুন অ্যাডমিন পাসওয়ার্ড (ঐচ্ছিক)</label><input id="upd-admin-pass" type="password" class="input" minlength="4" placeholder="ফাঁকা রাখলে আগেরটাই থাকবে" /></div>
               </div>
               <button type="submit" class="btn btn-primary btn-sm" style="justify-self:start;">অ্যাডমিন তথ্য সেভ করুন</button>
             </form>
